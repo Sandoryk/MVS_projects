@@ -7,3 +7,5 @@ c:\users\олександр\documents\visual studio 2010\Projects\Calculator\Cal
 c:\users\олександр\documents\visual studio 2010\Projects\Calculator\Calculator\obj\x86\Debug\Calculator.exe
 c:\users\олександр\documents\visual studio 2010\Projects\Calculator\Calculator\obj\x86\Debug\Calculator.pdb
 c:\users\олександр\documents\visual studio 2010\Projects\Calculator\Calculator\obj\x86\Debug\Calculator.Form1.resources
+C:\MVS_projects\Calculator\Calculator\obj\x86\Debug\Calculator.exe
+C:\MVS_projects\Calculator\Calculator\obj\x86\Debug\Calculator.pdb
