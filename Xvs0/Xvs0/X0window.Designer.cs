@@ -212,7 +212,7 @@
             this.Controls.Add(this.cell_2);
             this.Controls.Add(this.cell_1);
             this.Name = "X0window";
-            this.Text = "Main window";
+            this.Text = "X vs 0";
             this.ResumeLayout(false);
             this.PerformLayout();
 

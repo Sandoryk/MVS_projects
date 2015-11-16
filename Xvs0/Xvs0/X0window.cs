@@ -11,7 +11,7 @@ namespace Xvs0
 {
     public partial class X0window : Form
     {
-        BackgroundWorker bw = new BackgroundWorker();
+        BackgroundWorker bgwker = new BackgroundWorker();
         X0Hnadler xooperations = new X0Hnadler();
         string crlf = char.ConvertFromUtf32(13) + char.ConvertFromUtf32(10);
         int move = 0;
@@ -20,10 +20,10 @@ namespace Xvs0
         {
             InitializeComponent();
             InitForm();
-            bw.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
-            bw.DoWork += new DoWorkEventHandler(bw_DoWork);
-            bw.WorkerReportsProgress = true;
-            bw.RunWorkerAsync();
+            bgwker.ProgressChanged += new ProgressChangedEventHandler(bw_ProgressChanged);
+            bgwker.DoWork += new DoWorkEventHandler(bw_DoWork);
+            bgwker.WorkerReportsProgress = true;
+            bgwker.RunWorkerAsync();
         }
 
         void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -54,7 +54,7 @@ namespace Xvs0
             while (true)
             {
                 System.Threading.Thread.Sleep(300);
-                bw.ReportProgress(2);
+                bgwker.ReportProgress(1);
             }
         }
  
