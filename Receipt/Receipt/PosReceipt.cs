@@ -59,8 +59,6 @@ namespace Receipt
                     OnOpenReceipt();
                 }
                 itemlist.Add(newitem);
-
-                //////////////////////////////
             }
                 
             else
@@ -87,6 +85,7 @@ namespace Receipt
                     Change = cash - (sum - rebate);
                     AbsRebate = rebate;
                     TimeStamp = DateTime.Now;
+                    this.Print(itemlist);
                     openedf = false;
                     itemlist.RemoveRange(0,itemlist.Count);
                     OnCloseReceipt();
@@ -139,18 +138,36 @@ namespace Receipt
 
     public static class Extensions
     {
-        public static void Print(this PosReceipt pos)
+        public static void Print(this PosReceipt pos, List<Item> itemlist)
         {
+            string tab = char.ConvertFromUtf32(9);
+            Console.WriteLine("--------------------------------");
+            Console.WriteLine("--------------------------------");
             Console.WriteLine(pos.Address);
-            Console.WriteLine("----------------");
-            Console.WriteLine("TOTAL:  " + pos.Total);
-            Console.WriteLine("Rebate: " + pos.AbsRebate);
-            Console.WriteLine("Change: " + pos.Change);
+            Console.WriteLine("--------------------------------");
+            if (itemlist!=null)
+            {
+                Console.WriteLine("Item" + tab + tab + "Price" + tab + "Sum");
+                Console.WriteLine(" ");
+                foreach (Item item in itemlist)
+                {
+                    Console.WriteLine(item.Name + tab + tab + item.Price + tab + item.Quantity*item.Price);
+                    Console.WriteLine(tab + "X" + item.Quantity); 
+                }
+            }
+            
             Console.WriteLine(" ");
-            Console.WriteLine("On date: " + pos.TimeStamp);
-            Console.WriteLine("----------------");
-            Console.WriteLine("To customer: " + pos.CustomerMesg);
-            Console.WriteLine("----------------");
+            Console.WriteLine("TOTAL:  " + char.ConvertFromUtf32(9) + char.ConvertFromUtf32(9) + Math.Round(pos.Total, 2));
+            Console.WriteLine("Rebate: " + char.ConvertFromUtf32(9) + char.ConvertFromUtf32(9) + Math.Round(pos.AbsRebate, 2));
+            Console.WriteLine("Change: " + char.ConvertFromUtf32(9) + char.ConvertFromUtf32(9) + Math.Round(pos.Change, 2));
+            Console.WriteLine(" ");
+            Console.WriteLine("Receipt on date:");
+            Console.WriteLine(pos.TimeStamp);
+            Console.WriteLine("--------------------------------");
+            Console.WriteLine(pos.CustomerMesg);
+            Console.WriteLine("--------------------------------");
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
         }
     }  
 }
