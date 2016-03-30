@@ -18,26 +18,30 @@ namespace Topic_3_Task_1_and_2
 
             //Создать 2 директории в некоторой корневой папке.Переместить одну директорию в другую.
             //Переместить в эту директорию существующий файл.
-            dir1 = new DirectoryInfo("Subfolder1_Task1");
+            dir1 = new DirectoryInfo("Subfolder1_Task1"); //Create first folder
             if (dir1.Exists == false)
                 dir1.Create();
-            dir2 = new DirectoryInfo("Subfolder2_Task1");
+            dir2 = new DirectoryInfo("Subfolder2_Task1"); //Create second folder
             if (dir2.Exists == false)
                 dir2.Create();
-            //Directory.Move(dir2.FullName, dir1.FullName);
-            dir3 = new DirectoryInfo(dir1.Name + @"\" + dir2.Name);
+
+
+            /*if (Directory.Exists("NewSubfolder1") == false)
+                dir2.MoveTo("NewSubfolder1");*/
+
+            dir3 = new DirectoryInfo(dir1.Name + @"\" + dir2.Name); //Move second folder into first one
             if (dir3.Exists == false)
                 dir3.Create();
+
+
             file = new FileInfo("Testfile.txt");
             if (file.Exists == false)
             {
                 using (fs = new FileStream("Testfile.txt", FileMode.Create)){}
             }
-            fileMoved = new FileInfo(dir3.FullName + @"\Testfile.txt");
+            fileMoved = new FileInfo(dir2.FullName + @"\Testfile.txt");
             if (fileMoved.Exists == false)
-                file.CopyTo(dir3.FullName + @"\Testfile.txt");
-
-
+                file.CopyTo(dir2.FullName + @"\Testfile.txt");
 
 
             //Создать дерево директорий от одной корневой. У каждой директории должно быть 3 вложенных, глубина вложения – 3 уровня.
