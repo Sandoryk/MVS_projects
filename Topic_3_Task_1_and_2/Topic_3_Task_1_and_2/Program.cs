@@ -18,10 +18,10 @@ namespace Topic_3_Task_1_and_2
 
             //Создать 2 директории в некоторой корневой папке.Переместить одну директорию в другую.
             //Переместить в эту директорию существующий файл.
-            /*dir1 = new DirectoryInfo("Subfolder1");
+            dir1 = new DirectoryInfo("Subfolder1_Task1");
             if (dir1.Exists == false)
                 dir1.Create();
-            dir2 = new DirectoryInfo("Subfolder2");
+            dir2 = new DirectoryInfo("Subfolder2_Task1");
             if (dir2.Exists == false)
                 dir2.Create();
             //Directory.Move(dir2.FullName, dir1.FullName);
@@ -33,16 +33,16 @@ namespace Topic_3_Task_1_and_2
             {
                 using (fs = new FileStream("Testfile.txt", FileMode.Create)){}
             }
-            FileInfo fileMoved = new FileInfo(dir3.FullName + @"\Testfile.txt");
+            fileMoved = new FileInfo(dir3.FullName + @"\Testfile.txt");
             if (fileMoved.Exists == false)
-                file.CopyTo(dir3.FullName + @"\Testfile.txt");*/
+                file.CopyTo(dir3.FullName + @"\Testfile.txt");
 
 
 
 
             //Создать дерево директорий от одной корневой. У каждой директории должно быть 3 вложенных, глубина вложения – 3 уровня.
             //В каждую директорию скопировать некоторый файл.
-            dir1 = new DirectoryInfo("Rootfolder");
+            dir1 = new DirectoryInfo("Rootfolder_Task2");
             if (dir1.Exists == false)
                 dir1.Create();
             dir1.Create();
