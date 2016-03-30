@@ -28,7 +28,7 @@ namespace Topic_3_Task_1_and_2
             dir3 = new DirectoryInfo(dir1.Name + @"\" + dir2.Name);
             if (dir3.Exists == false)
                 dir3.Create();
-            file = new FileInfo(Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName + @"\Testfile.txt");
+            file = new FileInfo("Testfile.txt");
             if (file.Exists == false)
             {
                 using (fs = new FileStream("Testfile.txt", FileMode.Create)){}
@@ -46,10 +46,10 @@ namespace Topic_3_Task_1_and_2
             if (dir1.Exists == false)
                 dir1.Create();
             dir1.Create();
-            file = new FileInfo(Directory.GetParent(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName + @"\Testfile.txt");
+            file = new FileInfo("Testfile.txt");
             if (file.Exists == false)
             {
-                using (fs = new FileStream("Testfile.txt", FileMode.Create)) { }
+                using (fs = new FileStream("Testfile.txt", FileMode.Create)) {}
             }
             fileMoved = new FileInfo(dir1.FullName + @"\Testfile.txt");
             if (fileMoved.Exists == false)
