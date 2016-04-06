@@ -12,11 +12,15 @@ namespace Topic_4_Task_1
     [TestClass]
     class TestClass
     {
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
-        public void TestMethod1()
+        [TestMethod]
+        public void Test_FormatCardID_GetFormat_nullReturn()
         {
-            MessageBox.Show("s");
-            Assert.Equals(4,3);
+            Object actualresult;
+
+            FormatCardID fc = new FormatCardID();
+            Type t = typeof(FormatCardID);
+            actualresult = fc.GetFormat(t);
+            Assert.Equals(actualresult, null);
         }
 
     }
