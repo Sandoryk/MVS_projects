@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-
 namespace Topic_4_Task_1
 {
     class ClientComparer : System.Collections.IComparer
