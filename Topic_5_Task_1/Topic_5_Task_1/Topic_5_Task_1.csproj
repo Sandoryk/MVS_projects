@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="MessageBoxManager.cs" />
     <Compile Include="FileOperator.cs" />
+    <Compile Include="OverStackEventArgs.cs" />
     <Compile Include="ProgramRun.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

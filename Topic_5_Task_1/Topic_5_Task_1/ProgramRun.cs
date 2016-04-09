@@ -42,14 +42,14 @@ namespace Topic_5_Task_1
                 Console.WriteLine(Error.Message);
             }
         }
-        public int OverStackMessageMethod(object sender,EventArgs args)
+        public int OverStackMessageMethod(object sender, OverStackEventArgs args)
         {
             int result = 0;
             MessageBoxManager.Yes = "Cancel writing";
             MessageBoxManager.No = "Finish writing";
             MessageBoxManager.Register();
-            DialogResult dialogResult = MessageBox.Show("Choose action", "OverStack happened", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
+            DialogResult dialogResult = MessageBox.Show("File size reached  " + args.FileSize + " bytes.\nChoose action", "OverStack happened", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.No)
             {
                 result = 1;
             }
