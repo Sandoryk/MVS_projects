@@ -28,7 +28,7 @@ namespace Topic_5_Task_1
             Console.WriteLine("Start writing");
             for (int i = 0; i < 1500; i++)
             {
-                strToWrite = "Recorded string #" + (i + 1);
+                strToWrite = "Stored string #" + (i + 1);
                 strBytesCount = System.Text.ASCIIEncoding.Unicode.GetByteCount(strToWrite);
                 if(i%100==0)
                     Console.WriteLine("FIle size " + filewriter.BaseStream.Length);
