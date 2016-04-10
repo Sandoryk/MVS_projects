@@ -36,6 +36,7 @@ namespace Topic_5_Task_1
                 {
                     custfwr.ReadDataInFile(pr.fileinput);
                 }
+                Console.ReadLine();
             }
             catch (IOException Error)
             {
@@ -45,8 +46,8 @@ namespace Topic_5_Task_1
         public int OverStackMessageMethod(object sender, OverStackEventArgs args)
         {
             int result = 0;
-            MessageBoxManager.Yes = "Cancel writing";
-            MessageBoxManager.No = "Finish writing";
+            MessageBoxManager.Yes = "Cancel storing";
+            MessageBoxManager.No = "Left stored only";
             MessageBoxManager.Register();
             DialogResult dialogResult = MessageBox.Show("File size reached  " + args.FileSize + " bytes.\nChoose action", "OverStack happened", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.No)
