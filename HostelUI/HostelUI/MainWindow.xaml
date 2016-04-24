@@ -1,8 +1,0 @@
-﻿<Window x:Class="HostelUI.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"	
-        xmlns:local="clr-namespace:HostelUI"
-        Title="MainWindow" Height="350" Width="653.358">
-    <Button Content="Button" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Margin="24,39,0,0" Click="Button_Click"/>
-
-</Window>

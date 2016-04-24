@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HostelUI
+namespace HostelKing
 {
     class User
     {
+        public int Id { get; set; }
         public string Login { get; set; }
         public string Password { get; set; } 
-        public string AccessGruop { get; set; } 
+        public string AccessGroup { get; set; } 
     }
 }

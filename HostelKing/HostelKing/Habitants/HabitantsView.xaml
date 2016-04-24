@@ -1,0 +1,22 @@
+﻿<Window x:Name="HabitantsListWin" x:Class="HostelKing.HabitantsList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:HostelKing"
+        Title="Habitants" Height="600" Width="800" WindowStartupLocation="CenterOwner">
+    <Grid>
+        <DataGrid x:Name="HabitantsGrid" ItemsSource="{Binding Habitants}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionUnit="FullRow" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top" Height="482" Width="772" >
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding FirstName}" Header="Имя" Width="2*"/>
+                <DataGridTextColumn Binding="{Binding LastName}" Header="Фамилия" Width="4*"/>
+                <DataGridTextColumn Binding="{Binding DateBirth, StringFormat=\{0:dd.MM.yyyy\}}" Header="День рождения" Width="100"/>
+                <DataGridTextColumn Binding="{Binding RoomNumber}" Header="Номер комнаты" Width="100"/>
+                <DataGridTextColumn Binding="{Binding Sex}" Header="Пол" Width="70"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

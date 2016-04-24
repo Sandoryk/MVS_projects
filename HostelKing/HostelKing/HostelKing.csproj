@@ -7,8 +7,8 @@
     <ProjectGuid>{941563A1-3616-4746-9265-E4D31065BE4E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HostelUI</RootNamespace>
-    <AssemblyName>HostelUI</AssemblyName>
+    <RootNamespace>HostelKing</RootNamespace>
+    <AssemblyName>HostelKing</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -60,21 +60,36 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="PersonInfo.cs" />
-    <Compile Include="User.cs" />
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Compile Include="DataBaseFiles\DataBaseInteract.cs" />
+    <Compile Include="Habitants\HabitantsView.xaml.cs">
+      <DependentUpon>HabitantsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Habitants\HabitantsViewModel.cs" />
+    <Compile Include="Habitant_details\HabitantDetailsView.xaml.cs">
+      <DependentUpon>HabitantDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Login\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DataBaseFiles\PersonInfo.cs" />
+    <Compile Include="DataBaseFiles\User.cs" />
+    <Page Include="Habitants\HabitantsView.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Habitant_details\HabitantDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Login\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="HostelDBContext.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="DataBaseFiles\HostelDBContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
