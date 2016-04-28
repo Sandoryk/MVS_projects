@@ -68,6 +68,7 @@
     <Compile Include="Habitant_details\HabitantDetailsView.xaml.cs">
       <DependentUpon>HabitantDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\IPersonInfo.cs" />
     <Compile Include="Login\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
