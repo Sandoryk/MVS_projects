@@ -6,10 +6,16 @@
         <TabControl HorizontalAlignment="Left" Height="360" Margin="10,49,0,0" VerticalAlignment="Top" Width="472">
             <TabItem Header="Common info">
                 <Grid>
-                    <Label Content="First name" HorizontalAlignment="Left" Margin="11,11,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Last name" HorizontalAlignment="Left" Margin="11,43,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="FirstName" Text="{Binding FirstName,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="91,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                    <TextBox x:Name="LastName" Text="{Binding LastName,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="91,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                    <Label Content="First name" HorizontalAlignment="Left" Margin="11,11,0,0" VerticalAlignment="Top" Width="75" HorizontalContentAlignment="Right"/>
+                    <Label Content="Last name" HorizontalAlignment="Left" Margin="11,41,0,0" VerticalAlignment="Top" Width="75" HorizontalContentAlignment="Right"/>
+                    <TextBox x:Name="firstName" Text="{Binding FirstName,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="91,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                    <TextBox x:Name="lastName" Text="{Binding LastName,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="91,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                    <Label Content="Date of birth" HorizontalAlignment="Left" Margin="11,69,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
+                    <DatePicker x:Name="dateBirth" SelectedDate="{Binding DateBirth,StringFormat=\{0:dd.MM.yyyy\},UpdateSourceTrigger=PropertyChanged}" Margin="91,69,251,233"/>
+                    <Label Content="Room #" HorizontalAlignment="Left" Margin="11,100,0,0" VerticalAlignment="Top" Width="75" HorizontalContentAlignment="Right"/>
+                    <TextBox x:Name="roomNumber" Text="{Binding RoomNumber, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="91,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                    <Label Content="Sex" HorizontalAlignment="Left" Margin="11,128,0,0" VerticalAlignment="Top" Width="75" HorizontalContentAlignment="Right"/>
+                    <TextBox x:Name="sex" Text="{Binding Sex, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="91,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Payments">
