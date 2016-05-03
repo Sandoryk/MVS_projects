@@ -61,6 +61,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DataBaseFiles\DataBaseInteract.cs" />
+    <Compile Include="DataBaseFiles\DbContextExtensions.cs" />
     <Compile Include="Habitants\HabitantsView.xaml.cs">
       <DependentUpon>HabitantsView.xaml</DependentUpon>
     </Compile>
@@ -68,6 +69,8 @@
     <Compile Include="Habitant_details\HabitantDetailsView.xaml.cs">
       <DependentUpon>HabitantDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Habitant_details\PersonInfoHabitantDetails.cs" />
+    <Compile Include="Interfaces\IDataBaseModel.cs" />
     <Compile Include="Interfaces\IPersonInfo.cs" />
     <Compile Include="Login\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>

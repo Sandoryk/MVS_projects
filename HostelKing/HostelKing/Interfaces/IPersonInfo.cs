@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HostelKing.Interfaces
+namespace HostelKing
 {
-    interface IPersonInfo
+    public interface IPersonInfo
     {
         int Id { get; set; }
         string FirstName { get; set; }

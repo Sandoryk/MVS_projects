@@ -8,6 +8,7 @@ using System.Windows;
 
 namespace HostelKing
 {
+    enum RecordActions : int { Insert = 1, Update, Delete};
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>

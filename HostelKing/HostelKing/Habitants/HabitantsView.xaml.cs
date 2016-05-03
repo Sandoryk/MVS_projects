@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,7 +20,6 @@ namespace HostelKing
     /// </summary>
     public partial class HabitantsList : Window
     {
-        DataBaseInteract dbService;
         public HabitantsList()
         {
             InitializeComponent();
@@ -28,8 +28,14 @@ namespace HostelKing
         private void Row_DoubleClick(object sender, MouseButtonEventArgs  e)
         {
             DataGridRow row = sender as DataGridRow;
-            HabitantDetailsView hbDetailed = new HabitantDetailsView();
-            hbDetailed.DataContext = (row.Item as PersonInfo);
+            IPersonInfo inputPersonInfo = (row.Item as IPersonInfo);
+            PersonInfoHabitantDetails outputPersonInfo = new PersonInfoHabitantDetails();
+            PropertyInfo[] propInfos = typeof(IPersonInfo).GetProperties();
+            foreach (var curPropt in propInfos)
+            {
+                curPropt.SetValue(outputPersonInfo, curPropt.GetValue(inputPersonInfo));
+            }
+            HabitantDetailsView hbDetailed = new HabitantDetailsView(outputPersonInfo);
             hbDetailed.Owner = this;
             hbDetailed.Show();
         }

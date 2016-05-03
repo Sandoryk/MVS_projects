@@ -29,12 +29,15 @@ namespace HostelKing
         {
             if (e.Key == Key.Enter)
             {
-                DataBaseInteract dbService = new DataBaseInteract();
                 HabitantsList hb = new HabitantsList();
                 this.Close();
-                HabitantsViewModel hbViewModel = new HabitantsViewModel(new ObservableCollection<PersonInfo>(dbService.GetHabitants()));
-                hb.DataContext = hbViewModel;
-                //hb.HabitantsGrid.ItemsSource = dbService.GetHabitants();
+                using (DataBaseInteract dbService = new DataBaseInteract())
+                {
+                    //HabitantsViewModel hbViewModel = new HabitantsViewModel(new ObservableCollection<PersonInfo>(dbService.GetHabitants()));
+                    HabitantsViewModel hbViewModel = new HabitantsViewModel(dbService.GetAllRecords<IPersonInfo>());
+                    hb.DataContext = hbViewModel;
+                    //hb.HabitantsGrid.ItemsSource = dbService.GetHabitants();
+                }       
                 hb.Show();
             }
         }

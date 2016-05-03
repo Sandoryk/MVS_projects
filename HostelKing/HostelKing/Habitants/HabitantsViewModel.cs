@@ -9,11 +9,11 @@ namespace HostelKing
 {
     public class HabitantsViewModel
     {
-        public HabitantsViewModel(ObservableCollection<PersonInfo> list)
+        public HabitantsViewModel(ObservableCollection<IPersonInfo> list)
         {
             Habitants = list;
         }
-        public ObservableCollection<PersonInfo> Habitants { get; set; }
+        public ObservableCollection<IPersonInfo> Habitants { get; set; }
 
     }
 }
