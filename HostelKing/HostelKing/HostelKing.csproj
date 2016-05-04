@@ -60,8 +60,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DataBaseFiles\DataBaseInteract.cs" />
+    <Compile Include="DataBaseFiles\DataBaseConnector.cs" />
     <Compile Include="DataBaseFiles\DbContextExtensions.cs" />
+    <Compile Include="FloorScheme\FloorSchemeWin.xaml.cs">
+      <DependentUpon>FloorSchemeWin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Habitants\HabitantsView.xaml.cs">
       <DependentUpon>HabitantsView.xaml</DependentUpon>
     </Compile>
@@ -77,6 +80,10 @@
     </Compile>
     <Compile Include="DataBaseFiles\PersonInfo.cs" />
     <Compile Include="DataBaseFiles\User.cs" />
+    <Page Include="FloorScheme\FloorSchemeWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Habitants\HabitantsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

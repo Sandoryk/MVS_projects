@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace HostelKing
 {
-    public class DataBaseInteract: IDisposable
+    public class DataBaseConnector: IDisposable
     {
         HostelDBContext db;
-        public DataBaseInteract()
+        public DataBaseConnector()
         {
             db = new HostelDBContext();
         }
@@ -32,7 +32,7 @@ namespace HostelKing
         }*/
         public ObservableCollection<T> GetAllRecords<T>() where T : class
         {
-            List<T>  list = db.SetOf<T>().ToList<T>();;
+            List<T> list = db.SetOf<T>().ToList<T>();
             return new ObservableCollection<T>(list);
         }
         public void HandlePersonInfoTable(IPersonInfo inData, Expression<Func<PersonInfo, bool>> predicate)

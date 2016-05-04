@@ -29,16 +29,18 @@ namespace HostelKing
         {
             if (e.Key == Key.Enter)
             {
-                HabitantsList hb = new HabitantsList();
+                //HabitantsList hb = new HabitantsList();
+                FloorSchemeView fsch = new FloorSchemeView();
+                fsch.Show();
                 this.Close();
-                using (DataBaseInteract dbService = new DataBaseInteract())
+                /*using (DataBaseConnector dbService = new DataBaseConnector())
                 {
                     //HabitantsViewModel hbViewModel = new HabitantsViewModel(new ObservableCollection<PersonInfo>(dbService.GetHabitants()));
                     HabitantsViewModel hbViewModel = new HabitantsViewModel(dbService.GetAllRecords<IPersonInfo>());
                     hb.DataContext = hbViewModel;
                     //hb.HabitantsGrid.ItemsSource = dbService.GetHabitants();
                 }       
-                hb.Show();
+                hb.Show();*/
             }
         }
     }

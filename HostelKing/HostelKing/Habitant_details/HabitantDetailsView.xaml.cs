@@ -40,7 +40,7 @@ namespace HostelKing
             PersonInfoHabitantDetails pi = (PersonInfoHabitantDetails)this.DataContext;
             if (pi!=null)
             {
-                using (DataBaseInteract dbService = new DataBaseInteract())
+                using (DataBaseConnector dbService = new DataBaseConnector())
                 {
                     dbService.HandlePersonInfoTable(pi,t=>(t.Id==pi.Id));
                     int result = dbService.SaveChanges();

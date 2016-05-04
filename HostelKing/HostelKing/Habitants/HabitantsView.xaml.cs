@@ -36,7 +36,7 @@ namespace HostelKing
                 curPropt.SetValue(outputPersonInfo, curPropt.GetValue(inputPersonInfo));
             }
             HabitantDetailsView hbDetailed = new HabitantDetailsView(outputPersonInfo);
-            hbDetailed.Owner = this;
+            //hbDetailed.Owner = this;
             hbDetailed.Show();
         }
     }
