@@ -27,6 +27,7 @@ namespace HostelKing
 
         private void Row_DoubleClick(object sender, MouseButtonEventArgs  e)
         {
+
             DataGridRow row = sender as DataGridRow;
             IPersonInfo inputPersonInfo = (row.Item as IPersonInfo);
             PersonInfoViewModel outputPersonInfo = new PersonInfoViewModel();
@@ -35,6 +36,16 @@ namespace HostelKing
             {
                 curPropt.SetValue(outputPersonInfo, curPropt.GetValue(inputPersonInfo));
             }
+
+            List<PersonPaymentsViewModel> outputPP = new List<PersonPaymentsViewModel>();
+            using (DataBaseConnector dbService = new DataBaseConnector())
+            {
+                List<IPersonPayments> inputPP = dbService.GetPersonPaymentsRecordsWithCondition(t=>t.PersonId==outputPersonInfo.Id);
+                if (inputPP.Count>0)
+                {
+
+                }
+            }  
             PersonInfoView hbDetailed = new PersonInfoView(outputPersonInfo);
             //hbDetailed.Owner = this;
             hbDetailed.Show();

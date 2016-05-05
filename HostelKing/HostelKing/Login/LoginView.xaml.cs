@@ -35,8 +35,8 @@ namespace HostelKing
                 this.Close();
                 /*using (DataBaseConnector dbService = new DataBaseConnector())
                 {
-                    //HabitantsViewModel hbViewModel = new HabitantsViewModel(new ObservableCollection<PersonInfo>(dbService.GetHabitants()));
-                    HabitantsViewModel hbViewModel = new HabitantsViewModel(dbService.GetAllRecords<IPersonInfo>());
+                    //PersonInfoListViewModel hbViewModel = new PersonInfoListViewModel(new ObservableCollection<PersonInfo>(dbService.GetHabitants()));
+                    PersonInfoListViewModel hbViewModel = new PersonInfoListViewModel(new ObservableCollection<IPersonInfo>(dbService.GetAllRecords<IPersonInfo>()));
                     hb.DataContext = hbViewModel;
                     //hb.HabitantsGrid.ItemsSource = dbService.GetHabitants();
                 }       

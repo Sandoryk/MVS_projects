@@ -30,10 +30,15 @@ namespace HostelKing
             list = db.PersonInfoList.ToList();
             return list;
         }*/
-        public ObservableCollection<T> GetAllRecords<T>() where T : class
+        public List<T> GetAllRecords<T>() where T : class
         {
             List<T> list = db.SetOf<T>().ToList<T>();
-            return new ObservableCollection<T>(list);
+            return list;
+        }
+        public List<IPersonPayments> GetPersonPaymentsRecordsWithCondition(Expression<Func<PersonPaymentsDBModel, bool>> predicate)
+        {
+            List<IPersonPayments> list = db.PersonPaymentsList.Where(predicate).ToList<IPersonPayments>();
+            return list;
         }
         public void HandlePersonInfoTable(IPersonInfo inData, Expression<Func<PersonInfoDBModel, bool>> predicate)
         {

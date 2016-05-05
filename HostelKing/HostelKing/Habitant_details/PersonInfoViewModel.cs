@@ -19,6 +19,7 @@ namespace HostelKing
         private DateTime dateBirth;
         private string roomNumber;
         private string sex;
+
         public int Id { get; set; }
         public string FirstName 
         {

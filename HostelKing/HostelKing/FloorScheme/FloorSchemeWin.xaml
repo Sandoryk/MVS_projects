@@ -1,7 +1,7 @@
 ﻿<Window x:Name="FloorSchemeWin" x:Class="HostelKing.FloorSchemeView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Floor scheme" Height="307" Width="740" MinWidth="740" MinHeight="307">
+        Title="Floor scheme" Height="307" Width="720" MinWidth="740" MinHeight="307">
     <Grid x:Name="FlatsGrid" Margin="5,10,20,4" PreviewMouseLeftButtonDown="OpenPopUp">
         <Grid.RowDefinitions>
             <RowDefinition Height="1.2*"/>

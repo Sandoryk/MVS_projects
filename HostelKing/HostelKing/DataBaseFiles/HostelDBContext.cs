@@ -14,5 +14,6 @@ namespace HostelKing
         { 
         }
         public DbSet<PersonInfoDBModel> PersonInfoList { get; set; }
+        public DbSet<PersonPaymentsDBModel> PersonPaymentsList { get; set; }
     }
 }

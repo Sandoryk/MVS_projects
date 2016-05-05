@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HostelKing
 {
-    interface IPersonPayments
+    public interface IPersonPayments
     {
         int Id { get; set; }
         int PersonId { get; set; }
