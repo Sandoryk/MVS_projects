@@ -67,5 +67,11 @@ namespace HostelKing
         {
             ((Slider)sender).Value = Math.Round(e.NewValue,0);
         }
+
+        private void OpenPopUp(object sender, MouseButtonEventArgs e)
+        {
+            popup1.IsOpen = true;
+            //MessageBox.Show(((Rectangle)e.Source).Name);
+        }
     }
 }
