@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -27,11 +28,12 @@ namespace HostelKing
 
         private void Row_DoubleClick(object sender, MouseButtonEventArgs  e)
         {
+            PropertyInfo[] propInfos;
 
             DataGridRow row = sender as DataGridRow;
             IPersonInfo inputPersonInfo = (row.Item as IPersonInfo);
             PersonInfoViewModel outputPersonInfo = new PersonInfoViewModel();
-            PropertyInfo[] propInfos = typeof(IPersonInfo).GetProperties();
+            propInfos = typeof(IPersonInfo).GetProperties();
             foreach (var curPropt in propInfos)
             {
                 curPropt.SetValue(outputPersonInfo, curPropt.GetValue(inputPersonInfo));
@@ -40,12 +42,22 @@ namespace HostelKing
             List<PersonPaymentsViewModel> outputPP = new List<PersonPaymentsViewModel>();
             using (DataBaseConnector dbService = new DataBaseConnector())
             {
-                List<IPersonPayments> inputPP = dbService.GetPersonPaymentsRecordsWithCondition(t=>t.PersonId==outputPersonInfo.Id);
+                List<IPersonPayments> inputPP = dbService.GetPersonPaymentsRecords(t=>t.PersonId==outputPersonInfo.Id);
                 if (inputPP.Count>0)
                 {
-
+                    foreach (var item in inputPP)
+                    {
+                        PersonPaymentsViewModel newpp = new PersonPaymentsViewModel();
+                         propInfos = typeof(IPersonPayments).GetProperties();
+                         foreach (var curPropt in propInfos)
+                         {
+                             curPropt.SetValue(newpp, curPropt.GetValue(item));
+                         }
+                         outputPP.Add(newpp);
+                    }
+                    outputPersonInfo.Payments = new ObservableCollection<PersonPaymentsViewModel>(outputPP);
                 }
-            }  
+            }
             PersonInfoView hbDetailed = new PersonInfoView(outputPersonInfo);
             //hbDetailed.Owner = this;
             hbDetailed.Show();

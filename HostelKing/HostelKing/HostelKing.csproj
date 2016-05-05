@@ -66,15 +66,15 @@
     <Compile Include="FloorScheme\FloorSchemeWin.xaml.cs">
       <DependentUpon>FloorSchemeWin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Habitants\PersonInfoListView.xaml.cs">
+    <Compile Include="HabitantsList\PersonInfoListView.xaml.cs">
       <DependentUpon>PersonInfoListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Habitants\PersonInfoListViewModel.cs" />
-    <Compile Include="Habitant_details\PersonInfoView.xaml.cs">
+    <Compile Include="HabitantsList\PersonInfoListViewModel.cs" />
+    <Compile Include="HabitantDetails\PersonInfoView.xaml.cs">
       <DependentUpon>PersonInfoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Habitant_details\PersonInfoViewModel.cs" />
-    <Compile Include="Habitant_details\PersonPaymentsViewModel.cs" />
+    <Compile Include="HabitantDetails\PersonInfoViewModel.cs" />
+    <Compile Include="HabitantDetails\PersonPaymentsViewModel.cs" />
     <Compile Include="Interfaces\IDataBaseModel.cs" />
     <Compile Include="Interfaces\IPersonInfo.cs" />
     <Compile Include="Interfaces\IPersonPayments.cs" />
@@ -87,11 +87,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Habitants\PersonInfoListView.xaml">
+    <Page Include="HabitantsList\PersonInfoListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Habitant_details\PersonInfoView.xaml">
+    <Page Include="HabitantDetails\PersonInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

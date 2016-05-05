@@ -35,7 +35,7 @@ namespace HostelKing
             List<T> list = db.SetOf<T>().ToList<T>();
             return list;
         }
-        public List<IPersonPayments> GetPersonPaymentsRecordsWithCondition(Expression<Func<PersonPaymentsDBModel, bool>> predicate)
+        public List<IPersonPayments> GetPersonPaymentsRecords(Expression<Func<PersonPaymentsDBModel, bool>> predicate)
         {
             List<IPersonPayments> list = db.PersonPaymentsList.Where(predicate).ToList<IPersonPayments>();
             return list;

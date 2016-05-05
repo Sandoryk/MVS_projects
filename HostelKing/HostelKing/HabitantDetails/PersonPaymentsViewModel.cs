@@ -8,9 +8,9 @@ using System.Runtime.CompilerServices;
 
 namespace HostelKing
 {
-    class PersonPaymentsViewModel: IPersonPayments, INotifyPropertyChanged
+    public class PersonPaymentsViewModel: IPersonPayments, INotifyPropertyChanged
     {
-        private bool viewModelIsChanged = false;
+        public bool viewModelIsChanged = false;
         private int personId;
         private DateTime fromDate;
         private DateTime toDate;

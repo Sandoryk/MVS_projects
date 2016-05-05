@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,13 +20,24 @@ namespace HostelKing
     /// </summary>
     public partial class PersonInfoView : Window
     {
-        PersonInfoViewModel oldViewModel;
+        PersonInfoViewModel oldContext;
         public PersonInfoView(PersonInfoViewModel oldViewModel)
         {
             InitializeComponent();
             this.DataContext = oldViewModel;
-            this.oldViewModel = oldViewModel;
-            this.oldViewModel.PropertyChanged += HabitantDetailsView_PropertyChanged;
+            this.oldContext = oldViewModel;
+            oldViewModel.PropertyChanged += HabitantDetailsView_PropertyChanged;
+            oldViewModel.Payments.CollectionChanged += Payments_CollectionChanged;
+        }
+
+        void Payments_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            this.SaveButton.IsEnabled = true;
+            this.CancelButton.IsEnabled = true;
+            foreach (var item in e.NewItems)
+            {
+                MessageBox.Show(item.GetType().FullName);
+            }
         }
 
         void HabitantDetailsView_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -37,8 +49,9 @@ namespace HostelKing
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            PersonInfoViewModel pi = (PersonInfoViewModel)this.DataContext;
-            if (pi!=null)
+            Object[] context = (Object[])this.DataContext;
+            PersonInfoViewModel pi = (PersonInfoViewModel)context[0];
+            if (pi!=null && pi.viewModelIsChanged==true)
             {
                 using (DataBaseConnector dbService = new DataBaseConnector())
                 {
@@ -51,6 +64,14 @@ namespace HostelKing
                     }
                 } 
             }
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.DataContext = this.oldContext;
+            Object[] context = (Object[])this.DataContext;
+            PersonInfoViewModel pi = (PersonInfoViewModel)context[0];
+            pi.OnPropertyChanged("");
         }
     }
 }

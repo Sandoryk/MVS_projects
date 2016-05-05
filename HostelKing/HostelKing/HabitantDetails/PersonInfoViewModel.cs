@@ -8,17 +8,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Collections.ObjectModel;
 
 namespace HostelKing
 {
     public class PersonInfoViewModel : IPersonInfo, INotifyPropertyChanged
     {
-        private bool viewModelIsChanged = false;
-        private string firstName;
-        private string lastName;
-        private DateTime dateBirth;
-        private string roomNumber;
-        private string sex;
+        public bool viewModelIsChanged = false;
+        string firstName;
+        string lastName;
+        DateTime dateBirth;
+        string roomNumber;
+        string sex;
+        ObservableCollection<PersonPaymentsViewModel> payments;
 
         public int Id { get; set; }
         public string FirstName 
@@ -71,6 +73,17 @@ namespace HostelKing
                 OnPropertyChanged("Sex");
             }
         }
+        public ObservableCollection<PersonPaymentsViewModel> Payments 
+        {
+            get { return payments;}
+            set
+            {
+                payments = value;
+                viewModelIsChanged = true;
+                OnPropertyChanged("Payments");
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")
         {
