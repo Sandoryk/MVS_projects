@@ -65,30 +65,31 @@
     <Compile Include="FloorScheme\FloorSchemeWin.xaml.cs">
       <DependentUpon>FloorSchemeWin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Habitants\HabitantsView.xaml.cs">
-      <DependentUpon>HabitantsView.xaml</DependentUpon>
+    <Compile Include="Habitants\PersonInfoListView.xaml.cs">
+      <DependentUpon>PersonInfoListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Habitants\HabitantsViewModel.cs" />
-    <Compile Include="Habitant_details\HabitantDetailsView.xaml.cs">
-      <DependentUpon>HabitantDetailsView.xaml</DependentUpon>
+    <Compile Include="Habitants\PersonInfoListViewModel.cs" />
+    <Compile Include="Habitant_details\PersonInfoView.xaml.cs">
+      <DependentUpon>PersonInfoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Habitant_details\PersonInfoHabitantDetails.cs" />
+    <Compile Include="Habitant_details\PersonInfoViewModel.cs" />
     <Compile Include="Interfaces\IDataBaseModel.cs" />
     <Compile Include="Interfaces\IPersonInfo.cs" />
+    <Compile Include="Interfaces\IPersonPayments.cs" />
     <Compile Include="Login\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataBaseFiles\PersonInfo.cs" />
+    <Compile Include="DataBaseFiles\PersonInfoDBModel.cs" />
     <Compile Include="DataBaseFiles\User.cs" />
     <Page Include="FloorScheme\FloorSchemeWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Habitants\HabitantsView.xaml">
+    <Page Include="Habitants\PersonInfoListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Habitant_details\HabitantDetailsView.xaml">
+    <Page Include="Habitant_details\PersonInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -70,8 +70,11 @@ namespace HostelKing
 
         private void OpenPopUp(object sender, MouseButtonEventArgs e)
         {
-            popup1.IsOpen = true;
-            //MessageBox.Show(((Rectangle)e.Source).Name);
+            if (e.Source.GetType()==typeof(Rectangle))
+            {
+                popup1.IsOpen = true;
+                MessageBox.Show(((Rectangle)e.Source).Name);
+            }
         }
     }
 }

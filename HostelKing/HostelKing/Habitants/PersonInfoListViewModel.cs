@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace HostelKing
 {
-    public class HabitantsViewModel
+    public class PersonInfoListViewModel
     {
-        public HabitantsViewModel(ObservableCollection<IPersonInfo> list)
+        public PersonInfoListViewModel(ObservableCollection<IPersonInfo> list)
         {
             Habitants = list;
         }

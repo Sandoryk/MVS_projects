@@ -18,9 +18,9 @@ namespace HostelKing
     /// <summary>
     /// Interaction logic for HabitantsList.xaml
     /// </summary>
-    public partial class HabitantsList : Window
+    public partial class PersonInfoListView : Window
     {
-        public HabitantsList()
+        public PersonInfoListView()
         {
             InitializeComponent();
         }
@@ -29,13 +29,13 @@ namespace HostelKing
         {
             DataGridRow row = sender as DataGridRow;
             IPersonInfo inputPersonInfo = (row.Item as IPersonInfo);
-            PersonInfoHabitantDetails outputPersonInfo = new PersonInfoHabitantDetails();
+            PersonInfoViewModel outputPersonInfo = new PersonInfoViewModel();
             PropertyInfo[] propInfos = typeof(IPersonInfo).GetProperties();
             foreach (var curPropt in propInfos)
             {
                 curPropt.SetValue(outputPersonInfo, curPropt.GetValue(inputPersonInfo));
             }
-            HabitantDetailsView hbDetailed = new HabitantDetailsView(outputPersonInfo);
+            PersonInfoView hbDetailed = new PersonInfoView(outputPersonInfo);
             //hbDetailed.Owner = this;
             hbDetailed.Show();
         }

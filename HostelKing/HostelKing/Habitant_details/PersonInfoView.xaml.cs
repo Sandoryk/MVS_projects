@@ -17,10 +17,10 @@ namespace HostelKing
     /// <summary>
     /// Interaction logic for SingleHabitantView.xaml
     /// </summary>
-    public partial class HabitantDetailsView : Window
+    public partial class PersonInfoView : Window
     {
-        PersonInfoHabitantDetails oldViewModel;
-        public HabitantDetailsView(PersonInfoHabitantDetails oldViewModel)
+        PersonInfoViewModel oldViewModel;
+        public PersonInfoView(PersonInfoViewModel oldViewModel)
         {
             InitializeComponent();
             this.DataContext = oldViewModel;
@@ -37,7 +37,7 @@ namespace HostelKing
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            PersonInfoHabitantDetails pi = (PersonInfoHabitantDetails)this.DataContext;
+            PersonInfoViewModel pi = (PersonInfoViewModel)this.DataContext;
             if (pi!=null)
             {
                 using (DataBaseConnector dbService = new DataBaseConnector())

@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace HostelKing
 {
-    public class PersonInfoHabitantDetails : IPersonInfo, INotifyPropertyChanged
+    public class PersonInfoViewModel : IPersonInfo, INotifyPropertyChanged
     {
         private bool viewModelIsChanged = false;
         private string firstName;

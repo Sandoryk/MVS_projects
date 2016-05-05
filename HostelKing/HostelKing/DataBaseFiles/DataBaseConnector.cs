@@ -35,9 +35,9 @@ namespace HostelKing
             List<T> list = db.SetOf<T>().ToList<T>();
             return new ObservableCollection<T>(list);
         }
-        public void HandlePersonInfoTable(IPersonInfo inData, Expression<Func<PersonInfo, bool>> predicate)
+        public void HandlePersonInfoTable(IPersonInfo inData, Expression<Func<PersonInfoDBModel, bool>> predicate)
         {
-            List<PersonInfo> persInfList = db.PersonInfoList.Where(predicate).ToList();
+            List<PersonInfoDBModel> persInfList = db.PersonInfoList.Where(predicate).ToList();
             if (persInfList.Count > 0)
             {
                 PropertyInfo[] propInfos = typeof(IPersonInfo).GetProperties();

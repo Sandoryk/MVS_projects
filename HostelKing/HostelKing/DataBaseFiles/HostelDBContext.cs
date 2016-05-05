@@ -13,6 +13,6 @@ namespace HostelKing
             : base("name=HostelDBContext") 
         { 
         }
-        public DbSet<PersonInfo> PersonInfoList { get; set; }
+        public DbSet<PersonInfoDBModel> PersonInfoList { get; set; }
     }
 }

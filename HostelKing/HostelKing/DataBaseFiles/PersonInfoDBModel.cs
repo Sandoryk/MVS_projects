@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HostelKing
 {
-    public class PersonInfo : IPersonInfo, IDataBaseModel
+    public class PersonInfoDBModel : IPersonInfo, IDataBaseModel
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
