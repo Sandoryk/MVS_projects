@@ -116,15 +116,21 @@
                 <Rectangle Height="12" Canvas.Left="10" Stroke="Black" Canvas.Top="13" Width="24"/>
             </Canvas>
         </Viewbox>
-        <Slider x:Name="slider" Value="0" Minimum="0" Maximum="2" TickPlacement="TopLeft" Grid.Column="7" HorizontalAlignment="Right" Margin="0,48,1,0" Width="76" RenderTransformOrigin="0.5,0.5" ValueChanged="Slider_ValueChanged" IsSelectionRangeEnabled="True" SelectionStart="0" SelectionEnd="2" Height="22" VerticalAlignment="Top">
-            <Slider.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="90"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Slider.RenderTransform>
-        </Slider>
+        <Grid Grid.Column="7" Margin="0,2,1,0" Grid.RowSpan="2" HorizontalAlignment="Right" Width="76" Height="96" VerticalAlignment="Top">
+            <Slider x:Name="slider" Value="0" Minimum="0" Maximum="2" TickPlacement="TopLeft" HorizontalAlignment="Right" Margin="0,46,0,0" Width="76" RenderTransformOrigin="0.5,0.5" ValueChanged="Slider_ValueChanged" IsSelectionRangeEnabled="True" SelectionStart="0" SelectionEnd="2" Height="22" VerticalAlignment="Top">
+                <Slider.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="90"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Slider.RenderTransform>
+            </Slider>
+            <Label x:Name="label" Content="1" HorizontalAlignment="Left" Margin="54,16,0,0" VerticalAlignment="Top" Width="13" Padding="0"/>
+            <Label x:Name="label_Copy" Content="2" HorizontalAlignment="Left" Margin="54,48,0,0" VerticalAlignment="Top" Width="13" Padding="0"/>
+            <Label x:Name="label_Copy1" Content="3" HorizontalAlignment="Left" Margin="54,80,0,0" VerticalAlignment="Top" Width="13" Padding="0"/>
+            <Label x:Name="label_Copy2" Content="Floor" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Top" Width="31" Padding="0"/>
+        </Grid>
     </Grid>
 </Window>
