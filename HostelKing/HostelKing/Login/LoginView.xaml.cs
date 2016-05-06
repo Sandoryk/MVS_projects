@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,24 +24,35 @@ namespace HostelKing
         public LoginWindow()
         {
             InitializeComponent();
+            this.LoginTextBox.Focus();
         }
 
         private void LoginWin_onKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                PersonInfoListView hb = new PersonInfoListView();
                 //FloorSchemeView fsch = new FloorSchemeView();
                 //fsch.Show();
-                this.Close();
-                using (DataBaseConnector dbService = new DataBaseConnector())
+                try
                 {
-                    //PersonInfoListViewModel hbViewModel = new PersonInfoListViewModel(new ObservableCollection<PersonInfo>(dbService.GetHabitants()));
-                    PersonInfoListViewModel hbViewModel = new PersonInfoListViewModel(new ObservableCollection<IPersonInfo>(dbService.GetAllRecords<IPersonInfo>()));
-                    hb.DataContext = hbViewModel;
-                    //hb.HabitantsGrid.ItemsSource = dbService.GetHabitants();
-                }       
-                hb.Show();
+                     using (DataBaseConnector dbService = new DataBaseConnector())
+                    {
+                        dbService.db.OperationTimeOut = 5;
+                        //PersonInfoListViewModel hbViewModel = new PersonInfoListViewModel(new ObservableCollection<PersonInfo>(dbService.GetHabitants()));
+                        PersonInfoListView hb = new PersonInfoListView();
+                        PersonInfoListViewModel hbViewModel = new PersonInfoListViewModel(new ObservableCollection<IPersonInfo>(dbService.GetAllRecords<IPersonInfo>()));
+                        hb.DataContext = hbViewModel;
+                        hb.Show();
+                    }       
+                }
+                catch(SqlException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    this.Close();
+                }
             }
         }
     }
