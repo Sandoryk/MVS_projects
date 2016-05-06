@@ -12,10 +12,14 @@ namespace HostelKing
 {
     public class DataBaseConnector: IDisposable
     {
-        public HostelDBContext db;
+        HostelDBContext db;
         public DataBaseConnector()
         {
             db = new HostelDBContext();
+        }
+        public DataBaseConnector(int timeOut)
+        {
+            db = new HostelDBContext(timeOut);
         }
         public List<IPersonInfo> GetHabitants() //For populating database
         {

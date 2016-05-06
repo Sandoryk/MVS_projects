@@ -11,22 +11,19 @@ namespace HostelKing
 {
     public class HostelDBContext:DbContext
     {
-        ObjectContext objectContext;
         public HostelDBContext()
+            : base("name=HostelDBContext")
+        {
+        }
+        public HostelDBContext(int timeout)
             : base("name=HostelDBContext") 
         {
-            objectContext = (this as IObjectContextAdapter).ObjectContext;
-        }
-        public int? OperationTimeOut
-        {
-            get {return objectContext.CommandTimeout; }
-            set
+            if (timeout>=5)
             {
-                if (value>=5 || value==null)
-                {
-                    objectContext.CommandTimeout = value;
-                };
+                var objectContext = (this as IObjectContextAdapter).ObjectContext;
+                objectContext.CommandTimeout = timeout;
             }
+            
         }
         public DbSet<PersonInfoDBModel> PersonInfoList { get; set; }
         public DbSet<PersonPaymentsDBModel> PersonPaymentsList { get; set; }

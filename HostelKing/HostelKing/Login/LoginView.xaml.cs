@@ -35,9 +35,8 @@ namespace HostelKing
                 //fsch.Show();
                 try
                 {
-                     using (DataBaseConnector dbService = new DataBaseConnector())
+                     using (DataBaseConnector dbService = new DataBaseConnector(5))
                     {
-                        dbService.db.OperationTimeOut = 5;
                         //PersonInfoListViewModel hbViewModel = new PersonInfoListViewModel(new ObservableCollection<PersonInfo>(dbService.GetHabitants()));
                         PersonInfoListView hb = new PersonInfoListView();
                         PersonInfoListViewModel hbViewModel = new PersonInfoListViewModel(new ObservableCollection<IPersonInfo>(dbService.GetAllRecords<IPersonInfo>()));
