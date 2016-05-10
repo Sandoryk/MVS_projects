@@ -42,7 +42,7 @@ namespace HostelKing
             List<PersonPaymentsViewModel> outputPP = new List<PersonPaymentsViewModel>();
             using (DataBaseConnector dbService = new DataBaseConnector())
             {
-                List<IPersonPayments> inputPP = dbService.GetPersonPaymentsRecords(t=>t.PersonId==outputPersonInfo.Id);
+                List<IPersonPayments> inputPP = dbService.GetPersonPaymentsRecords(t=>t.PersonUUID == outputPersonInfo.UUID);
                 if (inputPP.Count>0)
                 {
                     foreach (var item in inputPP)
@@ -60,6 +60,16 @@ namespace HostelKing
             }
             PersonInfoView hbDetailed = new PersonInfoView(outputPersonInfo);
             //hbDetailed.Owner = this;
+            hbDetailed.Show();
+        }
+
+        private void NewButton_Click(object sender, RoutedEventArgs e)
+        {
+            PersonInfoViewModel outputPersonInfo = new PersonInfoViewModel();
+            outputPersonInfo.UUID = Guid.NewGuid().ToString();
+            outputPersonInfo.ViewModelStatus = RecordActions.Inserted;
+            outputPersonInfo.Payments = new ObservableCollection<PersonPaymentsViewModel>();
+            PersonInfoView hbDetailed = new PersonInfoView(outputPersonInfo);
             hbDetailed.Show();
         }
     }

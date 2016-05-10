@@ -9,6 +9,7 @@ namespace HostelKing
     public interface IPersonInfo
     {
         int Id { get; set; }
+        string UUID { get; set; }
         string FirstName { get; set; }
         string LastName { get; set; }
         DateTime DateBirth { get; set; }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,9 +27,19 @@ namespace HostelKing
         {
             InitializeComponent();
             this.DataContext = oldViewModel;
-            this.oldContext = oldViewModel;
+            oldContext = new PersonInfoViewModel();
+            PropertyInfo[] propInfos = typeof(PersonInfoViewModel).GetProperties();
+            foreach (var curPropt in propInfos)
+            {
+                curPropt.SetValue(oldContext, curPropt.GetValue(oldViewModel));
+            }
+            //oldContext.Payments = new ObservableCollection<PersonPaymentsViewModel>(oldViewModel.Payments.ToList());
             oldViewModel.PropertyChanged += HabitantDetailsView_PropertyChanged;
-            oldViewModel.Payments.CollectionChanged += Payments_CollectionChanged;
+            if (oldViewModel.Payments!=null)
+            {
+                oldViewModel.Payments.CollectionChanged += Payments_CollectionChanged;
+                //oldContext.Payments.CollectionChanged += Payments_CollectionChanged;
+            }           
         }
 
         void Payments_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -36,7 +48,7 @@ namespace HostelKing
             this.CancelButton.IsEnabled = true;
             foreach (var item in e.NewItems)
             {
-                MessageBox.Show(item.GetType().FullName);
+                //MessageBox.Show(item.GetType().FullName);
             }
         }
 
@@ -49,18 +61,29 @@ namespace HostelKing
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            Object[] context = (Object[])this.DataContext;
-            PersonInfoViewModel pi = (PersonInfoViewModel)context[0];
-            if (pi!=null && pi.viewModelIsChanged==true)
+            PersonInfoViewModel pi = (PersonInfoViewModel)this.DataContext;
+
+            if (pi != null && pi.ViewModelStatus == RecordActions.Inserted)
             {
                 using (DataBaseConnector dbService = new DataBaseConnector())
                 {
-                    dbService.HandlePersonInfoTable(pi,t=>(t.Id==pi.Id));
+                    dbService.HandlePersonInfoTable(pi, null, RecordActions.Inserted);
+                    int result = dbService.SaveChanges();
+                    if (result > 0)
+                    {
+                        InitialOperations();
+                    }
+                } 
+            }
+            else if (pi != null && pi.ViewModelStatus == RecordActions.Updated)
+            {
+                using (DataBaseConnector dbService = new DataBaseConnector())
+                {
+                    dbService.HandlePersonInfoTable(pi, t => (t.UUID == pi.UUID),RecordActions.Updated);
                     int result = dbService.SaveChanges();
                     if (result>0)
                     {
-                        this.SaveButton.IsEnabled = false;
-                        this.CancelButton.IsEnabled = false;
+                        InitialOperations();
                     }
                 } 
             }
@@ -68,10 +91,24 @@ namespace HostelKing
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            this.DataContext = this.oldContext;
-            Object[] context = (Object[])this.DataContext;
-            PersonInfoViewModel pi = (PersonInfoViewModel)context[0];
-            pi.OnPropertyChanged("");
+            if (((PersonInfoViewModel)this.DataContext).ViewModelStatus==RecordActions.Inserted)
+            {
+                this.Close();
+            }
+            PersonInfoViewModel newDC = new PersonInfoViewModel();
+            PropertyInfo[] propInfos = typeof(PersonInfoViewModel).GetProperties();
+            foreach (var curPropt in propInfos)
+            {
+                curPropt.SetValue((PersonInfoViewModel)this.DataContext, curPropt.GetValue((PersonInfoViewModel)this.oldContext));
+            }
+            InitialOperations();
+
+        }
+        public void InitialOperations()
+        {
+            this.SaveButton.IsEnabled = false;
+            this.CancelButton.IsEnabled = false;
+            ((PersonInfoViewModel)this.DataContext).ViewModelStatus = RecordActions.NotModified;
         }
     }
 }

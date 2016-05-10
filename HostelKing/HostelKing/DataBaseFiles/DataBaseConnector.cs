@@ -44,20 +44,71 @@ namespace HostelKing
             List<IPersonPayments> list = db.PersonPaymentsList.Where(predicate).ToList<IPersonPayments>();
             return list;
         }
-        public void HandlePersonInfoTable(IPersonInfo inData, Expression<Func<PersonInfoDBModel, bool>> predicate)
+        public int HandlePersonInfoTable(IPersonInfo inData, Expression<Func<PersonInfoDBModel, bool>> predicate, RecordActions state)
         {
-            List<PersonInfoDBModel> persInfList = db.PersonInfoList.Where(predicate).ToList();
-            if (persInfList.Count > 0)
+            int result = 0;
+            if (state == RecordActions.Updated && predicate!=null)
             {
-                PropertyInfo[] propInfos = typeof(IPersonInfo).GetProperties();
-                foreach (var item in persInfList)
+                List<PersonInfoDBModel> persInfList = db.PersonInfoList.Where(predicate).ToList();
+                if (persInfList.Count > 0)
                 {
-                    foreach (var curPropt in propInfos)
+                    PropertyInfo[] propInfos = typeof(IPersonInfo).GetProperties();
+                    foreach (var item in persInfList)
                     {
-                        curPropt.SetValue(item, curPropt.GetValue(inData));
+                        foreach (var curPropt in propInfos)
+                        {
+                            curPropt.SetValue(item, curPropt.GetValue(inData));
+                        }
                     }
                 }
+                result = 1;
             }
+            else if (state == RecordActions.Inserted)
+            {
+                PersonInfoDBModel person = new PersonInfoDBModel();
+                PropertyInfo[] propInfos = typeof(IPersonInfo).GetProperties();
+                foreach (var curPropt in propInfos)
+                {
+                    curPropt.SetValue(person, curPropt.GetValue(inData));
+                }
+                db.PersonInfoList.Add(person);
+                result = 1;
+            }
+            return result;
+            
+        }
+        public int HandlePersonPaymentsTable(IPersonPayments inData, Expression<Func<PersonPaymentsDBModel, bool>> predicate, RecordActions state)
+        {
+            int result = 0;
+            if (state == RecordActions.Updated && predicate != null)
+            {
+                List<PersonPaymentsDBModel> persInfList = db.PersonPaymentsList.Where(predicate).ToList();
+                if (persInfList.Count > 0)
+                {
+                    PropertyInfo[] propInfos = typeof(IPersonPayments).GetProperties();
+                    foreach (var item in persInfList)
+                    {
+                        foreach (var curPropt in propInfos)
+                        {
+                            curPropt.SetValue(item, curPropt.GetValue(inData));
+                        }
+                    }
+                }
+                result = 1;
+            }
+            else if (state == RecordActions.Inserted)
+            {
+                PersonPaymentsDBModel payment = new PersonPaymentsDBModel();
+                PropertyInfo[] propInfos = typeof(IPersonInfo).GetProperties();
+                foreach (var curPropt in propInfos)
+                {
+                    curPropt.SetValue(payment, curPropt.GetValue(inData));
+                }
+                db.PersonPaymentsList.Add(payment);
+                result = 1;
+            }
+            return result;
+
         }
         public int SaveChanges()
         {

@@ -16,18 +16,24 @@
                     <TextBox x:Name="roomNumber" Text="{Binding RoomNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="99,131,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
                     <Label Content="Sex" HorizontalAlignment="Left" Margin="19,159,0,0" VerticalAlignment="Top" Width="75" HorizontalContentAlignment="Right"/>
                     <TextBox x:Name="sex" Text="{Binding Sex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="99,159,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                    <DataGrid x:Name="PaymentsGrid" ItemsSource="{Binding Payments}" AutoGenerateColumns="False" Margin="263,41,10,0" VerticalAlignment="Top" Height="277">
+                    <DataGrid x:Name="PaymentsGrid" CanUserAddRows="True" ItemsSource="{Binding Payments}" AutoGenerateColumns="False" Margin="263,41,10,0" VerticalAlignment="Top" Height="277">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding FromDate, StringFormat=\{0:dd.MM.yyyy\}}" Header="С даты" Width="100"/>
-                            <DataGridTextColumn Binding="{Binding ToDate, StringFormat=\{0:dd.MM.yyyy\}}" Header="До даты" Width="100"/>
-                            <DataGridTextColumn Binding="{Binding Sum}" Header="Сумма" Width="70"/>
+                            <DataGridTemplateColumn Header="С даты" Width="100">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DatePicker SelectedDate="{Binding FromDate, Mode=TwoWay, StringFormat=\{0:dd/MM/yyyy\}}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Binding="{Binding ToDate, ValidatesOnDataErrors=False,Mode=TwoWay,StringFormat=\{0:dd/MM/yyyy\}}" Header="До даты" Width="100"/>
+                            <DataGridTextColumn Binding="{Binding Sum, ValidatesOnDataErrors=False,Mode=TwoWay}" Header="Сумма" Width="70"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <Label Content="Оплаты" HorizontalAlignment="Left" Margin="263,14,0,0" VerticalAlignment="Top" Width="75" HorizontalContentAlignment="Left"/>
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button x:Name="CancelButton" IsEnabled="False" Content="Cancel" Height="21" Margin="0,435,158,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="115"  Click="CancelButton_Click"/>
-        <Button x:Name="SaveButton" IsEnabled="False" Content="Save" Height="21" Margin="0,435,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Click="SaveButton_Click" HorizontalAlignment="Right" Width="117"/>
+        <Button x:Name="CancelButton" IsEnabled="False" Content="Cancel" Height="21" Margin="0,16,158,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="115"  Click="CancelButton_Click"/>
+        <Button x:Name="SaveButton" IsEnabled="False" Content="Save" Height="21" Margin="0,16,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,-7" Click="SaveButton_Click" HorizontalAlignment="Right" Width="117"/>
     </Grid>
 </Window>

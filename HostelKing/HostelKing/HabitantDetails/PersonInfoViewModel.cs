@@ -14,7 +14,6 @@ namespace HostelKing
 {
     public class PersonInfoViewModel : IPersonInfo, INotifyPropertyChanged
     {
-        public bool viewModelIsChanged = false;
         string firstName;
         string lastName;
         DateTime dateBirth;
@@ -22,14 +21,25 @@ namespace HostelKing
         string sex;
         ObservableCollection<PersonPaymentsViewModel> payments;
 
+        public PersonInfoViewModel()
+        {
+            ViewModelStatus = RecordActions.NotModified;
+            DateBirth = DateTime.Now;
+        }
+
         public int Id { get; set; }
+        public string UUID { get; set; }
+        public RecordActions ViewModelStatus { get; set; }
         public string FirstName 
         {
             get { return firstName; } 
             set
             {
                 firstName = value;
-                viewModelIsChanged = true;
+                if (ViewModelStatus!=RecordActions.Inserted)
+                {
+                    ViewModelStatus = RecordActions.Updated;    
+                }
                 OnPropertyChanged("FirstName");
             }
         }
@@ -39,7 +49,10 @@ namespace HostelKing
             set
             {
                 lastName = value;
-                viewModelIsChanged = true;
+                if (ViewModelStatus != RecordActions.Inserted)
+                {
+                    ViewModelStatus = RecordActions.Updated;
+                }
                 OnPropertyChanged("LastName");
             }
         }
@@ -49,7 +62,10 @@ namespace HostelKing
             set
             {
                 dateBirth = value;
-                viewModelIsChanged = true;
+                if (ViewModelStatus != RecordActions.Inserted)
+                {
+                    ViewModelStatus = RecordActions.Updated;
+                }
                 OnPropertyChanged("DateBirth");
             }
         }
@@ -59,7 +75,10 @@ namespace HostelKing
             set
             {
                 roomNumber = value;
-                viewModelIsChanged = true;
+                if (ViewModelStatus != RecordActions.Inserted)
+                {
+                    ViewModelStatus = RecordActions.Updated;
+                }
                 OnPropertyChanged("RoomNumber");
             }
         }
@@ -69,7 +88,10 @@ namespace HostelKing
             set
             {
                 sex = value;
-                viewModelIsChanged = true;
+                if (ViewModelStatus != RecordActions.Inserted)
+                {
+                    ViewModelStatus = RecordActions.Updated;
+                }
                 OnPropertyChanged("Sex");
             }
         }
@@ -79,7 +101,10 @@ namespace HostelKing
             set
             {
                 payments = value;
-                viewModelIsChanged = true;
+                if (ViewModelStatus != RecordActions.Inserted)
+                {
+                    ViewModelStatus = RecordActions.Updated;
+                }
                 OnPropertyChanged("Payments");
             }
         }

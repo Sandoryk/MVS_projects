@@ -10,20 +10,25 @@ namespace HostelKing
 {
     public class PersonPaymentsViewModel: IPersonPayments, INotifyPropertyChanged
     {
-        public bool viewModelIsChanged = false;
-        private int personId;
+        private string personId;
         private DateTime fromDate;
         private DateTime toDate;
         private double sum;
 
         public int Id { get; set; }
-        public int PersonId
+
+        public RecordActions ViewModelStatus { get; set; }
+        public string UUID { get; set; }
+        public string PersonUUID
         {
             get { return personId; }
             set
             {
                 personId = value;
-                viewModelIsChanged = true;
+                if (ViewModelStatus != RecordActions.Inserted)
+                {
+                    ViewModelStatus = RecordActions.Updated;
+                }
                 OnPropertyChanged("PersonId");
             }
         }
@@ -33,7 +38,10 @@ namespace HostelKing
             set
             {
                 fromDate = value;
-                viewModelIsChanged = true;
+                if (ViewModelStatus != RecordActions.Inserted)
+                {
+                    ViewModelStatus = RecordActions.Updated;
+                }
                 OnPropertyChanged("FromDate");
             }
         }
@@ -43,7 +51,10 @@ namespace HostelKing
             set
             {
                 toDate = value;
-                viewModelIsChanged = true;
+                if (ViewModelStatus != RecordActions.Inserted)
+                {
+                    ViewModelStatus = RecordActions.Updated;
+                }
                 OnPropertyChanged("ToDate");
             }
         }
@@ -53,7 +64,10 @@ namespace HostelKing
             set
             {
                 sum = value;
-                viewModelIsChanged = true;
+                if (ViewModelStatus != RecordActions.Inserted)
+                {
+                    ViewModelStatus = RecordActions.Updated;
+                }
                 OnPropertyChanged("Sum");
             }
         }
