@@ -74,6 +74,18 @@ namespace HostelKing
                 db.PersonInfoList.Add(person);
                 result = 1;
             }
+            else if (state == RecordActions.Deleted)
+            {
+                List<PersonInfoDBModel> persInfList = db.PersonInfoList.Where(predicate).ToList();
+                if (persInfList.Count > 0)
+                {
+                    foreach (var item in persInfList)
+                    {
+                        db.PersonInfoList.Remove(item);
+                    }
+                }
+                result = 1;
+            }
             return result;
             
         }
@@ -99,12 +111,24 @@ namespace HostelKing
             else if (state == RecordActions.Inserted)
             {
                 PersonPaymentsDBModel payment = new PersonPaymentsDBModel();
-                PropertyInfo[] propInfos = typeof(IPersonInfo).GetProperties();
+                PropertyInfo[] propInfos = typeof(IPersonPayments).GetProperties();
                 foreach (var curPropt in propInfos)
                 {
                     curPropt.SetValue(payment, curPropt.GetValue(inData));
                 }
                 db.PersonPaymentsList.Add(payment);
+                result = 1;
+            }
+            else if (state == RecordActions.Deleted)
+            {
+                List<PersonPaymentsDBModel> persInfList = db.PersonPaymentsList.Where(predicate).ToList();
+                if (persInfList.Count > 0)
+                {
+                    foreach (var item in persInfList)
+                    {
+                        db.PersonPaymentsList.Remove(item);
+                    }
+                }
                 result = 1;
             }
             return result;

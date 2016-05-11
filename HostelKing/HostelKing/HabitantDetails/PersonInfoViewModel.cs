@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 
 namespace HostelKing
 {
+    [Serializable]
     public class PersonInfoViewModel : IPersonInfo, INotifyPropertyChanged
     {
         string firstName;
@@ -110,7 +111,7 @@ namespace HostelKing
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName]string prop = "")
+        private void OnPropertyChanged([CallerMemberName]string prop = "")
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));

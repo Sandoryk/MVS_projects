@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,89 +23,157 @@ namespace HostelKing
     /// <summary>
     /// Interaction logic for SingleHabitantView.xaml
     /// </summary>
+    public delegate void PersonChangedEventHandler(object sender, PersonInfoEventArgs e);
     public partial class PersonInfoView : Window
     {
         PersonInfoViewModel oldContext;
+        MemoryStream ms;
+        BinaryFormatter formatter;
+        List<PersonPaymentsViewModel> removedPayments;
+        
         public PersonInfoView(PersonInfoViewModel oldViewModel)
         {
             InitializeComponent();
+            removedPayments = new List<PersonPaymentsViewModel>();
             this.DataContext = oldViewModel;
-            oldContext = new PersonInfoViewModel();
-            PropertyInfo[] propInfos = typeof(PersonInfoViewModel).GetProperties();
-            foreach (var curPropt in propInfos)
-            {
-                curPropt.SetValue(oldContext, curPropt.GetValue(oldViewModel));
-            }
-            //oldContext.Payments = new ObservableCollection<PersonPaymentsViewModel>(oldViewModel.Payments.ToList());
-            oldViewModel.PropertyChanged += HabitantDetailsView_PropertyChanged;
-            if (oldViewModel.Payments!=null)
-            {
-                oldViewModel.Payments.CollectionChanged += Payments_CollectionChanged;
-                //oldContext.Payments.CollectionChanged += Payments_CollectionChanged;
-            }           
+            formatter = new BinaryFormatter();
+            ms = new MemoryStream();
+            formatter.Serialize(ms, oldViewModel);
+            MakeAttachmentsToEvents(oldViewModel);
+       
         }
-
-        void Payments_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        public void MakeAttachmentsToEvents(PersonInfoViewModel pInfo)
+        {
+            pInfo.PropertyChanged += HabitantDetailsView_PropertyChanged;
+            if (pInfo.Payments != null)
+            {
+                pInfo.Payments.CollectionChanged += Payments_CollectionChanged;
+            } 
+        }
+        private void DataGridBeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
             this.SaveButton.IsEnabled = true;
             this.CancelButton.IsEnabled = true;
-            foreach (var item in e.NewItems)
-            {
-                //MessageBox.Show(item.GetType().FullName);
-            }
         }
-
         void HabitantDetailsView_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             this.SaveButton.IsEnabled = true;
             this.CancelButton.IsEnabled = true;
         }
-
-
+        void Payments_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            this.SaveButton.IsEnabled = true;
+            this.CancelButton.IsEnabled = true;
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
+            {
+                IList removed = e.OldItems;
+                foreach (var item in removed)
+                {
+                    removedPayments.Add((PersonPaymentsViewModel)item);
+                }
+            }
+        }
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            PersonInfoViewModel pi = (PersonInfoViewModel)this.DataContext;
+            PersonInfoViewModel pInfo = (PersonInfoViewModel)this.DataContext;
 
-            if (pi != null && pi.ViewModelStatus == RecordActions.Inserted)
+            using (DataBaseConnector dbService = new DataBaseConnector())
             {
-                using (DataBaseConnector dbService = new DataBaseConnector())
+                bool savef = false;
+                if (pInfo != null && pInfo.ViewModelStatus == RecordActions.Inserted)
                 {
-                    dbService.HandlePersonInfoTable(pi, null, RecordActions.Inserted);
+                    pInfo.UUID = Guid.NewGuid().ToString();
+                    dbService.HandlePersonInfoTable(pInfo, null, RecordActions.Inserted);
+                    savef = true;
+                }
+                else if (pInfo != null && pInfo.ViewModelStatus == RecordActions.Updated)
+                {
+                    dbService.HandlePersonInfoTable(pInfo, t => (t.UUID == pInfo.UUID), RecordActions.Updated);
+                    savef = true;
+                }
+                if (pInfo.Payments != null && pInfo.Payments.Count > 0)
+                {
+
+                    foreach (var payment in pInfo.Payments)
+                    {
+                        if (String.IsNullOrEmpty(payment.PersonUUID) == true)
+                        {
+                            payment.PersonUUID = pInfo.UUID;
+                            payment.UUID = Guid.NewGuid().ToString();
+                            payment.ViewModelStatus = RecordActions.Inserted;
+                        }
+                        if (payment.ViewModelStatus == RecordActions.Inserted)
+                            dbService.HandlePersonPaymentsTable(payment, null, RecordActions.Inserted);
+                        else if (payment.ViewModelStatus == RecordActions.Updated)
+                            dbService.HandlePersonPaymentsTable(payment, t => (t.UUID == payment.UUID), RecordActions.Updated);
+                    }
+                    if (removedPayments.Count>0)
+                    {
+                        foreach (var payment in removedPayments)
+                        {
+                            if (String.IsNullOrEmpty(payment.UUID) == false)
+                            {
+                                dbService.HandlePersonPaymentsTable(payment, t => (t.UUID == payment.UUID), RecordActions.Deleted);
+                            }
+                        }
+                        removedPayments = new List<PersonPaymentsViewModel>();
+                    }
+                    savef = true;
+                }
+                if (savef==true)
+                {
                     int result = dbService.SaveChanges();
                     if (result > 0)
                     {
                         InitialOperations();
                     }
-                } 
-            }
-            else if (pi != null && pi.ViewModelStatus == RecordActions.Updated)
-            {
-                using (DataBaseConnector dbService = new DataBaseConnector())
-                {
-                    dbService.HandlePersonInfoTable(pi, t => (t.UUID == pi.UUID),RecordActions.Updated);
-                    int result = dbService.SaveChanges();
-                    if (result>0)
-                    {
-                        InitialOperations();
-                    }
-                } 
+                }
             }
         }
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            PersonInfoViewModel pInfo = (PersonInfoViewModel)this.DataContext;
 
+            using (DataBaseConnector dbService = new DataBaseConnector())
+            {
+                dbService.HandlePersonInfoTable(pInfo, t => (t.UUID == pInfo.UUID), RecordActions.Deleted);
+                if (pInfo.Payments != null && pInfo.Payments.Count > 0)
+                {
+                    foreach (var payment in pInfo.Payments)
+                    {
+                        dbService.HandlePersonPaymentsTable(payment, t => (t.UUID == payment.UUID), RecordActions.Deleted);
+                    }
+                    if (removedPayments.Count > 0)
+                    {
+                        foreach (var payment in removedPayments)
+                        {
+                            dbService.HandlePersonPaymentsTable(payment, t => (t.UUID == payment.UUID), RecordActions.Deleted);
+                        }
+                        removedPayments = new List<PersonPaymentsViewModel>();
+                    }
+                }
+                int result = dbService.SaveChanges();
+                if (result > 0)
+                {
+                    this.Close();
+                }
+            }
+        }
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             if (((PersonInfoViewModel)this.DataContext).ViewModelStatus==RecordActions.Inserted)
             {
                 this.Close();
             }
-            PersonInfoViewModel newDC = new PersonInfoViewModel();
-            PropertyInfo[] propInfos = typeof(PersonInfoViewModel).GetProperties();
-            foreach (var curPropt in propInfos)
+            else
             {
-                curPropt.SetValue((PersonInfoViewModel)this.DataContext, curPropt.GetValue((PersonInfoViewModel)this.oldContext));
+                ms.Position = 0;
+                oldContext = (PersonInfoViewModel)formatter.Deserialize(ms);
+                MakeAttachmentsToEvents(oldContext);
+                this.DataContext = oldContext;
+                removedPayments = new List<PersonPaymentsViewModel>();
+                InitialOperations();
             }
-            InitialOperations();
-
         }
         public void InitialOperations()
         {
@@ -110,5 +181,11 @@ namespace HostelKing
             this.CancelButton.IsEnabled = false;
             ((PersonInfoViewModel)this.DataContext).ViewModelStatus = RecordActions.NotModified;
         }
+
+        private void HabitantDetailsWin_Closing(object sender, CancelEventArgs e)
+        {
+            ms.Close();
+        }
+
     }
 }

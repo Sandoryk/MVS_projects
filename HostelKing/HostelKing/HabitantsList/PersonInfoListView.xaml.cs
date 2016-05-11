@@ -48,12 +48,12 @@ namespace HostelKing
                     foreach (var item in inputPP)
                     {
                         PersonPaymentsViewModel newpp = new PersonPaymentsViewModel();
-                         propInfos = typeof(IPersonPayments).GetProperties();
-                         foreach (var curPropt in propInfos)
-                         {
-                             curPropt.SetValue(newpp, curPropt.GetValue(item));
-                         }
-                         outputPP.Add(newpp);
+                        propInfos = typeof(IPersonPayments).GetProperties();
+                        foreach (var curPropt in propInfos)
+                        {
+                            curPropt.SetValue(newpp, curPropt.GetValue(item));
+                        }
+                        outputPP.Add(newpp);
                     }
                     outputPersonInfo.Payments = new ObservableCollection<PersonPaymentsViewModel>(outputPP);
                 }
