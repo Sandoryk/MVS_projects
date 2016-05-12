@@ -126,6 +126,8 @@ namespace HostelKing
                     if (result > 0)
                     {
                         InitialOperations();
+                        ms.Position = 0;
+                        formatter.Serialize(ms, pInfo);
                     }
                 }
             }

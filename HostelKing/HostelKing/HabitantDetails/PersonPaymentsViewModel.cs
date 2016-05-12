@@ -78,6 +78,7 @@ namespace HostelKing
                 OnPropertyChanged("Sum");
             }
         }
+        [field:NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName]string prop = "")
         {
