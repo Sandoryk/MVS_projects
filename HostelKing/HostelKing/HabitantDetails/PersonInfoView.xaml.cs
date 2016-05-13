@@ -26,15 +26,15 @@ namespace HostelKing
     public delegate void PersonChangedEventHandler(object sender, PersonInfoEventArgs e);
     public partial class PersonInfoView : Window
     {
-        PersonInfoViewModel oldContext;
+        PersonInfoModel oldContext;
         MemoryStream ms;
         BinaryFormatter formatter;
-        List<PersonPaymentsViewModel> removedPayments;
+        List<PersonPaymentsModel> removedPayments;
         
-        public PersonInfoView(PersonInfoViewModel oldViewModel)
+        public PersonInfoView(PersonInfoModel oldViewModel)
         {
             InitializeComponent();
-            removedPayments = new List<PersonPaymentsViewModel>();
+            removedPayments = new List<PersonPaymentsModel>();
             this.DataContext = oldViewModel;
             formatter = new BinaryFormatter();
             ms = new MemoryStream();
@@ -42,7 +42,7 @@ namespace HostelKing
             MakeAttachmentsToEvents(oldViewModel);
        
         }
-        public void MakeAttachmentsToEvents(PersonInfoViewModel pInfo)
+        public void MakeAttachmentsToEvents(PersonInfoModel pInfo)
         {
             pInfo.PropertyChanged += HabitantDetailsView_PropertyChanged;
             if (pInfo.Payments != null)
@@ -69,13 +69,13 @@ namespace HostelKing
                 IList removed = e.OldItems;
                 foreach (var item in removed)
                 {
-                    removedPayments.Add((PersonPaymentsViewModel)item);
+                    removedPayments.Add((PersonPaymentsModel)item);
                 }
             }
         }
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            PersonInfoViewModel pInfo = (PersonInfoViewModel)this.DataContext;
+            PersonInfoModel pInfo = (PersonInfoModel)this.DataContext;
 
             using (DataBaseConnector dbService = new DataBaseConnector())
             {
@@ -116,7 +116,7 @@ namespace HostelKing
                                 dbService.HandlePersonPaymentsTable(payment, t => (t.UUID == payment.UUID), RecordActions.Deleted);
                             }
                         }
-                        removedPayments = new List<PersonPaymentsViewModel>();
+                        removedPayments = new List<PersonPaymentsModel>();
                     }
                     savef = true;
                 }
@@ -134,7 +134,7 @@ namespace HostelKing
         }
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            PersonInfoViewModel pInfo = (PersonInfoViewModel)this.DataContext;
+            PersonInfoModel pInfo = (PersonInfoModel)this.DataContext;
 
             using (DataBaseConnector dbService = new DataBaseConnector())
             {
@@ -151,7 +151,7 @@ namespace HostelKing
                         {
                             dbService.HandlePersonPaymentsTable(payment, t => (t.UUID == payment.UUID), RecordActions.Deleted);
                         }
-                        removedPayments = new List<PersonPaymentsViewModel>();
+                        removedPayments = new List<PersonPaymentsModel>();
                     }
                 }
                 int result = dbService.SaveChanges();
@@ -163,17 +163,17 @@ namespace HostelKing
         }
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            if (((PersonInfoViewModel)this.DataContext).ViewModelStatus==RecordActions.Inserted)
+            if (((PersonInfoModel)this.DataContext).ViewModelStatus==RecordActions.Inserted)
             {
                 this.Close();
             }
             else
             {
                 ms.Position = 0;
-                oldContext = (PersonInfoViewModel)formatter.Deserialize(ms);
+                oldContext = (PersonInfoModel)formatter.Deserialize(ms);
                 MakeAttachmentsToEvents(oldContext);
                 this.DataContext = oldContext;
-                removedPayments = new List<PersonPaymentsViewModel>();
+                removedPayments = new List<PersonPaymentsModel>();
                 InitialOperations();
             }
         }
@@ -181,7 +181,7 @@ namespace HostelKing
         {
             this.SaveButton.IsEnabled = false;
             this.CancelButton.IsEnabled = false;
-            ((PersonInfoViewModel)this.DataContext).ViewModelStatus = RecordActions.NotModified;
+            ((PersonInfoModel)this.DataContext).ViewModelStatus = RecordActions.NotModified;
         }
 
         private void HabitantDetailsWin_Closing(object sender, CancelEventArgs e)

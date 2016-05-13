@@ -32,14 +32,14 @@ namespace HostelKing
 
             DataGridRow row = sender as DataGridRow;
             IPersonInfo inputPersonInfo = (row.Item as IPersonInfo);
-            PersonInfoViewModel outputPersonInfo = new PersonInfoViewModel();
+            PersonInfoModel outputPersonInfo = new PersonInfoModel();
             propInfos = typeof(IPersonInfo).GetProperties();
             foreach (var curPropt in propInfos)
             {
                 curPropt.SetValue(outputPersonInfo, curPropt.GetValue(inputPersonInfo));
             }
 
-            List<PersonPaymentsViewModel> outputPP = new List<PersonPaymentsViewModel>();
+            List<PersonPaymentsModel> outputPP = new List<PersonPaymentsModel>();
             using (DataBaseConnector dbService = new DataBaseConnector())
             {
                 List<IPersonPayments> inputPP = dbService.GetPersonPaymentsRecords(t=>t.PersonUUID == outputPersonInfo.UUID);
@@ -47,7 +47,7 @@ namespace HostelKing
                 {
                     foreach (var item in inputPP)
                     {
-                        PersonPaymentsViewModel newpp = new PersonPaymentsViewModel();
+                        PersonPaymentsModel newpp = new PersonPaymentsModel();
                         propInfos = typeof(IPersonPayments).GetProperties();
                         foreach (var curPropt in propInfos)
                         {
@@ -55,7 +55,7 @@ namespace HostelKing
                         }
                         outputPP.Add(newpp);
                     }
-                    outputPersonInfo.Payments = new ObservableCollection<PersonPaymentsViewModel>(outputPP);
+                    outputPersonInfo.Payments = new ObservableCollection<PersonPaymentsModel>(outputPP);
                 }
             }
             PersonInfoView hbDetailed = new PersonInfoView(outputPersonInfo);
@@ -65,10 +65,10 @@ namespace HostelKing
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
-            PersonInfoViewModel outputPersonInfo = new PersonInfoViewModel();
+            PersonInfoModel outputPersonInfo = new PersonInfoModel();
             outputPersonInfo.UUID = Guid.NewGuid().ToString();
             outputPersonInfo.ViewModelStatus = RecordActions.Inserted;
-            outputPersonInfo.Payments = new ObservableCollection<PersonPaymentsViewModel>();
+            outputPersonInfo.Payments = new ObservableCollection<PersonPaymentsModel>();
             PersonInfoView hbDetailed = new PersonInfoView(outputPersonInfo);
             hbDetailed.Show();
         }

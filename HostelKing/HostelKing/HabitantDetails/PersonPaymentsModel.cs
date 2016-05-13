@@ -10,14 +10,14 @@ using System.Windows;
 namespace HostelKing
 {
     [Serializable]
-    public class PersonPaymentsViewModel: IPersonPayments, INotifyPropertyChanged
+    public class PersonPaymentsModel: IPersonPayments, INotifyPropertyChanged
     {
         private string personId;
         private DateTime fromDate;
         private DateTime toDate;
         private double sum;
 
-        public PersonPaymentsViewModel()
+        public PersonPaymentsModel()
         {
             fromDate = DateTime.Now;
             toDate = fromDate;

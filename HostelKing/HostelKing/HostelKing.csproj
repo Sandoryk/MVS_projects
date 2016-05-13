@@ -70,12 +70,12 @@
     <Compile Include="HabitantsList\PersonInfoListView.xaml.cs">
       <DependentUpon>PersonInfoListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HabitantsList\PersonInfoListViewModel.cs" />
+    <Compile Include="HabitantsList\PersonInfoListModel.cs" />
     <Compile Include="HabitantDetails\PersonInfoView.xaml.cs">
       <DependentUpon>PersonInfoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HabitantDetails\PersonInfoViewModel.cs" />
-    <Compile Include="HabitantDetails\PersonPaymentsViewModel.cs" />
+    <Compile Include="HabitantDetails\PersonInfoModel.cs" />
+    <Compile Include="HabitantDetails\PersonPaymentsModel.cs" />
     <Compile Include="Interfaces\IDataBaseModel.cs" />
     <Compile Include="Interfaces\IPersonInfo.cs" />
     <Compile Include="Interfaces\IPersonPayments.cs" />

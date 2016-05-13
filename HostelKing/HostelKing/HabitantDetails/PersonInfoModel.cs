@@ -13,16 +13,16 @@ using System.Collections.ObjectModel;
 namespace HostelKing
 {
     [Serializable]
-    public class PersonInfoViewModel : IPersonInfo, INotifyPropertyChanged
+    public class PersonInfoModel : IPersonInfo, INotifyPropertyChanged
     {
         string firstName;
         string lastName;
         DateTime dateBirth;
         string roomNumber;
         string sex;
-        ObservableCollection<PersonPaymentsViewModel> payments;
+        ObservableCollection<PersonPaymentsModel> payments;
 
-        public PersonInfoViewModel()
+        public PersonInfoModel()
         {
             ViewModelStatus = RecordActions.NotModified;
             DateBirth = DateTime.Now;
@@ -96,7 +96,7 @@ namespace HostelKing
                 OnPropertyChanged("Sex");
             }
         }
-        public ObservableCollection<PersonPaymentsViewModel> Payments 
+        public ObservableCollection<PersonPaymentsModel> Payments 
         {
             get { return payments;}
             set

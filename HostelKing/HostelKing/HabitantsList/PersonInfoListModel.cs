@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace HostelKing
 {
-    public class PersonInfoListViewModel
+    public class PersonInfoListModel
     {
         public event PersonChangedEventHandler OnPersonInfoChanged;
-        public PersonInfoListViewModel(ObservableCollection<IPersonInfo> list)
+        public PersonInfoListModel(ObservableCollection<IPersonInfo> list)
         {
             Habitants = list;
         }

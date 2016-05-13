@@ -39,7 +39,7 @@ namespace HostelKing
                     {
                         //PersonInfoListViewModel hbViewModel = new PersonInfoListViewModel(new ObservableCollection<PersonInfo>(dbService.GetHabitants()));
                         PersonInfoListView hb = new PersonInfoListView();
-                        PersonInfoListViewModel hbViewModel = new PersonInfoListViewModel(new ObservableCollection<IPersonInfo>(dbService.GetAllRecords<IPersonInfo>()));
+                        PersonInfoListModel hbViewModel = new PersonInfoListModel(new ObservableCollection<IPersonInfo>(dbService.GetAllRecords<IPersonInfo>()));
                         hb.DataContext = hbViewModel;
                         hb.Show();
                     }       
