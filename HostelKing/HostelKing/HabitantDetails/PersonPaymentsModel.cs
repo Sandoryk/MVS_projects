@@ -31,12 +31,15 @@ namespace HostelKing
             get { return personId; }
             set
             {
-                personId = value;
-                if (ViewModelStatus != RecordActions.Inserted)
+                if (personId != value)
                 {
-                    ViewModelStatus = RecordActions.Updated;
+                    personId = value;
+                    if (ViewModelStatus != RecordActions.Inserted)
+                    {
+                        ViewModelStatus = RecordActions.Updated;
+                    }
+                    OnPropertyChanged("PersonId");
                 }
-                OnPropertyChanged("PersonId");
             }
         }
         public DateTime FromDate
@@ -44,12 +47,15 @@ namespace HostelKing
             get { return fromDate; }
             set
             {
-                fromDate = value;
-                if (ViewModelStatus != RecordActions.Inserted)
+                if (fromDate != value)
                 {
-                    ViewModelStatus = RecordActions.Updated;
+                    fromDate = value;
+                    if (ViewModelStatus != RecordActions.Inserted)
+                    {
+                        ViewModelStatus = RecordActions.Updated;
+                    }
+                    OnPropertyChanged("FromDate");
                 }
-                OnPropertyChanged("FromDate");
             }
         }
         public DateTime ToDate
@@ -57,12 +63,15 @@ namespace HostelKing
             get { return toDate; }
             set
             {
-                toDate = value;
-                if (ViewModelStatus != RecordActions.Inserted)
+                if (toDate != value)
                 {
-                    ViewModelStatus = RecordActions.Updated;
+                    toDate = value;
+                    if (ViewModelStatus != RecordActions.Inserted)
+                    {
+                        ViewModelStatus = RecordActions.Updated;
+                    }
+                    OnPropertyChanged("ToDate");
                 }
-                OnPropertyChanged("ToDate");
             }
         }
         public double Sum
@@ -70,12 +79,15 @@ namespace HostelKing
             get { return sum; }
             set
             {
-                sum = value;
-                if (ViewModelStatus != RecordActions.Inserted)
+                if (sum != value)
                 {
-                    ViewModelStatus = RecordActions.Updated;
+                    sum = value;
+                    if (ViewModelStatus != RecordActions.Inserted)
+                    {
+                        ViewModelStatus = RecordActions.Updated;
+                    }
+                    OnPropertyChanged("Sum");
                 }
-                OnPropertyChanged("Sum");
             }
         }
         [field:NonSerialized]

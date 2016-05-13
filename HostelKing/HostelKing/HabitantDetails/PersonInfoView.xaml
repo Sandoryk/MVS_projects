@@ -21,7 +21,7 @@
                             <DataGridTemplateColumn Header="С даты" Width="100">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <DatePicker SelectedDate="{Binding FromDate, Mode=TwoWay, StringFormat=\{0:dd/MM/yyyy\}}" />
+                                        <DatePicker SelectedDate="{Binding FromDate, Mode=TwoWay, StringFormat=\{0:dd/MM/yyyy\},UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

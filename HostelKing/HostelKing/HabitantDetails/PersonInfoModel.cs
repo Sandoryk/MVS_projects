@@ -36,12 +36,15 @@ namespace HostelKing
             get { return firstName; } 
             set
             {
-                firstName = value;
-                if (ViewModelStatus!=RecordActions.Inserted)
+                if (firstName != value)
                 {
-                    ViewModelStatus = RecordActions.Updated;    
+                    firstName = value;
+                    if (ViewModelStatus != RecordActions.Inserted)
+                    {
+                        ViewModelStatus = RecordActions.Updated;
+                    }
+                    OnPropertyChanged("FirstName");
                 }
-                OnPropertyChanged("FirstName");
             }
         }
         public string LastName
@@ -49,12 +52,15 @@ namespace HostelKing
             get { return lastName; }
             set
             {
-                lastName = value;
-                if (ViewModelStatus != RecordActions.Inserted)
+                if (lastName != value)
                 {
-                    ViewModelStatus = RecordActions.Updated;
+                    lastName = value;
+                    if (ViewModelStatus != RecordActions.Inserted)
+                    {
+                        ViewModelStatus = RecordActions.Updated;
+                    }
+                    OnPropertyChanged("LastName");
                 }
-                OnPropertyChanged("LastName");
             }
         }
         public DateTime DateBirth
@@ -62,12 +68,15 @@ namespace HostelKing
             get { return dateBirth; }
             set
             {
-                dateBirth = value;
-                if (ViewModelStatus != RecordActions.Inserted)
+                if (dateBirth != value)
                 {
-                    ViewModelStatus = RecordActions.Updated;
+                    dateBirth = value;
+                    if (ViewModelStatus != RecordActions.Inserted)
+                    {
+                        ViewModelStatus = RecordActions.Updated;
+                    }
+                    OnPropertyChanged("DateBirth");
                 }
-                OnPropertyChanged("DateBirth");
             }
         }
         public string RoomNumber
@@ -75,12 +84,15 @@ namespace HostelKing
             get { return roomNumber; }
             set
             {
-                roomNumber = value;
-                if (ViewModelStatus != RecordActions.Inserted)
+                if (roomNumber != value)
                 {
-                    ViewModelStatus = RecordActions.Updated;
+                    roomNumber = value;
+                    if (ViewModelStatus != RecordActions.Inserted)
+                    {
+                        ViewModelStatus = RecordActions.Updated;
+                    }
+                    OnPropertyChanged("RoomNumber");
                 }
-                OnPropertyChanged("RoomNumber");
             }
         }
         public string Sex
@@ -88,12 +100,15 @@ namespace HostelKing
             get { return sex; }
             set
             {
-                sex = value;
-                if (ViewModelStatus != RecordActions.Inserted)
+                if (sex != value)
                 {
-                    ViewModelStatus = RecordActions.Updated;
+                    sex = value;
+                    if (ViewModelStatus != RecordActions.Inserted)
+                    {
+                        ViewModelStatus = RecordActions.Updated;
+                    }
+                    OnPropertyChanged("Sex");
                 }
-                OnPropertyChanged("Sex");
             }
         }
         public ObservableCollection<PersonPaymentsModel> Payments 
@@ -101,12 +116,15 @@ namespace HostelKing
             get { return payments;}
             set
             {
-                payments = value;
-                if (ViewModelStatus != RecordActions.Inserted)
+                if (payments != value)
                 {
-                    ViewModelStatus = RecordActions.Updated;
+                    payments = value;
+                    if (ViewModelStatus != RecordActions.Inserted)
+                    {
+                        ViewModelStatus = RecordActions.Updated;
+                    }
+                    OnPropertyChanged("Payments");
                 }
-                OnPropertyChanged("Payments");
             }
         }
         [field: NonSerialized]
