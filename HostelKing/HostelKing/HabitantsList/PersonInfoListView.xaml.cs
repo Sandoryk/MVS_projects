@@ -72,5 +72,11 @@ namespace HostelKing
             PersonInfoView hbDetailed = new PersonInfoView(outputPersonInfo);
             hbDetailed.Show();
         }
+
+        private void ManagerButton_Click(object sender, RoutedEventArgs e)
+        {
+            RelocationManagerView relocMan = new RelocationManagerView();
+            relocMan.Show();
+        }
     }
 }

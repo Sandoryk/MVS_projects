@@ -18,6 +18,7 @@
                 <DataGridTextColumn Binding="{Binding Sex}" Header="Пол" Width="70"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="NewButton" Content="New" Height="20" Margin="0,24,17,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,-7" HorizontalAlignment="Right" Width="117" Click="NewButton_Click"/>
+        <Button x:Name="NewButton" Content="Новый житель" Height="25" Margin="0,24,17,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,-7" HorizontalAlignment="Right" Width="117" Click="NewButton_Click"/>
+        <Button x:Name="ManagerButton" Content="Открыть менеджер" Height="25" Margin="0,24,173,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,-7" HorizontalAlignment="Right" Width="117" Click="ManagerButton_Click"/>
     </Grid>
 </Window>
