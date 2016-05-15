@@ -27,5 +27,9 @@ namespace HostelKing
         }
         public DbSet<PersonInfoDBModel> PersonInfoList { get; set; }
         public DbSet<PersonPaymentsDBModel> PersonPaymentsList { get; set; }
+        public DbSet<UserDBModel> UserList { get; set; }
+        public DbSet<RoomDBModel> RoomList { get; set; }
+        public DbSet<SettledListDBModel> SettledList { get; set; }
+        public DbSet<RoomFurnitureDBModel> RoomFurnitureList { get; set; }
     }
 }

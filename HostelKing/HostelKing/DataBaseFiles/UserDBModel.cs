@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace HostelKing
 {
-    class User
+    public class UserDBModel : IUser, IDataBaseModel
     {
         public int Id { get; set; }
+        public string PersonUUID { get; set; }
+        public bool IsActive { get; set; }
         public string Login { get; set; }
         public string Password { get; set; } 
         public string AccessGroup { get; set; } 

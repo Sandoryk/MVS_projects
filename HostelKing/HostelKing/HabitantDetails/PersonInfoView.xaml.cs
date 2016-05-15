@@ -28,7 +28,7 @@ namespace HostelKing
     {
         PersonInfoModel oldContext;
         MemoryStream ms;
-        BinaryFormatter formatter;
+        BinaryFormatter oldContextKeeper;
         List<PersonPaymentsModel> removedPayments;
         
         public PersonInfoView(PersonInfoModel oldViewModel)
@@ -36,12 +36,14 @@ namespace HostelKing
             InitializeComponent();
             removedPayments = new List<PersonPaymentsModel>();
             this.DataContext = oldViewModel;
-            formatter = new BinaryFormatter();
+            oldContextKeeper = new BinaryFormatter();
             ms = new MemoryStream();
-            formatter.Serialize(ms, oldViewModel);
+            oldContextKeeper.Serialize(ms, oldViewModel);
             MakeAttachmentsToEvents(oldViewModel);
        
         }
+        public bool FieldsAreEditable { get; set; }
+        public PersonInfoListViewModel ParentListView { get; set; }
         public void MakeAttachmentsToEvents(PersonInfoModel pInfo)
         {
             pInfo.PropertyChanged += HabitantDetailsView_PropertyChanged;
@@ -77,6 +79,21 @@ namespace HostelKing
         {
             PersonInfoModel pInfo = (PersonInfoModel)this.DataContext;
 
+            if (String.IsNullOrEmpty(pInfo.FirstName))
+            {
+                MessageBox.Show("Укажите имя");
+                return;
+            }
+            if (String.IsNullOrEmpty(pInfo.LastName))
+            {
+                MessageBox.Show("Укажите фамилию");
+                return;
+            }
+            if (String.IsNullOrEmpty(pInfo.Sex))
+            {
+                MessageBox.Show("Укажите пол");
+                return;
+            }
             using (DataBaseConnector dbService = new DataBaseConnector())
             {
                 bool savef = false;
@@ -127,7 +144,9 @@ namespace HostelKing
                     {
                         InitialOperations();
                         ms.Position = 0;
-                        formatter.Serialize(ms, pInfo);
+                        if (ParentListView != null)
+                            ParentListView.UpdatePersonList(pInfo, pInfo.ViewModelStatus);
+                        oldContextKeeper.Serialize(ms, pInfo); 
                     }
                 }
             }
@@ -157,6 +176,7 @@ namespace HostelKing
                 int result = dbService.SaveChanges();
                 if (result > 0)
                 {
+                    ParentListView.UpdatePersonList(pInfo, RecordActions.Deleted);
                     this.Close();
                 }
             }
@@ -170,7 +190,7 @@ namespace HostelKing
             else
             {
                 ms.Position = 0;
-                oldContext = (PersonInfoModel)formatter.Deserialize(ms);
+                oldContext = (PersonInfoModel)oldContextKeeper.Deserialize(ms);
                 MakeAttachmentsToEvents(oldContext);
                 this.DataContext = oldContext;
                 removedPayments = new List<PersonPaymentsModel>();

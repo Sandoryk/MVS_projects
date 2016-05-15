@@ -2,12 +2,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:HostelKing"
-        Title="Habitants" Height="600" Width="808.956" WindowStartupLocation="CenterOwner">
-    <Grid HorizontalAlignment="Left" Width="799">
-        <DataGrid x:Name="HabitantsGrid" ItemsSource="{Binding Habitants}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionUnit="FullRow" Margin="10,66,0,0" VerticalAlignment="Top" Height="482" HorizontalAlignment="Left" Width="772" >
+        Title="Список жильцов" Height="600" Width="814.956" WindowStartupLocation="CenterOwner">
+    <Grid Margin="0,0,0,0">
+        <DataGrid x:Name="HabitantsGrid" ItemsSource="{Binding Habitants}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionUnit="FullRow" Margin="10,66,10,22" >
             <DataGrid.Resources>
                 <Style TargetType="DataGridRow">
                     <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
+                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="Row_MouseLeftButtonDown"/>
                 </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
@@ -18,7 +19,8 @@
                 <DataGridTextColumn Binding="{Binding Sex}" Header="Пол" Width="70"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="NewButton" Content="Новый житель" Height="25" Margin="0,24,17,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,-7" HorizontalAlignment="Right" Width="117" Click="NewButton_Click"/>
-        <Button x:Name="ManagerButton" Content="Открыть менеджер" Height="25" Margin="0,24,173,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,-7" HorizontalAlignment="Right" Width="117" Click="ManagerButton_Click"/>
+        <Button x:Name="NewButton" Content="Новый житель" Height="25" Margin="0,24,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,-7" HorizontalAlignment="Right" Width="117"/>
+        <Button x:Name="ManagerButton" Content="Открыть менеджер" Height="25" Margin="0,24,167,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,-7" HorizontalAlignment="Right" Width="117"/>
+        <Button x:Name="SchemeButton" Content="План-схема" Height="25" Margin="10,24,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,-7" HorizontalAlignment="Left" Width="117"/>
     </Grid>
 </Window>

@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace HostelKing
 {
-    public interface IPersonInfo
+    public interface IRoomFurniture
     {
         int Id { get; set; }
         string UUID { get; set; }
-        string FirstName { get; set; }
-        string LastName { get; set; }
-        DateTime DateBirth { get; set; }
         string RoomUUID { get; set; }
-        string Sex { get; set; }
+        string FurnitureUnit { get; set; }
+        int Quantity { get; set; }
     }
 }

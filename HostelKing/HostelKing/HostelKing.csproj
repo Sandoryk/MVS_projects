@@ -64,13 +64,14 @@
     <Compile Include="DataBaseFiles\DataBaseConnector.cs" />
     <Compile Include="DataBaseFiles\DbContextExtensions.cs" />
     <Compile Include="DataBaseFiles\PersonPaymentsDBModel.cs" />
+    <Compile Include="DataBaseFiles\RoomFurnitureDBModel.cs" />
     <Compile Include="FloorScheme\FloorSchemeWin.xaml.cs">
       <DependentUpon>FloorSchemeWin.xaml</DependentUpon>
     </Compile>
     <Compile Include="HabitantsList\PersonInfoListView.xaml.cs">
       <DependentUpon>PersonInfoListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HabitantsList\PersonInfoListModel.cs" />
+    <Compile Include="HabitantsList\PersonInfoListViewModel.cs" />
     <Compile Include="HabitantDetails\PersonInfoView.xaml.cs">
       <DependentUpon>PersonInfoView.xaml</DependentUpon>
     </Compile>
@@ -79,14 +80,22 @@
     <Compile Include="Interfaces\IDataBaseModel.cs" />
     <Compile Include="Interfaces\IPersonInfo.cs" />
     <Compile Include="Interfaces\IPersonPayments.cs" />
+    <Compile Include="Interfaces\IRoom.cs" />
+    <Compile Include="Interfaces\IRoomFurniture.cs" />
+    <Compile Include="Interfaces\ISettledList.cs" />
+    <Compile Include="Interfaces\IUser.cs" />
+    <Compile Include="DataBaseFiles\RoomDBModels.cs" />
+    <Compile Include="DataBaseFiles\SettledListDBModel.cs" />
     <Compile Include="Login\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataBaseFiles\PersonInfoDBModel.cs" />
-    <Compile Include="DataBaseFiles\User.cs" />
+    <Compile Include="DataBaseFiles\UserDBModel.cs" />
     <Compile Include="RelocationManager\RelocationManagerView.xaml.cs">
       <DependentUpon>RelocationManagerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RelocationManager\SettledListModel.cs" />
+    <Compile Include="RelocationManager\SettledListViewModel.cs" />
     <Page Include="FloorScheme\FloorSchemeWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -21,62 +21,23 @@ namespace HostelKing
     /// </summary>
     public partial class PersonInfoListView : Window
     {
+        public event MouseButtonEventHandler Redirect_HabitantsGridRow_DoubleClick;
+        public event MouseButtonEventHandler Redirect_HabitantsGridRow_MouseLeftButtonDown;
+        
         public PersonInfoListView()
         {
             InitializeComponent();
         }
-
-        private void Row_DoubleClick(object sender, MouseButtonEventArgs  e)
+        private void Row_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            PropertyInfo[] propInfos;
-
-            DataGridRow row = sender as DataGridRow;
-            IPersonInfo inputPersonInfo = (row.Item as IPersonInfo);
-            PersonInfoModel outputPersonInfo = new PersonInfoModel();
-            propInfos = typeof(IPersonInfo).GetProperties();
-            foreach (var curPropt in propInfos)
-            {
-                curPropt.SetValue(outputPersonInfo, curPropt.GetValue(inputPersonInfo));
-            }
-
-            List<PersonPaymentsModel> outputPP = new List<PersonPaymentsModel>();
-            using (DataBaseConnector dbService = new DataBaseConnector())
-            {
-                List<IPersonPayments> inputPP = dbService.GetPersonPaymentsRecords(t=>t.PersonUUID == outputPersonInfo.UUID);
-                if (inputPP.Count>0)
-                {
-                    foreach (var item in inputPP)
-                    {
-                        PersonPaymentsModel newpp = new PersonPaymentsModel();
-                        propInfos = typeof(IPersonPayments).GetProperties();
-                        foreach (var curPropt in propInfos)
-                        {
-                            curPropt.SetValue(newpp, curPropt.GetValue(item));
-                        }
-                        outputPP.Add(newpp);
-                    }
-                    outputPersonInfo.Payments = new ObservableCollection<PersonPaymentsModel>(outputPP);
-                }
-            }
-            PersonInfoView hbDetailed = new PersonInfoView(outputPersonInfo);
-            //hbDetailed.Owner = this;
-            hbDetailed.Show();
+            Redirect_HabitantsGridRow_MouseLeftButtonDown(sender,e);
         }
 
-        private void NewButton_Click(object sender, RoutedEventArgs e)
+        private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            PersonInfoModel outputPersonInfo = new PersonInfoModel();
-            outputPersonInfo.UUID = Guid.NewGuid().ToString();
-            outputPersonInfo.ViewModelStatus = RecordActions.Inserted;
-            outputPersonInfo.Payments = new ObservableCollection<PersonPaymentsModel>();
-            PersonInfoView hbDetailed = new PersonInfoView(outputPersonInfo);
-            hbDetailed.Show();
+            Redirect_HabitantsGridRow_DoubleClick(sender, e);
         }
 
-        private void ManagerButton_Click(object sender, RoutedEventArgs e)
-        {
-            RelocationManagerView relocMan = new RelocationManagerView();
-            relocMan.Show();
-        }
+
     }
 }

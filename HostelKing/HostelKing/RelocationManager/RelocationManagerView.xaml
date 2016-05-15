@@ -5,8 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HostelKing"
         mc:Ignorable="d"
-        Title="Relocation Manager" Height="400" Width="400">
+        Title="Комнатный распределитель" Height="415" Width="454">
     <Grid>
-        
+        <DataGrid Name="RelocManDataGrid" AllowDrop="True" Margin="10,46,10,49" ItemsSource="{Binding ManagerList}"
+                  AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="True" CanUserResizeRows="False" CanUserSortColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False"
+              SelectionMode="Extended" SelectionUnit="CellOrRowHeader">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding FirstName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Имя" Width="3*"/>
+                <DataGridTextColumn Binding="{Binding LastName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Фамилия" Width="4*"/>
+                <DataGridTextColumn Binding="{Binding SettledDate, StringFormat=\{0:dd.MM.yyyy\}}" Header="День заселения" Width="100"/>
+                <DataGridComboBoxColumn Width="70" x:Name="RoomsCell"  Header="№ ком-ты"
+                    SelectedValueBinding="{Binding RoomNumber}" 
+                    DisplayMemberPath="RoomNumber" 
+                    SelectedValuePath="RoomNumber">
+                    <DataGridComboBoxColumn.ElementStyle>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Setter Property="ItemsSource" Value="{Binding Path=DataContext.RoomList, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                        </Style>
+                    </DataGridComboBoxColumn.ElementStyle>
+                    <DataGridComboBoxColumn.EditingElementStyle>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <Setter Property="ItemsSource" Value="{Binding Path=DataContext.RoomList, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                        </Style>
+                    </DataGridComboBoxColumn.EditingElementStyle>
+                </DataGridComboBoxColumn>
+            </DataGrid.Columns>
+
+        </DataGrid>
+        <Button x:Name="CancelButton" Content="Отменить" Height="25" Margin="0,9,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,-7" HorizontalAlignment="Right" Width="117"/>
+        <Button x:Name="SettleButton" Content="Заселить" Margin="0,0,10,10" RenderTransformOrigin="0.359,-7" HorizontalAlignment="Right" Width="117" Height="25" VerticalAlignment="Bottom" Click="SettleButton_Click"/>
+        <Button x:Name="UnSettleButton" Content="Выселить" Margin="0,0,150,10" RenderTransformOrigin="0.359,-7" HorizontalAlignment="Right" Width="117"  Height="25" VerticalAlignment="Bottom" Click="UnSettleButton_Click"/>
     </Grid>
 </Window>

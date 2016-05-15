@@ -1,8 +1,13 @@
 ﻿<Application x:Class="HostelKing.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
              StartupUri="Login/LoginView.xaml">
     <Application.Resources>
-         
+        <col:ArrayList x:Key="SexList">
+            <sys:String>Male</sys:String>
+            <sys:String>Female</sys:String>
+        </col:ArrayList>
     </Application.Resources>
 </Application>

@@ -22,6 +22,7 @@ namespace HostelKing
     /// </summary>
     public partial class FloorSchemeView : Window
     {
+        List<IRoomFurniture> FurnitureList;
         public FloorSchemeView()
         {
             StringReader stringReader;
@@ -62,6 +63,11 @@ namespace HostelKing
                     Grid.SetRow(newViewBox, 2);
                 }
             }
+            using (DataBaseConnector dbService = new DataBaseConnector())
+            {
+                FurnitureList = new List<IRoomFurniture>();
+                FurnitureList = dbService.GetAllRecords<IRoomFurniture>();
+            }
         }
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -73,7 +79,16 @@ namespace HostelKing
             if (e.Source.GetType()==typeof(Rectangle))
             {
                 popup1.IsOpen = true;
-                MessageBox.Show(((Rectangle)e.Source).Name);
+                //MessageBox.Show(((Rectangle)e.Source).Name);
+                string roomUUID = "";
+                using (DataBaseConnector dbService = new DataBaseConnector())
+                {
+                    List<IRoom> rooms = dbService.GetAllRecords<IRoom>();
+                    roomUUID = rooms[0].UUID;
+                }
+                
+                List<IRoomFurniture> curLsit = FurnitureList.Where(t=> t.RoomUUID==roomUUID).ToList();
+                PopUpGrid.ItemsSource = curLsit;
             }
         }
     }
