@@ -100,7 +100,6 @@ namespace HostelKing
         public void UpdatePersonList(PersonInfoModel person, RecordActions status)
         {
             PersonInfoModel tempPerson;
-            
             switch (status)
             {
                 case RecordActions.Inserted:

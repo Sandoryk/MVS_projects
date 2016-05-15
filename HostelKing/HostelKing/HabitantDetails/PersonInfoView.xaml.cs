@@ -142,10 +142,10 @@ namespace HostelKing
                     int result = dbService.SaveChanges();
                     if (result > 0)
                     {
-                        InitialOperations();
-                        ms.Position = 0;
                         if (ParentListView != null)
                             ParentListView.UpdatePersonList(pInfo, pInfo.ViewModelStatus);
+                        InitialOperations();
+                        ms.Position = 0;
                         oldContextKeeper.Serialize(ms, pInfo); 
                     }
                 }

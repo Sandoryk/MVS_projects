@@ -6,8 +6,8 @@
              StartupUri="Login/LoginView.xaml">
     <Application.Resources>
         <col:ArrayList x:Key="SexList">
-            <sys:String>Male</sys:String>
-            <sys:String>Female</sys:String>
+            <sys:String>Мужской</sys:String>
+            <sys:String>Женский</sys:String>
         </col:ArrayList>
     </Application.Resources>
 </Application>

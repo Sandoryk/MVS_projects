@@ -32,8 +32,6 @@ namespace HostelKing
         {
             if (e.Key == Key.Enter)
             {
-                //FloorSchemeView fsch = new FloorSchemeView();
-                //fsch.Show(); 
                 //FullFillDBWithRooms();
                 //FullFillDBWithFurniture();
                 try
@@ -92,7 +90,7 @@ namespace HostelKing
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    for (int j = 0; j < 6; j++)
+                    for (int j = 0; j < 12; j++)
                     {
                         room.UUID = Guid.NewGuid().ToString();
                         room.RoomNumber = (i + 1) + "-" + (j + 1);

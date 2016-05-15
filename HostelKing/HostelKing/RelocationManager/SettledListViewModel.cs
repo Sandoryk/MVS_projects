@@ -313,7 +313,8 @@ namespace HostelKing
         }
         public void RelocationManagerView_Closing(object sender, CancelEventArgs e)
         {
-            ms.Close();
+            if (ms != null)
+                ms.Close();
         }
     }
 }

@@ -23,6 +23,8 @@ namespace HostelKing
     public partial class FloorSchemeView : Window
     {
         List<IRoomFurniture> FurnitureList;
+        List<IRoom> RoomList;
+        List<ISettledList> SettleList;
         public FloorSchemeView()
         {
             StringReader stringReader;
@@ -31,8 +33,9 @@ namespace HostelKing
             InitializeComponent();
 
             string viewBoxXaml = XamlWriter.Save(this.FlatViewBox);
+            int flatCnt = 2;
             int columnsCount = this.FlatsGrid.ColumnDefinitions.Count;
-            for (int i = 0; i < columnsCount-1; i++)
+            for (int i = 1; i < columnsCount-1; i++)
             {
                 if (i==3)
                 {
@@ -42,9 +45,13 @@ namespace HostelKing
                 {
                     xmlReader = XmlReader.Create(stringReader);
                     Viewbox newViewBox = (Viewbox)XamlReader.Load(xmlReader);
+                    Canvas cv = GetChildOfType<Canvas>(newViewBox);
+                    if (cv != null)
+                        cv.Name = "Flat" + flatCnt;
                     this.FlatsGrid.Children.Add(newViewBox);
                     Grid.SetColumn(newViewBox, i);
                 }
+                flatCnt++;
             }
             for (int i = 0; i < columnsCount-1; i++)
             {
@@ -59,14 +66,19 @@ namespace HostelKing
                     newViewBox.RenderTransformOrigin = new Point(0.5,0.5);
                     newViewBox.RenderTransform = new RotateTransform(180);
                     this.FlatsGrid.Children.Add(newViewBox);
+                    Canvas cv = GetChildOfType<Canvas>(newViewBox);
+                    if (cv != null)
+                        cv.Name = "Flat" + flatCnt;
                     Grid.SetColumn(newViewBox, i);
                     Grid.SetRow(newViewBox, 2);
                 }
+                flatCnt++;
             }
             using (DataBaseConnector dbService = new DataBaseConnector())
             {
-                FurnitureList = new List<IRoomFurniture>();
                 FurnitureList = dbService.GetAllRecords<IRoomFurniture>();
+                RoomList = dbService.GetAllRecords<IRoom>();
+                SettleList = dbService.GetAllRecords<ISettledList>();
             }
         }
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -76,20 +88,41 @@ namespace HostelKing
 
         private void OpenPopUp(object sender, MouseButtonEventArgs e)
         {
-            if (e.Source.GetType()==typeof(Rectangle))
+            if (e.Source.GetType() == typeof(Canvas))
             {
                 popup1.IsOpen = true;
-                //MessageBox.Show(((Rectangle)e.Source).Name);
+                Canvas cv = ((Canvas)e.Source);
+                //MessageBox.Show(cv.Name);
+                string roomNumber = "";
                 string roomUUID = "";
-                using (DataBaseConnector dbService = new DataBaseConnector())
+                if (cv.Name.Contains("Flat"))
                 {
-                    List<IRoom> rooms = dbService.GetAllRecords<IRoom>();
-                    roomUUID = rooms[0].UUID;
+                    roomNumber = (FlatSlider.Value + 1) + "-" + cv.Name.Substring(4);
+                    FlatNumber.Content = roomNumber;
+                    IRoom r = RoomList.Where(t => t.RoomNumber == roomNumber).FirstOrDefault();
+                    if (r != null)
+                        roomUUID = r.UUID;
+                    else
+                        MessageBox.Show("Невозможно определить комнату");
                 }
-                
-                List<IRoomFurniture> curLsit = FurnitureList.Where(t=> t.RoomUUID==roomUUID).ToList();
-                PopUpGrid.ItemsSource = curLsit;
+
+                HabitantsAmount.Content = SettleList.Where(t => t.RoomUUID == roomUUID).Count();
+                PopUpGrid.ItemsSource = FurnitureList.Where(t=> t.RoomUUID==roomUUID).ToList();
             }
+        }
+        public static T GetChildOfType<T>(DependencyObject depObj)
+    where T : DependencyObject
+        {
+            if (depObj == null) return null;
+
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+            {
+                var child = VisualTreeHelper.GetChild(depObj, i);
+
+                var result = (child as T) ?? GetChildOfType<T>(child);
+                if (result != null) return result;
+            }
+            return null;
         }
     }
 }

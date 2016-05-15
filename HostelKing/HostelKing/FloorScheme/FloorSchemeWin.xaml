@@ -64,8 +64,8 @@
             </Canvas>
         </Viewbox>
         <Viewbox x:Name="FlatViewBox">
-            <Canvas Height="159" Width="150">
-                <Rectangle x:Name="MainRectangle" Height="159" Stroke="Black" Width="150" Canvas.Top="1" Fill="#00DCA8A8"/>
+            <Canvas Name="Flat1"  Height="159" Width="150" Background="White">
+                <Rectangle x:Name="MainRectangle" Height="159" Stroke="Black" Width="150" Canvas.Top="1"/>
                 <Rectangle Fill="Black"  HorizontalAlignment="Left" Height="3" Stroke="Black" VerticalAlignment="Top" Width="35" Canvas.Left="101" Canvas.Top="157"/>
                 <Rectangle HorizontalAlignment="Left" Height="6" Stroke="Black" VerticalAlignment="Top" Width="50" Canvas.Left="51" Canvas.Top="1"/>
                 <Rectangle Height="60" Canvas.Left="7" Stroke="Black" Canvas.Top="10" Width="30"/>
@@ -117,7 +117,7 @@
             </Canvas>
         </Viewbox>
         <Grid Grid.Column="7" Margin="0,2,1,0" Grid.RowSpan="2" HorizontalAlignment="Right" Width="76" Height="96" VerticalAlignment="Top">
-            <Slider x:Name="slider" Value="0" Minimum="0" Maximum="2" TickPlacement="TopLeft" HorizontalAlignment="Right" Margin="0,46,0,0" Width="76" RenderTransformOrigin="0.5,0.5" ValueChanged="Slider_ValueChanged" IsSelectionRangeEnabled="True" SelectionStart="0" SelectionEnd="2" Height="22" VerticalAlignment="Top">
+            <Slider x:Name="FlatSlider" Value="0" Minimum="0" Maximum="2" TickPlacement="TopLeft" HorizontalAlignment="Right" Margin="0,46,0,0" Width="76" RenderTransformOrigin="0.5,0.5" ValueChanged="Slider_ValueChanged" IsSelectionRangeEnabled="True" SelectionStart="0" SelectionEnd="2" Height="22" VerticalAlignment="Top">
                 <Slider.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -133,13 +133,17 @@
             <Label x:Name="label_Copy2" Content="Floor" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Top" Width="31" Padding="0"/>
         </Grid>
         <Popup x:Name="popup1" StaysOpen="False" Placement="Mouse" MaxWidth="200" AllowsTransparency="True">
-            <Grid Height="129" Width="200">
-                <DataGrid Name="PopUpGrid" Margin="10" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" AutoGenerateColumns="False">
+            <Grid Height="191" Width="200" Background="#FFDCCECE">
+                <DataGrid Name="PopUpGrid" Margin="10,0,10,10" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" AutoGenerateColumns="False" Height="131" VerticalAlignment="Bottom">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding FurnitureUnit}" Header="Элемент" Width="*"/>
-                        <DataGridTextColumn Binding="{Binding Quantity}" Header="Кол-во" Width="50"/>
+                        <DataGridTextColumn Binding="{Binding Quantity}" Header="Кол-во" Width="60"/>
                     </DataGrid.Columns>
                 </DataGrid>
+                <Label Content="Комната #" HorizontalAlignment="Left" Margin="46,4,0,0" VerticalAlignment="Top" Height="15" Padding="5,0,0,0" Width="80" HorizontalContentAlignment="Right"/>
+                <Label Content="" Name="FlatNumber" HorizontalAlignment="Left" Margin="131,4,0,0" VerticalAlignment="Top" Height="15" Padding="5,0,0,0" Width="59"/>
+                <Label Content="Кол-во жителей" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Top" Height="15" Padding="5,0,0,0" Width="116" HorizontalContentAlignment="Right"/>
+                <Label Content="" x:Name="HabitantsAmount" HorizontalAlignment="Left" Margin="131,24,0,0" VerticalAlignment="Top" Height="15" Padding="5,0,0,0" Width="59"/>
             </Grid>
         </Popup>
     </Grid>

@@ -20,14 +20,15 @@
                     <DataGrid x:Name="PaymentsGrid" CanUserAddRows="True" ItemsSource="{Binding Payments}" AutoGenerateColumns="False" Margin="256,41,10,10" BeginningEdit="DataGridBeginningEdit"
                               SelectionMode="Extended" SelectionUnit="CellOrRowHeader">
                         <DataGrid.Columns>
-                            <DataGridTemplateColumn Header="С даты" Width="100">
+                            <!--<DataGridTemplateColumn Header="С даты" Width="*">
                                 <DataGridTemplateColumn.CellEditingTemplate>
                                     <DataTemplate>
                                         <DatePicker SelectedDate="{Binding FromDate, Mode=TwoWay, StringFormat=\{0:dd/MM/yyyy\},UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellEditingTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTextColumn Binding="{Binding ToDate, ValidatesOnDataErrors=False,Mode=TwoWay,StringFormat=\{0:dd/MM/yyyy\}}" Header="До даты" Width="100"/>
+                            </DataGridTemplateColumn>-->
+                            <DataGridTextColumn Binding="{Binding FromDate, ValidatesOnDataErrors=False,Mode=TwoWay,StringFormat=\{0:dd/MM/yyyy\}}" Header="С даты" Width="*"/>
+                            <DataGridTextColumn Binding="{Binding ToDate, ValidatesOnDataErrors=False,Mode=TwoWay,StringFormat=\{0:dd/MM/yyyy\}}" Header="До даты" Width="*"/>
                             <DataGridTextColumn Binding="{Binding Sum, ValidatesOnDataErrors=False,Mode=TwoWay}" Header="Сумма" Width="70"/>
                         </DataGrid.Columns>
                     </DataGrid>
