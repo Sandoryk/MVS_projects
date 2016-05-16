@@ -17,6 +17,7 @@ namespace HostelKing
     {
         string firstName;
         string lastName;
+        string roomnumber;
         DateTime dateBirth;
         string sex;
         ObservableCollection<PersonPaymentsModel> payments;
@@ -31,7 +32,6 @@ namespace HostelKing
         public int Id { get; set; }
         public string UUID { get; set; }
 
-        public string RoomNumber { get; set; }
         public DateTime SettledDate { get; set; }
         public RecordActions ViewModelStatus { get; set; }
         public string FirstName 
@@ -79,6 +79,22 @@ namespace HostelKing
                         ViewModelStatus = RecordActions.Updated;
                     }
                     OnPropertyChanged("DateBirth");
+                }
+            }
+        }
+        public string RoomNumber
+        {
+            get { return roomnumber; }
+            set
+            {
+                if (roomnumber != value)
+                {
+                    roomnumber = value;
+                    if (ViewModelStatus != RecordActions.Inserted)
+                    {
+                        ViewModelStatus = RecordActions.Updated;
+                    }
+                    OnPropertyChanged("RoomNumber");
                 }
             }
         }

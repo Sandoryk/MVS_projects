@@ -215,13 +215,25 @@ namespace HostelKing
                                 row.UUID = Guid.NewGuid().ToString();
                             row.RoomUUID = newRoomUUID;
                             dbService.HandleSettledListTable(row, t => (t.UUID == row.UUID), row.ViewModelStatus);
+                            List<IPersonInfo> persons = dbService.GetPersonRecords(t=>t.UUID==row.PersonUUID);
+                            if (persons!=null)
+                            {
+                                IPersonInfo person = persons[0];
+                                person.RoomUUID = row.RoomUUID;
+                                dbService.HandlePersonInfoTable(person,t=>t.UUID==person.UUID,RecordActions.Updated);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Невозможно найти человека");
+                                return;
+                            }
                             savef = true;
                         }
                         count++;
                     }
                     if (savef)
                     {
-                        MessageBox.Show("Saved");
+                        //MessageBox.Show("Saved");
                         int result = dbService.SaveChanges();
                         if (result > 0)
                         {

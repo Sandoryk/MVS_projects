@@ -15,12 +15,13 @@
                 <DataGridTextColumn Binding="{Binding FirstName}" Header="Имя" Width="2*"/>
                 <DataGridTextColumn Binding="{Binding LastName}" Header="Фамилия" Width="4*"/>
                 <DataGridTextColumn Binding="{Binding DateBirth, StringFormat=\{0:dd.MM.yyyy\}}" Header="День рождения" Width="100"/>
-                <DataGridTextColumn Binding="{Binding RoomNumber}" Header="Номер комнаты" Width="100"/>
+                <DataGridTextColumn Binding="{Binding RoomNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Номер комнаты" Width="100"/>
                 <DataGridTextColumn Binding="{Binding Sex}" Header="Пол" Width="70"/>
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="NewButton" Content="Новый житель" Height="25" Margin="0,24,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,-7" HorizontalAlignment="Right" Width="117"/>
         <Button x:Name="ManagerButton" Content="Открыть менеджер" Height="25" Margin="0,24,167,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,-7" HorizontalAlignment="Right" Width="117"/>
         <Button x:Name="SchemeButton" Content="План-схема" Height="25" Margin="10,24,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,-7" HorizontalAlignment="Left" Width="117"/>
+        <Button x:Name="RefreshButton" Content="Обновить" Height="25" Margin="278,24,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,-7" HorizontalAlignment="Left" Width="117"/>
     </Grid>
 </Window>

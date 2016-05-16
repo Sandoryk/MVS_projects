@@ -91,6 +91,28 @@ namespace HostelKing
             Scheme.Show();
         }
 
+        public void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            using (DataBaseConnector dbService = new DataBaseConnector())
+            {
+                List<ISettledList> tempSettledList = new List<ISettledList>();
+                List<IRoom> tempRoomList = new List<IRoom>();
+                foreach (var dbPer in Habitants)
+                {
+                    tempSettledList = dbService.GetSettledListRecords(t => t.PersonUUID == dbPer.UUID).ToList();
+                    if (tempSettledList.Count > 0)
+                    {
+                        string roomUUID = tempSettledList[0].RoomUUID;
+                        tempRoomList = dbService.GetRoomRecords(t => t.UUID == roomUUID).ToList();
+                        if (tempRoomList.Count > 0)
+                        {
+                            dbPer.RoomNumber = tempRoomList[0].RoomNumber;
+                        }
+                    }
+                }
+            }
+        }
+
         public void ManagerButton_Click(object sender, RoutedEventArgs e)
         {
             RelocationManagerView relocMan = new RelocationManagerView();
