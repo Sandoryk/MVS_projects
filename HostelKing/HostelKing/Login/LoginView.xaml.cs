@@ -69,7 +69,6 @@ namespace HostelKing
                         hb.SchemeButton.Click += hbViewModel.SchemeButton_Click;
                         hb.Redirect_HabitantsGridRow_DoubleClick += hbViewModel.Row_DoubleClick;
                         hb.Redirect_HabitantsGridRow_MouseLeftButtonDown += hbViewModel.Row_MouseLeftButtonDown;
-                        hb.RefreshButton.Click += hbViewModel.RefreshButton_Click;
                         hb.DataContext = hbViewModel;
                         hb.Show();
                     }

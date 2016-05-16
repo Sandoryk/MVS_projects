@@ -26,6 +26,8 @@ namespace HostelKing
             ManagerList = new ObservableCollection<SettledListModel>();
             GetAllRooms();
         }
+
+        public event EventHandler OnSettledListViewModelChanged;
         public List<IRoom> RoomList { get; set; }
         public ObservableCollection<SettledListModel> ManagerList { get; set; }
         public void GetAllRooms()
@@ -240,6 +242,8 @@ namespace HostelKing
                             ms.Position = 0;
                             settledAllList = settledAllListForChecks;
                             oldSettleAllListKeeper.Serialize(ms, settledAllList);
+                            if (OnSettledListViewModelChanged != null)
+                                OnSettledListViewModelChanged(this, new EventArgs());
                         }
                         else
                             MessageBox.Show("Люди не заселены");
@@ -300,22 +304,24 @@ namespace HostelKing
                             }
                             row.RoomNumber = "";
                             row.SettledDate = DateTime.MinValue;
-                            row.RoomUUID = "";
-                            settledAllListForChecks.Remove(row);
+                            row.RoomUUID = ""; 
                             dbService.HandleSettledListTable(row, t => (t.UUID == row.UUID), row.ViewModelStatus);
+                            settledAllListForChecks.Remove(row);
                             savef = true;
                         }
                         count++;
                     }
                     if (savef)
                     {
-                        MessageBox.Show("Saved");
+                        //MessageBox.Show("Saved");
                         int result = dbService.SaveChanges();
                         if (result > 0)
                         {
                             ms.Position = 0;
                             settledAllList = settledAllListForChecks;
                             oldSettleAllListKeeper.Serialize(ms, settledAllList);
+                            if (OnSettledListViewModelChanged != null)
+                                OnSettledListViewModelChanged(this, new EventArgs());
                         }
                         else
                             MessageBox.Show("Люди не выселены");

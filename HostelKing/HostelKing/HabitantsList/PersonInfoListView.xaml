@@ -22,6 +22,5 @@
         <Button x:Name="NewButton" Content="Новый житель" Height="25" Margin="0,24,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,-7" HorizontalAlignment="Right" Width="117"/>
         <Button x:Name="ManagerButton" Content="Открыть менеджер" Height="25" Margin="0,24,167,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,-7" HorizontalAlignment="Right" Width="117"/>
         <Button x:Name="SchemeButton" Content="План-схема" Height="25" Margin="10,24,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,-7" HorizontalAlignment="Left" Width="117"/>
-        <Button x:Name="RefreshButton" Content="Обновить" Height="25" Margin="278,24,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.359,-7" HorizontalAlignment="Left" Width="117"/>
     </Grid>
 </Window>

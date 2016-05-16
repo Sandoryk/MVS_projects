@@ -91,7 +91,8 @@ namespace HostelKing
             Scheme.Show();
         }
 
-        public void RefreshButton_Click(object sender, RoutedEventArgs e)
+        //public void RefreshButton_Click(object sender, RoutedEventArgs e)
+        public void RefreshButton_Click()
         {
             using (DataBaseConnector dbService = new DataBaseConnector())
             {
@@ -107,6 +108,7 @@ namespace HostelKing
                         if (tempRoomList.Count > 0)
                         {
                             dbPer.RoomNumber = tempRoomList[0].RoomNumber;
+                            dbPer.SettledDate = tempSettledList[0].SettledDate;
                         }
                     }
                 }
@@ -117,6 +119,12 @@ namespace HostelKing
         {
             RelocationManagerView relocMan = new RelocationManagerView();
             relocMan.Show();
+            ((SettledListViewModel)relocMan.DataContext).OnSettledListViewModelChanged += PersonInfoListViewModel_OnSettledListViewModelChanged;
+        }
+
+        private void PersonInfoListViewModel_OnSettledListViewModelChanged(object sender, EventArgs e)
+        {
+            RefreshButton_Click();
         }
 
         public void UpdatePersonList(PersonInfoModel person, RecordActions status)
