@@ -176,7 +176,8 @@ namespace HostelKing
                 int result = dbService.SaveChanges();
                 if (result > 0)
                 {
-                    ParentListView.UpdatePersonList(pInfo, RecordActions.Deleted);
+                    if (ParentListView!=null)
+                        ParentListView.UpdatePersonList(pInfo, RecordActions.Deleted);
                     this.Close();
                 }
             }
