@@ -60,7 +60,8 @@ namespace HostelKing
             //hbDetailed.Owner = this;
             hbDetailed.Show();
         }
-        public void Row_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+
+        public Task MakeGragList(object sender)
         {
             var parent = VisualTreeHelper.GetParent((DataGridRow)sender);
             while (parent != null && parent.GetType() != typeof(DataGrid))
@@ -69,11 +70,17 @@ namespace HostelKing
             }
             var dg = parent as DataGrid;
             if (dg == null || dg.SelectedItems.Count == 0)
-                return;
+                return new Task(()=> { string mes = ""; }); ;
             dropList.Clear();
             dropList.AddRange(dg.SelectedItems.Cast<IPersonInfo>());
             var dragData = new DataObject(typeof(List<IPersonInfo>), dropList);
             DragDrop.DoDragDrop((DataGridRow)sender, dragData, DragDropEffects.Copy);
+            return new Task(() => MessageBox.Show("async"));
+        }
+
+        public async void Row_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            await MakeGragList(sender);
         }
 
         public void NewButton_Click(object sender, RoutedEventArgs e)
