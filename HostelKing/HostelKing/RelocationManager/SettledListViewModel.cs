@@ -305,7 +305,7 @@ namespace HostelKing
                             row.RoomNumber = "";
                             row.SettledDate = DateTime.MinValue;
                             row.RoomUUID = ""; 
-                            dbService.HandleSettledListTable(row, t => (t.UUID == row.UUID), row.ViewModelStatus);
+                            dbService.HandleSettledListTable(row, t => (t.UUID == row.UUID), RecordActions.Deleted);
                             settledAllListForChecks.Remove(row);
                             savef = true;
                         }

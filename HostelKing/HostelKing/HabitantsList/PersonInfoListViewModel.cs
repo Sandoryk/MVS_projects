@@ -107,6 +107,7 @@ namespace HostelKing
                 List<IRoom> tempRoomList = new List<IRoom>();
                 foreach (var dbPer in Habitants)
                 {
+                    bool foundf = false;
                     tempSettledList = dbService.GetSettledListRecords(t => t.PersonUUID == dbPer.UUID).ToList();
                     if (tempSettledList.Count > 0)
                     {
@@ -116,7 +117,13 @@ namespace HostelKing
                         {
                             dbPer.RoomNumber = tempRoomList[0].RoomNumber;
                             dbPer.SettledDate = tempSettledList[0].SettledDate;
+                            foundf = true;
                         }
+                    }
+                    if (foundf==false)
+                    {
+                        dbPer.RoomNumber = "";
+                        dbPer.SettledDate = DateTime.MinValue;
                     }
                 }
             }
