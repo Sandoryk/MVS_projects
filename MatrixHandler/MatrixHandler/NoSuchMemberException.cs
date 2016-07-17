@@ -13,6 +13,10 @@ namespace MatrixHandler
         {
             message = "Required matrix member does not exist";
         }
+        public NoSuchMemberException(string mes)
+        {
+            message = mes;
+        }
         public override string Message { get { return message; } }
     }
 }

@@ -44,6 +44,29 @@ namespace MatrixHandler
             get { return _columns; }
         }
 
+        public double this[int row,int col]
+        {
+            get
+            {
+                if (row <= _rows && col <= _columns)
+                {
+                    return matrix[row, col];
+                }
+                else
+                {
+                    throw new NoSuchMemberException("No member with indexes: " + row + ";" + col);
+                    return 0;
+                } 
+            }
+            set
+            {
+                if (row <= _rows && col <= _columns)
+                {
+                    matrix[row, col] = value;
+                }
+            }
+        }
+
         /// <summary>
         /// <br>Exceptions:</br>
         /// <br>    NoSuchMemberException</br>
@@ -57,7 +80,7 @@ namespace MatrixHandler
             }
             else
             {
-                throw new NoSuchMemberException();
+                throw new NoSuchMemberException("No member with indexes: " + rowIndex + ";" + columnIndex);
                 return 0;
             } 
         }
