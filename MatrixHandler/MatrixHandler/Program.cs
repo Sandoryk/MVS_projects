@@ -26,6 +26,9 @@ namespace MatrixHandler
             m2.SetMember(1, 2, 8);
             TwoDimentionsMatrixHolder m3 = m1 + m2;
             Console.WriteLine(m3.TwoDimentionsMatrixToString());
+            TwoDimentionsMatrixHolder t3 = new TwoDimentionsMatrixHolder(5, 5);
+            TwoDimentionsMatrixHolder t4 = new TwoDimentionsMatrixHolder(new double[10,10]);
+            t4[-7, -7] = 25;
             Console.ReadKey();
         }
     }
