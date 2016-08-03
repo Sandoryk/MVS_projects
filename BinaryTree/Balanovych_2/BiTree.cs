@@ -68,7 +68,7 @@ namespace Balanovych_2
         // поиск
         public BiTree<T> Search(T inValue)
         {
-            if (this.value.Equals(value))
+            if (this.value.Equals(inValue))
                 return this;
             else if (defComp.Compare(this.value, inValue) == 1)
             {
@@ -120,34 +120,98 @@ namespace Balanovych_2
         }
 
         //удаление
-        public void Remove(T value)
+        public bool Remove(T value)
         {
+            BiTree<T> current = null, childParent = null;
+            int result = 0;
+
             if (this.IsEmpty()) { // can't delete from an empty tree
     		    //throw new NoSuchElementException();
-                return;
+                return false;
     	    }
-            BiTree<T> t = Search(value);
-            if (t==null)
+            BiTree<T> node = Search(value);
+            if (node == null)
             {
                 throw new Exception("Нет такого элемента для удаления");
             }
+            current = node;
+            childParent = node.parent;
 
-            /*string[] str1 = Display(t).TrimEnd().Split(' ');
-            string[] str2 = new string[str1.Length - 1];
+            count--;
 
-            int i = 0;
-            foreach (string s in str1)
+            // We now need to "rethread" the tree
+            // CASE 1: If current has no right child, then current's left child becomes
+            //         the node pointed to by the parent
+            if (current.rightNode == null)
             {
-                if (s != value)
-                    str2[i++] = s;
+                if (childParent == null)
+                    current = current.leftNode;
+                else
+                {
+                    result = defComp.Compare(childParent.value, current.value);
+                    if (result > 0)
+                        // parent.Value > current.Value, so make current's left child a left child of parent
+                        childParent.leftNode = current.leftNode;
+                    else if (result < 0)
+                        // parent.Value < current.Value, so make current's left child a right child of parent
+                        childParent.rightNode = current.leftNode;
+                }
             }
+            // CASE 2: If current's right child has no left child, then current's right child
+            //         replaces current in the tree
+            else if (current.rightNode.leftNode == null)
+            {
+                current.rightNode.leftNode = current.leftNode;
 
-            t.Clear();
-            foreach (string s in str2)
-                t.Insert(s);*/
+                if (childParent == null)
+                    current = current.rightNode;
+                else
+                {
+                    result = defComp.Compare(childParent.value, current.value);
+                    if (result > 0)
+                        // parent.Value > current.Value, so make current's right child a left child of parent
+                        childParent.leftNode = current.rightNode;
+                    else if (result < 0)
+                        // parent.Value < current.Value, so make current's right child a right child of parent
+                        childParent.rightNode = current.rightNode;
+                }
+            }
+            // CASE 3: If current's right child has a left child, replace current with current's
+            //          right child's left-most descendent
+            else
+            {
+                // We first need to find the right node's left-most child
+                BiTree<T> leftmost = current.rightNode.leftNode, lmParent = current.rightNode;
+                while (leftmost.leftNode != null)
+                {
+                    lmParent = leftmost;
+                    leftmost = leftmost.leftNode;
+                }
 
+                // the parent's left subtree becomes the leftmost's right subtree
+                lmParent.leftNode = leftmost.rightNode;
+
+                // assign leftmost's left and right to current's left and right children
+                leftmost.leftNode = current.leftNode;
+                leftmost.rightNode = current.rightNode;
+
+                if (childParent == null)
+                    current = leftmost;
+                else
+                {
+                    result = defComp.Compare(childParent.value, current.value);
+                    if (result > 0)
+                        // parent.Value > current.Value, so make leftmost a left child of parent
+                        childParent.leftNode = leftmost;
+                    else if (result < 0)
+                        // parent.Value < current.Value, so make leftmost a right child of parent
+                        childParent.rightNode = leftmost;
+                }
+            }
             this.count = Recount(this);
-
+            if (ItemRemoved != null)
+                ItemRemoved(this, new TreeItemActionEventArgs<T>(TreeAction.IsDeleted));
+            return true;
         }
         public IEnumerator<T> GetEnumerator()
         { 

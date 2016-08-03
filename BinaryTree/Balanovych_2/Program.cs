@@ -26,6 +26,12 @@ namespace Balanovych_2
             {
                 Console.WriteLine(item.LastName);
             }
+            tree.Remove(st3);
+            Console.WriteLine("-----------------");
+            foreach (var item in tree)
+            {
+                Console.WriteLine(item.LastName);
+            }
             Console.ReadKey();
         }
     }
