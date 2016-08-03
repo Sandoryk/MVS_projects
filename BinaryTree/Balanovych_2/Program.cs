@@ -26,15 +26,6 @@ namespace Balanovych_2
             {
                 Console.WriteLine(item.LastName);
             }
-            /*List<StudentTest> list = new List<StudentTest>();
-            list.Add(st1);
-            list.Add(st2);
-            list.Add(st3);
-            list.Sort();
-            foreach (var item in list)
-            {
-                Console.WriteLine(item.FirstName);
-            }*/
             Console.ReadKey();
         }
     }
