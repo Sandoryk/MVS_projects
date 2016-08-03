@@ -132,7 +132,8 @@ namespace Balanovych_2
         //удаление
         public bool Remove(T value)
         {
-            BiTree<T> current = null, childParent = null;
+            BiTree<T> current = null, 
+            childParent = null;
             int result = 0;
 
             if (this.IsEmpty()) { // can't delete from an empty tree
