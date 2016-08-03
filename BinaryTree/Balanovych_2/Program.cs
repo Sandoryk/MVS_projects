@@ -10,6 +10,8 @@ namespace Balanovych_2
     {
         static void Main(string[] args)
         {
+            Program prog = new Program();
+
             StudentTest st1 = new StudentTest { FirstName = "Артем", LastName = "Зозуля", TestTitle = ".NET", TestDate = new DateTime(2016, 9, 25), TestResult = 82 };
             StudentTest st2 = new StudentTest { FirstName = "Семен", LastName = "Кириллов", TestTitle = ".NET", TestDate = new DateTime(2016, 9, 25), TestResult = 71 };
             StudentTest st3 = new StudentTest { FirstName = "Игорь", LastName = "Маликов", TestTitle = ".NET", TestDate = new DateTime(2016, 9, 25), TestResult = 78 };
@@ -17,6 +19,7 @@ namespace Balanovych_2
             StudentTest st5 = new StudentTest { FirstName = "Семен", LastName = "Доброштан", TestTitle = ".NET", TestDate = new DateTime(2016, 9, 25), TestResult = 84 };
             //BiTree<StudentTest> tree = new BiTree<StudentTest>(new StudentTestByTestTitleComparator());
             BiTree<StudentTest> tree = new BiTree<StudentTest>();
+            tree.ItemRemoved += prog.Tree_ItemRemoved;
             tree.Insert(st1);
             tree.Insert(st2);
             tree.Insert(st3);
@@ -26,15 +29,25 @@ namespace Balanovych_2
             {
                 Console.WriteLine(item.LastName);
             }
-            Console.WriteLine("Tree contains items: " + tree.GetTreeCount);
-            tree.Remove(st4);
+            Console.WriteLine("Дерево содержит элементов: " + tree.GetTreeCount);
+            Console.WriteLine("-----------------");
+            tree.Remove(st2);
             Console.WriteLine("-----------------");
             foreach (var item in tree)
             {
                 Console.WriteLine(item.LastName);
             }
-            Console.WriteLine("Tree contains items: " + tree.GetTreeCount);
+            Console.WriteLine("Дерево содержит элементов: " + tree.GetTreeCount);
             Console.ReadKey();
+
+        }
+
+        public void Tree_ItemRemoved(object sender, TreeItemActionEventArgs<StudentTest> e)
+        {
+            if (e.action == TreeAction.IsDeleted)
+            {
+                Console.WriteLine(((BiTree<StudentTest>)sender).GetValue.LastName + " был удален");
+            }
         }
     }
 }

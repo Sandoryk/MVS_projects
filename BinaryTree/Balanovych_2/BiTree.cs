@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Balanovych_2
 {
-    class BiTree<T> : IEnumerable<T> /*where T : IComparable<T>*/
+    class BiTree<T> : IEnumerable<T> where T : IComparable<T>
     {
         private T value;
         private int count;
@@ -31,6 +31,11 @@ namespace Balanovych_2
         public int GetTreeCount
         {
             get { return count; }
+        }
+
+        public T GetValue
+        {
+            get { return value; }
         }
         // вставка
         public void Insert(T inValue)
@@ -152,7 +157,7 @@ namespace Balanovych_2
                 else
                 {
                     result = defComp.Compare(childParent.value, current.value);
-                    if (result > 0)
+                    if (result >= 0)
                         // parent.Value > current.Value, so make current's left child a left child of parent
                         childParent.leftNode = current.leftNode;
                     else if (result < 0)
@@ -171,7 +176,7 @@ namespace Balanovych_2
                 else
                 {
                     result = defComp.Compare(childParent.value, current.value);
-                    if (result > 0)
+                    if (result >= 0)
                         // parent.Value > current.Value, so make current's right child a left child of parent
                         childParent.leftNode = current.rightNode;
                     else if (result < 0)
@@ -205,7 +210,7 @@ namespace Balanovych_2
                 else
                 {
                     result = defComp.Compare(childParent.value, current.value);
-                    if (result > 0)
+                    if (result >= 0)
                         // parent.Value > current.Value, so make leftmost a left child of parent
                         childParent.leftNode = leftmost;
                     else if (result < 0)
@@ -216,7 +221,7 @@ namespace Balanovych_2
 
             this.count = Recount(this);
             if (ItemRemoved != null)
-                ItemRemoved(this, new TreeItemActionEventArgs<T>(TreeAction.IsDeleted));
+                ItemRemoved(current, new TreeItemActionEventArgs<T>(TreeAction.IsDeleted));
             return true;
         }
         public IEnumerator<T> GetEnumerator()
