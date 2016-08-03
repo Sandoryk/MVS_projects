@@ -27,6 +27,11 @@ namespace Balanovych_2
         {
             defComp = comparator;
         }
+
+        public int GetTreeCount
+        {
+            get { return count; }
+        }
         // вставка
         public void Insert(T inValue)
         {
@@ -137,8 +142,6 @@ namespace Balanovych_2
             current = node;
             childParent = node.parent;
 
-            count--;
-
             // We now need to "rethread" the tree
             // CASE 1: If current has no right child, then current's left child becomes
             //         the node pointed to by the parent
@@ -181,7 +184,9 @@ namespace Balanovych_2
             else
             {
                 // We first need to find the right node's left-most child
-                BiTree<T> leftmost = current.rightNode.leftNode, lmParent = current.rightNode;
+                BiTree<T> leftmost = current.rightNode.leftNode, 
+                lmParent = current.rightNode;
+
                 while (leftmost.leftNode != null)
                 {
                     lmParent = leftmost;
@@ -208,6 +213,7 @@ namespace Balanovych_2
                         childParent.rightNode = leftmost;
                 }
             }
+
             this.count = Recount(this);
             if (ItemRemoved != null)
                 ItemRemoved(this, new TreeItemActionEventArgs<T>(TreeAction.IsDeleted));

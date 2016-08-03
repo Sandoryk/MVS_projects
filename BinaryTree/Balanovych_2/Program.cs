@@ -26,12 +26,14 @@ namespace Balanovych_2
             {
                 Console.WriteLine(item.LastName);
             }
-            tree.Remove(st3);
+            Console.WriteLine("Tree contains items: " + tree.GetTreeCount);
+            tree.Remove(st4);
             Console.WriteLine("-----------------");
             foreach (var item in tree)
             {
                 Console.WriteLine(item.LastName);
             }
+            Console.WriteLine("Tree contains items: " + tree.GetTreeCount);
             Console.ReadKey();
         }
     }
