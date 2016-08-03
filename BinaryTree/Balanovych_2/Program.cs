@@ -15,7 +15,8 @@ namespace Balanovych_2
             StudentTest st3 = new StudentTest { FirstName = "Игорь", LastName = "Маликов", TestTitle = ".NET", TestDate = new DateTime(2016, 9, 25), TestResult = 78 };
             StudentTest st4 = new StudentTest { FirstName = "Виталий", LastName = "Таськов", TestTitle = ".NET", TestDate = new DateTime(2016, 9, 25), TestResult = 74 };
             StudentTest st5 = new StudentTest { FirstName = "Семен", LastName = "Доброштан", TestTitle = ".NET", TestDate = new DateTime(2016, 9, 25), TestResult = 84 };
-            BiTree<StudentTest> tree = new BiTree<StudentTest>(new StudentTestByTestTitleComparator());
+            //BiTree<StudentTest> tree = new BiTree<StudentTest>(new StudentTestByTestTitleComparator());
+            BiTree<StudentTest> tree = new BiTree<StudentTest>();
             tree.Insert(st1);
             tree.Insert(st2);
             tree.Insert(st3);

@@ -11,6 +11,7 @@ namespace Balanovych_2
     {
         private T value;
         private int count;
+        private BiTree<T> parent;
         private BiTree<T> leftNode;
         private BiTree<T> rightNode;
         IComparer<T> defComp;
@@ -41,13 +42,21 @@ namespace Balanovych_2
                 if (defComp.Compare(this.value,inValue) >= 0) //unique ==1
                 {
                     if (leftNode == null)
+                    {
                         this.leftNode = new BiTree<T>(defComp);
-                    leftNode.Insert(value);
+                        this.leftNode.parent = this;
+                    }
+
+                    leftNode.Insert(inValue);
                 }
                 else if (defComp.Compare(this.value, inValue) == -1)
                 {
                     if (rightNode == null)
+                    {
                         this.rightNode = new BiTree<T>(defComp);
+                        this.rightNode.parent = this;
+                    }
+                        
                     rightNode.Insert(inValue);
                 }
                 //else
@@ -140,20 +149,8 @@ namespace Balanovych_2
             this.count = Recount(this);
 
         }
-        /*public T Display(BiTree<T> t)
-        {
-            if (t.leftNode != null)
-                Display(t.leftNode);
-
-            yield return t.value;
-
-            if (t.rightNode != null)
-                Display(t.rightNode);
-
-        }*/
-
         public IEnumerator<T> GetEnumerator()
-        {
+        { 
             if (this.leftNode != null)
             {
                 foreach (var child in this.leftNode)
@@ -177,7 +174,5 @@ namespace Balanovych_2
         {
             return GetEnumerator();
         }
-       
-
     }
 }
