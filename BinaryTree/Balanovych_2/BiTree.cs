@@ -137,7 +137,7 @@ namespace Balanovych_2
             {
                 return root;
             }
-            if (c < 0)
+            if (c > 0)
             {
                 return recursiveSearch(root.LeftNode, key);
             }

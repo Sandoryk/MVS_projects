@@ -39,10 +39,22 @@ namespace Balanovych_2
             }
             Console.WriteLine("Дерево содержит элементов: " + tree.GetTreeCount);
 
-            /*BiTree<int> tree = new BiTree<int>();
-            Console.WriteLine(tree.Search(2));
-            tree.Insert(2);
-            Console.WriteLine(tree.Search(2));*/
+            BiTree<int> tree2 = new BiTree<int>();
+            Console.WriteLine("Value type поиск-----------------");
+            Console.WriteLine(tree2.Search(2));
+            tree2.Insert(2);
+            Console.WriteLine("Value type поиск-----------------");
+            Console.WriteLine(tree2.Search(2).GetValue);
+            tree2.Insert(12);
+            tree2.Insert(8);
+            tree2.Insert(15);
+            tree2.Insert(4);
+            Console.WriteLine("Value type -----------------");
+            foreach (var item in tree2)
+            {
+                Console.WriteLine(item);
+            }
+
             Console.ReadKey();
 
         }
@@ -51,7 +63,7 @@ namespace Balanovych_2
         {
             if (e.action == TreeAction.IsDeleted)
             {
-                Console.WriteLine(((BiTree<StudentTest>)sender).GetValue.LastName + " был удален");
+                Console.WriteLine(((TreeNode<StudentTest>)sender).GetValue.LastName + " был удален");
             }
         }
     }
