@@ -35,6 +35,10 @@ namespace Balanovych_2
             get { return root.GetValue; }
         }
 
+        public int GeSize
+        {
+            get { return count; }
+        }
 
         public void Insert(T inData)
         {
@@ -150,21 +154,6 @@ namespace Balanovych_2
             }
             return recursiveSearch(root, key);
         }
-
-        /*public int Recount(BiTree<T> t)
-        {
-            int count = 0;
-
-            if (t.leftNode != null)
-                count += Recount(t.leftNode);
-
-            count++;
-
-            if (t.rightNode != null)
-                count += Recount(t.rightNode);
-
-            return count;
-        }*/
 
         public bool IsEmpty()
         {
