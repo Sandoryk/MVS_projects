@@ -9,11 +9,8 @@ namespace Balanovych_2
 {
     class BiTree<T> : IEnumerable<T> where T : IComparable<T>
     {
-        private T value;
         private int count;
-        private BiTree<T> parent;
-        private BiTree<T> leftNode;
-        private BiTree<T> rightNode;
+        TreeNode<T> root;
         IComparer<T> defComp;
 
         public event EventHandler<TreeItemActionEventArgs<T>> ItemAdded;
@@ -35,21 +32,70 @@ namespace Balanovych_2
 
         public T GetValue
         {
-            get { return value; }
+            get { return root.GetValue; }
         }
 
-        public void Insert(T inValue)
+
+        public void Insert(T inData)
         {
-            if (this.value == null)
+            if (root==null)
             {
-                this.value = inValue;
+                root = new TreeNode<T>(inData);
+                count++;
+                if (ItemAdded != null)
+                    ItemAdded(this, new TreeItemActionEventArgs<T>(TreeAction.IsAdded));
+            }
+            else
+            {
+                TreeNode<T> parent = root;
+                bool insertedf = false;
+                TreeNode<T> newNode = null;
+                while (!insertedf)
+                {
+                    int c = defComp.Compare(parent.GetValue, inData);
+                    if (c >= 0) //unique ==1
+                    { // insert in left subtree
+                        if (parent.LeftNode == null)
+                        { 
+                            newNode = new TreeNode<T>(inData);
+                            parent.LeftNode = newNode;
+                            insertedf = true;
+                        }
+                        else
+                        { 
+                            parent = parent.LeftNode;
+                        }
+                    }
+                    else if(c == -1)
+                    { 
+                        if (parent.RightNode == null)
+                        { 
+                            newNode = new TreeNode<T>(inData);
+                            parent.RightNode = newNode;
+                            insertedf = true;
+                        }
+                        else
+                        {
+                            parent = parent.RightNode;
+                        }
+                    }
+                    //else
+                        //throw new Exception("Node already exists");
+                }
+                newNode.Parent = parent;
+                count++;
+            }
+
+            /*if (this.value == null)
+            {
+                this.value = inData;
                 if (ItemAdded != null)
                     ItemAdded(this, new TreeItemActionEventArgs<T>(TreeAction.IsAdded));
             }
                 
             else
             {
-                if (defComp.Compare(this.value,inValue) >= 0) //unique ==1
+                if (defComp.Compare(this.value, inData) >= 0) //unique ==1
                 {
                     if (leftNode == null)
                     {
@@ -57,9 +103,9 @@ namespace Balanovych_2
                         this.leftNode.parent = this;
                     }
 
-                    leftNode.Insert(inValue);
+                    leftNode.Insert(inData);
                 }
-                else if (defComp.Compare(this.value, inValue) == -1)
+                else if (defComp.Compare(this.value, inData) == -1)
                 {
                     if (rightNode == null)
                     {
@@ -67,38 +113,45 @@ namespace Balanovych_2
                         this.rightNode.parent = this;
                     }
                         
-                    rightNode.Insert(inValue);
+                    rightNode.Insert(inData);
                 }
                 //else
                     //throw new Exception("Node already exists");
             }
 
-            this.count = Recount(this);
+            this.count = Recount(this);*/
         }
-
-        public BiTree<T> Search(T inValue)
+ 
+        protected TreeNode<T> recursiveSearch(TreeNode<T> root, T key)
         {
-            if (this.value.Equals(inValue))
-                return this;
-            else if (defComp.Compare(this.value, inValue) == 1)
+            if (root == null)
             {
-                if (leftNode != null)
-                    return this.leftNode.Search(inValue);
-                else
-                    return null;
-                    //throw new Exception("There is no requested node");
+                return null;
             }
-            else
+            int c = defComp.Compare(root.GetValue, key);
+            if (c == 0)
             {
-                if (rightNode != null)
-                    return this.rightNode.Search(inValue);
-                else
-                    return null;
-                    //throw new Exception(There is no requested node");
+                return root;
+            }
+            if (c < 0)
+            {
+                return recursiveSearch(root.LeftNode, key);
+            }
+            else {
+                return recursiveSearch(root.RightNode, key);
             }
         }
 
-        public int Recount(BiTree<T> t)
+        public TreeNode<T> Search(T key)
+        {
+            if (root==null)
+            {
+                return null;
+            }
+            return recursiveSearch(root, key);
+        }
+
+        /*public int Recount(BiTree<T> t)
         {
             int count = 0;
 
@@ -111,69 +164,68 @@ namespace Balanovych_2
                 count += Recount(t.rightNode);
 
             return count;
-        }
+        }*/
 
         public bool IsEmpty()
         {
-            if (this.value == null)
+            if (root == null)
                 return true;
             else
                 return false;
         }
 
-        public bool Remove(T value)
+        public bool Remove(T objToRemove)
         {
-            BiTree<T> current = null, 
-            childParent = null;
+            TreeNode<T> currentNode = null, childParent = null;
             int result = 0;
 
             if (this.IsEmpty()) { // can't delete from an empty tree
     		    //throw new NoSuchElementException();
                 return false;
     	    }
-            BiTree<T> node = Search(value);
+            TreeNode<T> node = Search(objToRemove);
             if (node == null)
             {
                 throw new Exception("No such node for deletion");
             }
-            current = node;
-            childParent = node.parent;
+            currentNode = node;
+            childParent = node.Parent;
 
             // We now need to "rethread" the tree
             // CASE 1: If current has no right child, then current's left child becomes
             //         the node pointed to by the parent
-            if (current.rightNode == null)
+            if (currentNode.RightNode == null)
             {
                 if (childParent == null)
-                    current = current.leftNode;
+                    currentNode = currentNode.LeftNode;
                 else
                 {
-                    result = defComp.Compare(childParent.value, current.value);
+                    result = defComp.Compare(childParent.GetValue, currentNode.GetValue);
                     if (result >= 0)
                         // parent.Value > current.Value, so make current's left child a left child of parent
-                        childParent.leftNode = current.leftNode;
+                        childParent.LeftNode = currentNode.LeftNode;
                     else if (result < 0)
                         // parent.Value < current.Value, so make current's left child a right child of parent
-                        childParent.rightNode = current.leftNode;
+                        childParent.RightNode = currentNode.LeftNode;
                 }
             }
             // CASE 2: If current's right child has no left child, then current's right child
             //         replaces current in the tree
-            else if (current.rightNode.leftNode == null)
+            else if (currentNode.RightNode.LeftNode == null)
             {
-                current.rightNode.leftNode = current.leftNode;
+                currentNode.RightNode.LeftNode = currentNode.LeftNode;
 
                 if (childParent == null)
-                    current = current.rightNode;
+                    currentNode = currentNode.RightNode;
                 else
                 {
-                    result = defComp.Compare(childParent.value, current.value);
+                    result = defComp.Compare(childParent.GetValue, currentNode.GetValue);
                     if (result >= 0)
                         // parent.Value > current.Value, so make current's right child a left child of parent
-                        childParent.leftNode = current.rightNode;
+                        childParent.LeftNode = currentNode.RightNode;
                     else if (result < 0)
                         // parent.Value < current.Value, so make current's right child a right child of parent
-                        childParent.rightNode = current.rightNode;
+                        childParent.RightNode = currentNode.RightNode;
                 }
             }
             // CASE 3: If current's right child has a left child, replace current with current's
@@ -181,56 +233,57 @@ namespace Balanovych_2
             else
             {
                 // We first need to find the right node's left-most child
-                BiTree<T> leftmost = current.rightNode.leftNode, 
-                lmParent = current.rightNode;
+                TreeNode<T> leftmost = currentNode.RightNode.LeftNode, 
+                lmParent = currentNode.RightNode;
 
-                while (leftmost.leftNode != null)
+                while (leftmost.LeftNode != null)
                 {
                     lmParent = leftmost;
-                    leftmost = leftmost.leftNode;
+                    leftmost = leftmost.LeftNode;
                 }
 
                 // the parent's left subtree becomes the leftmost's right subtree
-                lmParent.leftNode = leftmost.rightNode;
+                lmParent.LeftNode = leftmost.RightNode;
 
                 // assign leftmost's left and right to current's left and right children
-                leftmost.leftNode = current.leftNode;
-                leftmost.rightNode = current.rightNode;
+                leftmost.LeftNode = currentNode.LeftNode;
+                leftmost.RightNode = currentNode.RightNode;
 
                 if (childParent == null)
-                    current = leftmost;
+                    currentNode = leftmost;
                 else
                 {
-                    result = defComp.Compare(childParent.value, current.value);
+                    result = defComp.Compare(childParent.GetValue, currentNode.GetValue);
                     if (result >= 0)
                         // parent.Value > current.Value, so make leftmost a left child of parent
-                        childParent.leftNode = leftmost;
+                        childParent.LeftNode = leftmost;
                     else if (result < 0)
                         // parent.Value < current.Value, so make leftmost a right child of parent
-                        childParent.rightNode = leftmost;
+                        childParent.RightNode = leftmost;
                 }
             }
 
-            this.count = Recount(this);
+            count--;
             if (ItemRemoved != null)
-                ItemRemoved(current, new TreeItemActionEventArgs<T>(TreeAction.IsDeleted));
+                ItemRemoved(currentNode, new TreeItemActionEventArgs<T>(TreeAction.IsDeleted));
             return true;
         }
+
         public IEnumerator<T> GetEnumerator()
         { 
-            if (this.leftNode != null)
+            if (root.LeftNode != null)
             {
-                foreach (var child in this.leftNode)
+                foreach (var child in root.LeftNode)
                 {
                     yield return child;
                 }
             }
 
-            yield return this.value;
+            yield return root.GetValue;
 
-            if (this.rightNode != null)
+            if (root.RightNode != null)
             {
-                foreach (var child in this.rightNode)
+                foreach (var child in root.RightNode)
                 {
                     yield return child;
                 }

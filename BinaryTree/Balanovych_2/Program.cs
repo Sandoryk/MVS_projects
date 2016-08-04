@@ -38,6 +38,11 @@ namespace Balanovych_2
                 Console.WriteLine(item.LastName);
             }
             Console.WriteLine("Дерево содержит элементов: " + tree.GetTreeCount);
+
+            /*BiTree<int> tree = new BiTree<int>();
+            Console.WriteLine(tree.Search(2));
+            tree.Insert(2);
+            Console.WriteLine(tree.Search(2));*/
             Console.ReadKey();
 
         }
