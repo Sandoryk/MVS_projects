@@ -37,7 +37,7 @@ namespace Balanovych_2
         {
             get { return value; }
         }
-        // вставка
+
         public void Insert(T inValue)
         {
             if (this.value == null)
@@ -70,12 +70,12 @@ namespace Balanovych_2
                     rightNode.Insert(inValue);
                 }
                 //else
-                    //throw new Exception("Узел уже существует");
+                    //throw new Exception("Node already exists");
             }
 
             this.count = Recount(this);
         }
-        // поиск
+
         public BiTree<T> Search(T inValue)
         {
             if (this.value.Equals(inValue))
@@ -86,19 +86,18 @@ namespace Balanovych_2
                     return this.leftNode.Search(inValue);
                 else
                     return null;
-                    //throw new Exception("Искомого узла в дереве нет");
+                    //throw new Exception("There is no requested node");
             }
             else
             {
                 if (rightNode != null)
                     return this.rightNode.Search(inValue);
                 else
-                    return null;  
-                    //throw new Exception("Искомого узла в дереве нет");
+                    return null;
+                    //throw new Exception(There is no requested node");
             }
         }
 
-        // подсчет
         public int Recount(BiTree<T> t)
         {
             int count = 0;
@@ -113,14 +112,7 @@ namespace Balanovych_2
 
             return count;
         }
-        // очистка
-        public void Clear()
-        {
-            this.value = default(T);
-            this.leftNode = null;
-            this.rightNode = null;
-        }
-        // проверка пустоты
+
         public bool IsEmpty()
         {
             if (this.value == null)
@@ -129,7 +121,6 @@ namespace Balanovych_2
                 return false;
         }
 
-        //удаление
         public bool Remove(T value)
         {
             BiTree<T> current = null, 
@@ -143,7 +134,7 @@ namespace Balanovych_2
             BiTree<T> node = Search(value);
             if (node == null)
             {
-                throw new Exception("Нет такого элемента для удаления");
+                throw new Exception("No such node for deletion");
             }
             current = node;
             childParent = node.parent;

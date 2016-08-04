@@ -47,6 +47,7 @@
     <Compile Include="StudentTest.cs" />
     <Compile Include="StudentTestByTestTitleComparator.cs" />
     <Compile Include="TreeItemActionEventArgs.cs" />
+    <Compile Include="TreeNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
