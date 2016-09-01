@@ -11,7 +11,7 @@ namespace Balanovych_2
         IsDeleted,
         IsAdded
     }
-    class TreeItemActionEventArgs<T> : EventArgs
+    public class TreeItemActionEventArgs<T> : EventArgs
     {
         public readonly TreeAction action;
 

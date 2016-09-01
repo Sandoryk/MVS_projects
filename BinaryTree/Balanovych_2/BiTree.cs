@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Balanovych_2
 {
-    class BiTree<T> : IEnumerable<T> where T : IComparable<T>
+    public class BiTree<T> : IEnumerable<T>
     {
         private int count;
         TreeNode<T> root;
@@ -18,6 +18,10 @@ namespace Balanovych_2
 
         public BiTree()
         {
+            if (typeof(IComparable<T>).IsAssignableFrom(typeof(T))==false )
+            {
+                throw new NotImplementedException(typeof(T).ToString() + " does not implements IComparable<T> iterface");
+            }
             defComp = Comparer<T>.Default;
         }
         public BiTree(IComparer<T> comparator)

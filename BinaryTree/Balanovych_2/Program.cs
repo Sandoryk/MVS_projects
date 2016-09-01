@@ -12,6 +12,9 @@ namespace Balanovych_2
         {
             Program prog = new Program();
 
+            /*BiTree<int> tree3 = new BiTree<int>();
+            tree3.Insert(6);*/
+
             StudentTest st1 = new StudentTest { FirstName = "Артем", LastName = "Зозуля", TestTitle = ".NET", TestDate = new DateTime(2016, 9, 25), TestResult = 82 };
             StudentTest st2 = new StudentTest { FirstName = "Семен", LastName = "Кириллов", TestTitle = ".NET", TestDate = new DateTime(2016, 9, 25), TestResult = 71 };
             StudentTest st3 = new StudentTest { FirstName = "Игорь", LastName = "Маликов", TestTitle = ".NET", TestDate = new DateTime(2016, 9, 25), TestResult = 78 };
@@ -39,22 +42,29 @@ namespace Balanovych_2
             }
             Console.WriteLine("Дерево содержит элементов: " + tree.GetTreeCount);
 
-            BiTree<int> tree2 = new BiTree<int>();
-            Console.WriteLine("Value type поиск-----------------");
-            Console.WriteLine(tree2.Search(2));
-            tree2.Insert(2);
-            Console.WriteLine("Value type поиск-----------------");
-            Console.WriteLine(tree2.Search(2).GetValue);
-            tree2.Insert(12);
-            tree2.Insert(8);
-            tree2.Insert(15);
-            tree2.Insert(4);
-            Console.WriteLine("Value type -----------------");
-            foreach (var item in tree2)
+            try
             {
-                Console.WriteLine(item);
+                BiTree<int> tree2 = new BiTree<int>();
+                Console.WriteLine("Value type поиск-----------------");
+                Console.WriteLine(tree2.Search(2));
+                tree2.Insert(2);
+                Console.WriteLine("Value type поиск-----------------");
+                Console.WriteLine(tree2.Search(2).GetValue);
+                tree2.Insert(12);
+                tree2.Insert(8);
+                tree2.Insert(15);
+                tree2.Insert(4);
+                Console.WriteLine("Value type -----------------");
+                foreach (var item in tree2)
+                {
+                    Console.WriteLine(item);
+                }
             }
-
+            catch (NotImplementedException notImplEx)
+            {
+                Console.WriteLine(notImplEx.Message);
+            }
+  
             Console.ReadKey();
 
         }

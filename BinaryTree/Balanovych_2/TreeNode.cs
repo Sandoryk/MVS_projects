@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Balanovych_2
 {
-    class TreeNode<T> : IEnumerable<T>
+    public class TreeNode<T> : IEnumerable<T>
     {
         T data;
         TreeNode<T> parent;

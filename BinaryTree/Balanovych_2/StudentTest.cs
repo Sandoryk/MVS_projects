@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Balanovych_2
 {
-    class StudentTest : IComparable<StudentTest>
+    public class StudentTest : IComparable<StudentTest>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
