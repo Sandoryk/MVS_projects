@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLevel
 {
-    class ItemGroup
+    public class SupplierBL
     {
         public int ID { get; set; }
         public string Name { get; set; }

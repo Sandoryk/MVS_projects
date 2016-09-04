@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataLevel;
 
 namespace BusinessLevel
 {
-    public class DataHandler
+    public class ItemGroupBL
     {
-
-        public DataHandler()
-        {
-
-        }
+        public int ID { get; set; }
+        public string Name { get; set; }
     }
 }

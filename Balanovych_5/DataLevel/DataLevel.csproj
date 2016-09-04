@@ -39,8 +39,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ADO\ADOItemsGateway.cs" />
+    <Compile Include="DataSource.cs" />
     <Compile Include="ExtrudeData.cs" />
+    <Compile Include="ITableDataGateway.cs" />
+    <Compile Include="ItemGroupDL.cs" />
+    <Compile Include="ItemDL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SupplierDL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="EF\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

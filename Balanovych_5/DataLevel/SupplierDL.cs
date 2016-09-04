@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLevel
+namespace DataLevel
 {
-    class Item
+    public class SupplierDL
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public int GroupID { get; set; }
     }
 }
