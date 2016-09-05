@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -19,7 +20,7 @@ namespace DataLevel
         public List<ItemDL> FindAll()
         {
             List <ItemDL> list = new List<ItemDL>();
-            string sqlExpression = "SELECT * FROM Users";
+            string sqlExpression = "SELECT * FROM Items";
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionStr))
@@ -38,9 +39,15 @@ namespace DataLevel
                             item.ID = reader.GetInt32(0);
                             item.Code = reader.GetString(1);
                             item.Name = reader.GetString(2);
-                            item.ItemGroupID = reader.GetInt32(3);
-                            item.SupplierID = reader.GetInt32(4);
-
+                            if (!reader.IsDBNull(3))
+                            {
+                                item.ItemGroupID = reader.GetInt32(3);
+                            }
+                            if (!reader.IsDBNull(4))
+                            {
+                                item.SupplierID = reader.GetInt32(4);
+                            }
+                            
                             list.Add(item);
                         }
                     }
@@ -48,22 +55,61 @@ namespace DataLevel
                     reader.Close();
                 }
             }
-            catch
+            catch (SqlNullValueException ex)
             {
-                throw new Exception();
+                throw ex;
 
             }
             return list;
         }
 
-        public List<ItemDL> FindByCondition(Expression<Func<ItemDL, bool>> predicate)
+        public List<ItemDL> FindByCondition(Func<ItemDL, bool> predicate)
         {
-            throw new NotImplementedException();
+            List<ItemDL> allItems = FindAll();
+            List<ItemDL> items = allItems.Where(predicate).ToList();
+            return items;
         }
 
-        public ItemDL FindByID(string ID)
+        public ItemDL FindByID(int ID)
         {
-            throw new NotImplementedException();
+            ItemDL item = null;
+            string sqlExpression = "SELECT * FROM Items WHERE Items.ID = " + ID;
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionStr))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(sqlExpression, connection);
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        if (reader.Read())
+                        {
+                            item = new ItemDL();
+                            item.ID = reader.GetInt32(0);
+                            item.Code = reader.GetString(1);
+                            item.Name = reader.GetString(2);
+                            if (!reader.IsDBNull(3))
+                            {
+                                item.ItemGroupID = reader.GetInt32(3);
+                            }
+                            if (!reader.IsDBNull(4))
+                            {
+                                item.SupplierID = reader.GetInt32(4);
+                            }
+                        }
+                    }
+
+                    reader.Close();
+                }
+            }
+            catch (SqlNullValueException ex)
+            {
+                throw ex;
+
+            }
+            return item;
         }
 
         public bool Insert(ItemDL item)

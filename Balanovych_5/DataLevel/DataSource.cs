@@ -12,7 +12,7 @@ namespace DataLevel
         EF
     }
 
-    class DataSource
+    public class DataSource
     {
         string connectionStr;
         ITableDataGateway<ItemDL> items;
@@ -22,13 +22,13 @@ namespace DataLevel
         public DataSource(string con, ConnectionWay way)
         {
             connectionStr = con;
-            connectionStr = @"Data Source=SANDORYK\SQLEXPRESS;Initial Catalog=Catalog;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             switch (way)
             {
                 case ConnectionWay.ADO:
                     items = new ADOItemsGateway<ItemDL>(connectionStr);
                     break;
                 case ConnectionWay.EF:
+                    items = new EFItemsGateway<ItemDL>(connectionStr);
                     break;
             }
         }

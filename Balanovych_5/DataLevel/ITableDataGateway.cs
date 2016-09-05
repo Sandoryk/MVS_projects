@@ -10,8 +10,8 @@ namespace DataLevel
     public interface ITableDataGateway<T>
     {
         List<T> FindAll();
-        T FindByID(string ID);
-        List<T> FindByCondition(Expression<Func<T, bool>> predicate);
+        T FindByID(int ID);
+        List<T> FindByCondition(Func<T, bool> predicate);
         Boolean Insert(T obj);
         Boolean Update(T obj);
         Boolean Delete(T obj);

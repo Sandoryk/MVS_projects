@@ -17,12 +17,15 @@ namespace BusinessLevel
 
             if (inObj!=null)
             {
-                PropertyInfo[] propInfos = typeof(T1).GetProperties();
-                foreach (var curPropt in propInfos)
+                PropertyInfo[] outPropInfo = typeof(T1).GetProperties();
+                foreach (var outPropt in outPropInfo)
                 {
-                    curPropt.SetValue(outObj, curPropt.GetValue(inObj));
+                    PropertyInfo inProp = typeof(T2).GetProperty(outPropt.Name);
+                    if (inProp!=null)
+                    {
+                        inProp.SetValue(outObj, outPropt.GetValue(inObj));   
+                    }  
                 }
-                
             }
             return outObj;
         }
