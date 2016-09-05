@@ -13,6 +13,7 @@ namespace Balanovych_5
         static void Main(string[] args)
         {
             string connectionStr = @"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\Alex\Documents\GitHub\MVS_projects\Balanovych_5\Balanovych_5\Catalog.mdf;Integrated Security=True";
+            //connectionStr = @"Data Source = SANDORYK\SQLEXPRESS; Initial Catalog = Catalog; Integrated Security = True";
             DataHandler dataHandler = new DataHandler(connectionStr);
             try
             {
