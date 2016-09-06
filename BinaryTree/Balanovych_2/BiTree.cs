@@ -173,13 +173,13 @@ namespace Balanovych_2
             int result = 0;
 
             if (this.IsEmpty()) { // can't delete from an empty tree
-    		    //throw new NoSuchElementException();
-                return false;
-    	    }
+                throw new InvalidOperationException("BiTree is empty");
+                //return false;
+            }
             TreeNode<T> node = Search(objToRemove);
             if (node == null)
             {
-                throw new Exception("No such node for deletion");
+                throw new InvalidOperationException("No such node for deletion");
             }
             currentNode = node;
             childParent = node.Parent;
