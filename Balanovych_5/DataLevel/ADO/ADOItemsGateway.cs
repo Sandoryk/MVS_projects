@@ -40,11 +40,11 @@ namespace DataLevel
                             item.Name = reader.GetString(1);
                             if (!reader.IsDBNull(2))
                             {
-                                item.ItemGroupID = reader.GetInt32(2);
+                                item.ItemGroupID = reader.GetString(2);
                             }
                             if (!reader.IsDBNull(3))
                             {
-                                item.SupplierID = reader.GetInt32(3);
+                                item.SupplierID = reader.GetString(3);
                             }
                             
                             list.Add(item);
@@ -69,7 +69,7 @@ namespace DataLevel
             return items;
         }
 
-        public ItemDL FindByID(int ID)
+        public ItemDL FindByID(string ID)
         {
             ItemDL item = null;
             string sqlExpression = "SELECT * FROM Items WHERE Items.ID = " + ID;
@@ -90,11 +90,11 @@ namespace DataLevel
                             item.Name = reader.GetString(1);
                             if (!reader.IsDBNull(2))
                             {
-                                item.ItemGroupID = reader.GetInt32(2);
+                                item.ItemGroupID = reader.GetString(2);
                             }
                             if (!reader.IsDBNull(3))
                             {
-                                item.SupplierID = reader.GetInt32(3);
+                                item.SupplierID = reader.GetString(3);
                             }
                         }
                     }

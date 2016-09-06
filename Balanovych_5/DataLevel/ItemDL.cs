@@ -12,7 +12,7 @@ namespace DataLevel
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public int? ItemGroupID { get; set; }
-        public int? SupplierID { get; set; }
+        public string ItemGroupID { get; set; }
+        public string SupplierID { get; set; }
     }
 }

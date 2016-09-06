@@ -24,12 +24,12 @@ namespace DataLevel
             return list;
         }
 
-        public SupplierDL FindByID(int ID)
+        public SupplierDL FindByID(string ID)
         {
             SupplierDL supplier = null;
             using (DBContext dBcont = new DBContext(connectionStr))
             {
-                supplier = dBcont.Suppliers.Where(t => t.ID == ID).First();
+                supplier = dBcont.Suppliers.Where(t => t.ID == ID).FirstOrDefault();
             }
 
             return supplier;

@@ -10,7 +10,7 @@ namespace DataLevel
     [Table("ItemGroups")]
     public class ItemGroupDL
     {
-        public int ID { get; set; }
+        public string ID { get; set; }
         public string Name { get; set; }
     }
 }

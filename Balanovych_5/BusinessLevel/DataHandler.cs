@@ -18,6 +18,17 @@ namespace BusinessLevel
         public List<ItemBL> GetItemsByItemGroup(string itemGroup)
         {
             List<ItemBL> outItemsList = new List<ItemBL>();
+            ItemBL currentItem = null;
+            
+            List<ItemDL> dataItems = dataSource.Items.FindByCondition(t => t.ItemGroupID == itemGroup.PadRight(10));
+            foreach (var item in dataItems)
+            {
+                currentItem = CustomDataMapper.DoMapping<ItemDL, ItemBL>(item);
+                if (currentItem != null)
+                {
+                    outItemsList.Add(currentItem);
+                }
+            }
 
             return outItemsList;
         }
@@ -25,17 +36,48 @@ namespace BusinessLevel
         public List<SupplierBL> GetSuppliersByItemGroup(string itemGroup)
         {
             List<SupplierBL> suppliers = new List<SupplierBL>();
+            List<String> supIDs = new List<String>();
+            SupplierDL inSuppl = null;
+            SupplierBL outSuppl = null;
 
+            List<ItemDL> dataItems = dataSource.Items.FindByCondition(t => t.ItemGroupID == itemGroup.PadRight(10));
+            foreach (var item in dataItems)
+            {
+                if (supIDs.Contains(item.SupplierID)==false)
+                {
+                    supIDs.Add(item.SupplierID);
+                }
+            }
+
+            foreach (var supID in supIDs)
+            {
+                inSuppl = dataSource.Suppliers.FindByID(supID);
+                if (inSuppl!=null)
+                {
+                    outSuppl = CustomDataMapper.DoMapping<SupplierDL, SupplierBL>(inSuppl);
+                    suppliers.Add(outSuppl);
+                }
+            }
 
             return suppliers;
         }
 
         public List<ItemBL> GetItemsBySupplier(string supplier)
         {
-            List<ItemBL> items = new List<ItemBL>();
+            List<ItemBL> outItemsList = new List<ItemBL>();
+            ItemBL currentItem = null;
 
+            List<ItemDL> dataItems = dataSource.Items.FindByCondition(t => t.SupplierID == supplier.PadRight(10));
+            foreach (var item in dataItems)
+            {
+                currentItem = CustomDataMapper.DoMapping<ItemDL, ItemBL>(item);
+                if (currentItem != null)
+                {
+                    outItemsList.Add(currentItem);
+                }
+            }
 
-            return items;
+            return outItemsList;
         }
 
         public Dictionary<SupplierBL,int> GetSuppliersWithItemsGroupsAmount()
@@ -63,6 +105,22 @@ namespace BusinessLevel
 
             return outItemsList;
         }
+        public List<SupplierBL> GetAllSuppliers()
+        {
+            List<SupplierBL> outSuppliersList = new List<SupplierBL>();
+            SupplierBL currentSupplier = null;
 
+            List<SupplierDL> dataSuppliers = dataSource.Suppliers.FindAll();
+            foreach (var suppl in dataSuppliers)
+            {
+                currentSupplier = CustomDataMapper.DoMapping<SupplierDL, SupplierBL>(suppl);
+                if (currentSupplier != null)
+                {
+                    outSuppliersList.Add(currentSupplier);
+                }
+            }
+
+            return outSuppliersList;
+        }
     }
 }

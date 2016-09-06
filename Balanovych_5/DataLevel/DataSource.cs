@@ -47,7 +47,7 @@ namespace DataLevel
             get { return itemGroups; }
         }
 
-        public ITableDataGateway<SupplierDL> Supplirers
+        public ITableDataGateway<SupplierDL> Suppliers
         {
             get { return suppliers; }
         }

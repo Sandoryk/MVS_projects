@@ -35,7 +35,7 @@ namespace DataLevel
                         {
                             supl = new SupplierDL();
 
-                            supl.ID = reader.GetInt32(0);
+                            supl.ID = reader.GetString(0);
                             supl.Name = reader.GetString(1);
 
                             list.Add(supl);
@@ -60,7 +60,7 @@ namespace DataLevel
             return suppliers;
         }
 
-        public SupplierDL FindByID(int ID)
+        public SupplierDL FindByID(string ID)
         {
             SupplierDL supplier = null;
             string sqlExpression = "SELECT * FROM Suppliers WHERE Suppliers.ID = " + ID;
@@ -77,7 +77,7 @@ namespace DataLevel
                         if (reader.Read())
                         {
                             supplier = new SupplierDL();
-                            supplier.ID = reader.GetInt32(0);
+                            supplier.ID = reader.GetString(0);
                             supplier.Name = reader.GetString(1);
                         }
                     }

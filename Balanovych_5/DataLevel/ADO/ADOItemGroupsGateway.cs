@@ -35,7 +35,7 @@ namespace DataLevel
                         {
                             group = new ItemGroupDL();
 
-                            group.ID = reader.GetInt32(0);
+                            group.ID = reader.GetString(0);
                             group.Name = reader.GetString(1);
 
                             list.Add(group);
@@ -60,7 +60,7 @@ namespace DataLevel
             return groups;
         }
 
-        public ItemGroupDL FindByID(int ID)
+        public ItemGroupDL FindByID(string ID)
         {
             ItemGroupDL group = null;
             string sqlExpression = "SELECT * FROM ItemGroups WHERE ItemGroups.ID = " + ID;
@@ -77,7 +77,7 @@ namespace DataLevel
                         if (reader.Read())
                         {
                             group = new ItemGroupDL();
-                            group.ID = reader.GetInt32(0);
+                            group.ID = reader.GetString(0);
                             group.Name = reader.GetString(1);
                         }
                     }

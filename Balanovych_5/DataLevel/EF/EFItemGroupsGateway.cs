@@ -24,12 +24,12 @@ namespace DataLevel
             return list;
         }
 
-        public ItemGroupDL FindByID(int ID)
+        public ItemGroupDL FindByID(string ID)
         {
             ItemGroupDL group = null;
             using (DBContext dBcont = new DBContext(connectionStr))
             {
-                group = dBcont.ItemGroups.Where(t => t.ID == ID).First();
+                group = dBcont.ItemGroups.Where(t => t.ID == ID).FirstOrDefault();
             }
 
             return group;
