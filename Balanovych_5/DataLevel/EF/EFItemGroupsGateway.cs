@@ -6,57 +6,57 @@ using System.Threading.Tasks;
 
 namespace DataLevel
 {
-    public class EFItemsGateway : ITableDataGateway<ItemDL>
+    class EFItemGroupsGateway : ITableDataGateway<ItemGroupDL>
     {
         string connectionStr;
-        public EFItemsGateway(string con)
+        public EFItemGroupsGateway(string con)
         {
             connectionStr = con;
         }
-        public List<ItemDL> FindAll()
+        public List<ItemGroupDL> FindAll()
         {
-            List<ItemDL> list = null;
+            List<ItemGroupDL> list = null;
             using (DBContext dBcont = new DBContext(connectionStr))
             {
-                list = dBcont.Items.ToList<ItemDL>();
+                list = dBcont.ItemGroups.ToList<ItemGroupDL>();
             }
 
             return list;
         }
 
-        public ItemDL FindByID(int ID)
+        public ItemGroupDL FindByID(int ID)
         {
-            ItemDL item = null;
+            ItemGroupDL group = null;
             using (DBContext dBcont = new DBContext(connectionStr))
             {
-                item = dBcont.Items.Where(t => t.ID == ID).First();
+                group = dBcont.ItemGroups.Where(t => t.ID == ID).First();
             }
 
-            return item;
+            return group;
         }
 
-        public List<ItemDL> FindByCondition(Func<ItemDL, bool> predicate)
+        public List<ItemGroupDL> FindByCondition(Func<ItemGroupDL, bool> predicate)
         {
-            List<ItemDL> items = null;
+            List<ItemGroupDL> groups = null;
             using (DBContext dBcont = new DBContext(connectionStr))
             {
-                items = dBcont.Items.Where(predicate).ToList();
+                groups = dBcont.ItemGroups.Where(predicate).ToList();
             }
-            
-            return items;
+
+            return groups;
         }
 
-        public bool Insert(ItemDL obj)
+        public bool Insert(ItemGroupDL obj)
         {
             throw new NotImplementedException();
         }
 
-        public bool Update(ItemDL obj)
+        public bool Update(ItemGroupDL obj)
         {
             throw new NotImplementedException();
         }
 
-        public bool Delete(ItemDL obj)
+        public bool Delete(ItemGroupDL obj)
         {
             throw new NotImplementedException();
         }

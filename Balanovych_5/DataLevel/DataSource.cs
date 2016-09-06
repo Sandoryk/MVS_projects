@@ -17,7 +17,7 @@ namespace DataLevel
         string connectionStr;
         ITableDataGateway<ItemDL> items;
         ITableDataGateway<ItemGroupDL> itemGroups;
-        ITableDataGateway<SupplierDL> suplliers;
+        ITableDataGateway<SupplierDL> suppliers;
 
         public DataSource(string con, ConnectionWay way)
         {
@@ -25,10 +25,14 @@ namespace DataLevel
             switch (way)
             {
                 case ConnectionWay.ADO:
-                    items = new ADOItemsGateway<ItemDL>(connectionStr);
+                    items = new ADOItemsGateway(connectionStr);
+                    itemGroups = new ADOItemGroupsGateway(connectionStr);
+                    suppliers = new ADOSuppliersGateway(connectionStr);
                     break;
                 case ConnectionWay.EF:
-                    items = new EFItemsGateway<ItemDL>(connectionStr);
+                    items = new EFItemsGateway(connectionStr);
+                    itemGroups = new EFItemGroupsGateway(connectionStr);
+                    suppliers = new EFSuppliersGateway(connectionStr);
                     break;
             }
         }
@@ -45,7 +49,7 @@ namespace DataLevel
 
         public ITableDataGateway<SupplierDL> Supplirers
         {
-            get { return suplliers; }
+            get { return suppliers; }
         }
     }
 }

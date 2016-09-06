@@ -61,10 +61,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ADO\ADOSuppliersGateway.cs" />
+    <Compile Include="ADO\ADOItemGroupsGateway.cs" />
     <Compile Include="ADO\ADOItemsGateway.cs" />
     <Compile Include="DataSource.cs" />
     <Compile Include="EF\DBContext.cs" />
+    <Compile Include="EF\EFItemGroupsGateway.cs" />
     <Compile Include="EF\EFItemsGateway.cs" />
+    <Compile Include="EF\EFSuppliersGateway.cs" />
     <Compile Include="ExtrudeData.cs" />
     <Compile Include="ITableDataGateway.cs" />
     <Compile Include="ItemGroupDL.cs" />

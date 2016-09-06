@@ -20,7 +20,7 @@ namespace Balanovych_5
                 List<ItemBL> items = dataHandler.GetAllItems();
                 foreach (var item in items)
                 {
-                    Console.WriteLine(item.Code + "\t" + item.Name);
+                    Console.WriteLine(item.ID + "\t" + item.Name);
                 }
             }
             catch (SqlNullValueException ex)

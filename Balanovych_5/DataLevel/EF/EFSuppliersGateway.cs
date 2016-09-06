@@ -6,57 +6,57 @@ using System.Threading.Tasks;
 
 namespace DataLevel
 {
-    public class EFItemsGateway : ITableDataGateway<ItemDL>
+    class EFSuppliersGateway : ITableDataGateway<SupplierDL>
     {
         string connectionStr;
-        public EFItemsGateway(string con)
+        public EFSuppliersGateway(string con)
         {
             connectionStr = con;
         }
-        public List<ItemDL> FindAll()
+        public List<SupplierDL> FindAll()
         {
-            List<ItemDL> list = null;
+            List<SupplierDL> list = null;
             using (DBContext dBcont = new DBContext(connectionStr))
             {
-                list = dBcont.Items.ToList<ItemDL>();
+                list = dBcont.Suppliers.ToList<SupplierDL>();
             }
 
             return list;
         }
 
-        public ItemDL FindByID(int ID)
+        public SupplierDL FindByID(int ID)
         {
-            ItemDL item = null;
+            SupplierDL supplier = null;
             using (DBContext dBcont = new DBContext(connectionStr))
             {
-                item = dBcont.Items.Where(t => t.ID == ID).First();
+                supplier = dBcont.Suppliers.Where(t => t.ID == ID).First();
             }
 
-            return item;
+            return supplier;
         }
 
-        public List<ItemDL> FindByCondition(Func<ItemDL, bool> predicate)
+        public List<SupplierDL> FindByCondition(Func<SupplierDL, bool> predicate)
         {
-            List<ItemDL> items = null;
+            List<SupplierDL> suppliers = null;
             using (DBContext dBcont = new DBContext(connectionStr))
             {
-                items = dBcont.Items.Where(predicate).ToList();
+                suppliers = dBcont.Suppliers.Where(predicate).ToList();
             }
-            
-            return items;
+
+            return suppliers;
         }
 
-        public bool Insert(ItemDL obj)
+        public bool Insert(SupplierDL obj)
         {
             throw new NotImplementedException();
         }
 
-        public bool Update(ItemDL obj)
+        public bool Update(SupplierDL obj)
         {
             throw new NotImplementedException();
         }
 
-        public bool Delete(ItemDL obj)
+        public bool Delete(SupplierDL obj)
         {
             throw new NotImplementedException();
         }
