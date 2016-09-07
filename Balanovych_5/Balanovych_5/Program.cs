@@ -13,7 +13,7 @@ namespace Balanovych_5
         static void Main(string[] args)
         {
             string connectionStr = @"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\Alex\Documents\GitHub\MVS_projects\Balanovych_5\Balanovych_5\Catalog.mdf;Integrated Security=True";
-            //connectionStr = @"Data Source = SANDORYK\SQLEXPRESS; Initial Catalog = Catalog; Integrated Security = True";
+            connectionStr = @"Data Source=(localdb)\v11.0;AttachDbFilename='C:\Users\HANSA\Documents\Visual Studio 2015\Projects\Balanovych_5\Balanovych_5\Catalog.mdf';Integrated Security=True";
             DataHandler dataHandler = new DataHandler(connectionStr);
             try
             {
@@ -50,7 +50,7 @@ namespace Balanovych_5
 
                 Console.WriteLine("----------------------------\n");
                 Console.WriteLine("\tItems by item supplier \"UNILEVER\":\n");
-                items = dataHandler.GetItemsByItemGroup("TEA");
+                items = dataHandler.GetItemsBySupplier("UNILEVER");
                 foreach (var item in items)
                 {
                     Console.WriteLine(item.ID + "\t" + item.Name);
