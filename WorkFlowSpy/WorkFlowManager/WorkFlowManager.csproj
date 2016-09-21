@@ -7,8 +7,8 @@
     <ProjectGuid>{CEF2D4E1-D920-4AE7-9FEE-2C96E697905F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WFlowManager</RootNamespace>
-    <AssemblyName>WFlowManager</AssemblyName>
+    <RootNamespace>WorkFlowManager</RootNamespace>
+    <AssemblyName>WorkFlowManager</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,8 +39,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataMapperWFM.cs" />
+    <Compile Include="ModelsWFM\LinkWFM.cs" />
+    <Compile Include="ModelsWFM\TaskWFM.cs" />
     <Compile Include="WorkFlowService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataSourceService\DataSourceService.csproj">
+      <Project>{8e9120ec-10f0-40af-b3d5-d0ce3721b608}</Project>
+      <Name>DataSourceService</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
