@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WFlowManager.ModelsWFM
+namespace WorkFlowManager.ModelsWFM
 {
     public class TaskWFM
     {
@@ -16,5 +16,6 @@ namespace WFlowManager.ModelsWFM
         public int SortOrder { get; set; }
         public string Type { get; set; }
         public int? ParentId { get; set; }
+        public int AssignedToId { get; set; }
     }
 }

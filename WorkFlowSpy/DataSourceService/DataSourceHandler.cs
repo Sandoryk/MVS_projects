@@ -28,7 +28,7 @@ namespace DataSourceService
             }
         }
 
-        public LinkGateway Orders
+        public LinkGateway Links
         {
             get
             {

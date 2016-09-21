@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WFlowManager
+namespace WorkFlowManager
 {
     static class DataMapperWFM
     {

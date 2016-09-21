@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WFlowManager.ModelsWFM
+namespace WorkFlowManager.ModelsWFM
 {
     public class LinkWFM
     {
