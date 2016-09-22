@@ -27,5 +27,5 @@
     ];
 
     gantt.config.xml_date = "%Y-%m-%d %H:%i:%s"; // format of dates in XML
-    gantt.init(document.getElementById("ganttContainer")); // initialize gantt
+    gantt.init("ganttContainer"); // initialize gantt
 })();

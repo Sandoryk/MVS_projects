@@ -7,7 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
-    @RenderSection("gantt", required: false)
+    @RenderSection("ganttheader", required: false)
 
 </head>
 <body>
@@ -32,13 +32,14 @@
         </div>
     </div>
 
-    <!--div class="container body-content"-->
+    @RenderSection("ganttbody", required: false)
+    <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Work Flow Spy</p>
         </footer>
-    <!--/div-->
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
