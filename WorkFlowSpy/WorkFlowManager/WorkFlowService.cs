@@ -59,19 +59,22 @@ namespace WorkFlowManager
         {
             if (task != null)
             {
+                TaskDB inputTask = null;
+
                 TaskDB foundTask = dataSource.Tasks.GetByID(task.TaskId);
                 if (foundTask != null)
                 {
-                    dataSource.Tasks.Update(foundTask);
+                    inputTask = DataMapperWFM.DoMapping<TaskWFM, TaskDB>(task);
+                    dataSource.Tasks.Update(inputTask);
                 }
                 else
                 {
-                    TaskDB inputTask = DataMapperWFM.DoMapping<TaskWFM, TaskDB>(task);
+                    inputTask = DataMapperWFM.DoMapping<TaskWFM, TaskDB>(task);
                     dataSource.Tasks.Create(inputTask);
                 }
                 if (saveF)
                 {
-                    ForseSave();
+                    SaveAllChanges();
                 }
             }
         }
@@ -84,7 +87,7 @@ namespace WorkFlowManager
                 {
                     SaveTask(task,false);
                 }
-                ForseSave();
+                SaveAllChanges();
             }
         }
 
@@ -98,7 +101,7 @@ namespace WorkFlowManager
                     dataSource.Tasks.Delete(foundTask.TaskId);
                     if (removeF)
                     {
-                        ForseSave();
+                        SaveAllChanges();
                     }
                 }
             }
@@ -138,7 +141,7 @@ namespace WorkFlowManager
                 }
                 if (saveF)
                 {
-                    ForseSave();
+                    SaveAllChanges();
                 }
             }
         }
@@ -151,10 +154,10 @@ namespace WorkFlowManager
                 {
                     SaveLink(link, false);
                 }
-                ForseSave();
+                SaveAllChanges();
             }
         }
-        public void ForseSave()
+        public void SaveAllChanges()
         {
             dataSource.Save();
         }
@@ -169,7 +172,7 @@ namespace WorkFlowManager
                     dataSource.Links.Delete(foundLink.LinkId);
                     if (removeF)
                     {
-                        ForseSave();
+                        SaveAllChanges();
                     }
                 }
             }

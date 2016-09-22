@@ -40,7 +40,8 @@ namespace DataSourceService
 
         public void Update(TaskDB task)
         {
-            db.Entry(task).State = EntityState.Modified;
+            //db.Entry(task).State = EntityState.Modified;
+            db.Entry(db.Tasks.Find(task.TaskId)).CurrentValues.SetValues(task);
         }
 
         public void Delete(int Id)

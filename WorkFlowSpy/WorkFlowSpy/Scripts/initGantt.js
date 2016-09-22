@@ -28,4 +28,8 @@
 
     gantt.config.xml_date = "%Y-%m-%d %H:%i:%s"; // format of dates in XML
     gantt.init("ganttContainer"); // initialize gantt
+
+    // enable dataProcessor
+    var dp = new dataProcessor("/Home/SaveDiagramChanges");
+    dp.init(gantt);
 })();

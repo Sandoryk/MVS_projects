@@ -7,7 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
-    @RenderSection("ganttheader", required: false)
+    @RenderSection("additionalHeader", required: false)
 
 </head>
 <body>
@@ -32,7 +32,7 @@
         </div>
     </div>
 
-    @RenderSection("ganttbody", required: false)
+    @RenderSection("additionalBody", required: false)
     <div class="container body-content">
         @RenderBody()
         <hr />
