@@ -211,7 +211,7 @@ This software is covered by GPL license. You also can obtain Commercial or Enter
     border: 1px solid #bababa;
     position: relative;
     white-space: nowrap;
-    margin-top: 50px; /*Modified*/
+    margin-top: 0px; /*Modified*/
 }
 .gantt_task_scroll {
     overflow-x: scroll
