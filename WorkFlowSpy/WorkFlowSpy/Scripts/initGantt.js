@@ -30,6 +30,6 @@
     gantt.init("ganttContainer"); // initialize gantt
 
     // enable dataProcessor
-    var dp = new dataProcessor("/Home/SaveDiagramChanges");
+    var dp = new gantt.dataProcessor("/Home/SaveDiagramChanges");
     dp.init(gantt);
 })();

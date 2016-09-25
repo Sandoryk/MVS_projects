@@ -55,11 +55,11 @@ namespace WorkFlowSpy.Tools
                         TaskId = (diagramRequest.Action == DiagramAction.Updated) ? (int)diagramRequest.SourceId : 0,
                         Text = parse("text"),
                         StartDate = DateTime.Parse(parse("start_date")),
-                        Duration = Int32.Parse(parse("duration")),
-                        Progress = Decimal.Parse(parse("progress")),
+                        Duration = (String.IsNullOrEmpty(parse("duration"))) ? 0 : Int32.Parse(parse("duration")),
+                        Progress = (String.IsNullOrEmpty(parse("progress"))) ? 0 : Decimal.Parse(parse("progress")),
                         ParentId = (parse("parent") != "0") ? Int32.Parse(parse("parent")) : (int?)null,
                         SortOrder = (parse("order") != null) ? Int32.Parse(parse("order")) : 0,
-                        Type = parse("type")
+                        Type = parse("type"),
                         //AssignedToId = 
                     };
                 }

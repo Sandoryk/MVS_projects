@@ -77,6 +77,27 @@ namespace WorkFlowSpy.Controllers
                         }
                     }
                     WFserv.SaveAllChanges();
+                    foreach (var action in dataActions)
+                    {
+                        if (action.Action == DiagramAction.Inserted)
+                        {
+                            switch (action.Mode)
+                            {
+                                case DiagramMode.Tasks:
+                                    if (action.UpdatedTask.TaskId == 0)
+                                    {
+                                        action.UpdatedTask.TaskId = WFserv.GetTaskIDByGUID(action.UpdatedTask.GUID);
+                                    }
+                                    break;
+                                case DiagramMode.Links:
+                                    if (action.UpdatedLink.LinkId == 0)
+                                    {
+                                        action.UpdatedLink.LinkId = WFserv.GetLinkIDByGUID(action.UpdatedLink.GUID);
+                                    }
+                                    break;
+                            }
+                        }
+                    }
                 }
             }
             catch
@@ -99,6 +120,10 @@ namespace WorkFlowSpy.Controllers
             {
                 case DiagramAction.Inserted:
                     // add new diagram task entity
+                    if (diagramData.UpdatedTask.GUID == Guid.Empty)
+                    {
+                        diagramData.UpdatedTask.GUID = Guid.NewGuid();
+                    }
                     task = DataMapperView.DoMapping<TaskViewModel, TaskWFM>(diagramData.UpdatedTask);
                     WFserv.SaveTask(task,false);
                     break;
@@ -130,6 +155,10 @@ namespace WorkFlowSpy.Controllers
             {
                 case DiagramAction.Inserted:
                     // add new diagram link
+                    if (diagramData.UpdatedLink.GUID == Guid.Empty)
+                    {
+                        diagramData.UpdatedLink.GUID = Guid.NewGuid();
+                    }
                     link = DataMapperView.DoMapping<LinkViewModel, LinkWFM>(diagramData.UpdatedLink);
                     WFserv.SaveLink(link, false);
                     break;
@@ -162,7 +191,17 @@ namespace WorkFlowSpy.Controllers
                 var action = new XElement("action");
                 action.SetAttributeValue("type", diagramData.Action.ToString().ToLower());
                 action.SetAttributeValue("sid", diagramData.SourceId);
-                action.SetAttributeValue("tid", (diagramData.Mode == DiagramMode.Tasks) ? diagramData.UpdatedTask.TaskId : diagramData.UpdatedLink.LinkId);
+
+                if (diagramData.Action == DiagramAction.Deleted)
+                {
+                    action.SetAttributeValue("tid", diagramData.SourceId);
+                }
+                else
+                {
+                    action.SetAttributeValue("tid", (diagramData.Mode == DiagramMode.Tasks) ? diagramData.UpdatedTask.TaskId : diagramData.UpdatedLink.LinkId);
+                }
+
+                //action.SetAttributeValue("tid", (diagramData.Mode == DiagramMode.Tasks) ? diagramData.UpdatedTask.TaskId : diagramData.UpdatedLink.LinkId);
                 actions.Add(action);
             }
 

@@ -16,5 +16,6 @@ namespace DataSourceService.DBModels
         public string Type { get; set; }
         public int SourceTaskId { get; set; }
         public int TargetTaskId { get; set; }
+        public Guid GUID { get; set; }
     }
 }

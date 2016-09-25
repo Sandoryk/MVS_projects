@@ -17,5 +17,6 @@ namespace WorkFlowManager.ModelsWFM
         public string Type { get; set; }
         public int? ParentId { get; set; }
         public int AssignedToId { get; set; }
+        public Guid GUID { get; set; }
     }
 }

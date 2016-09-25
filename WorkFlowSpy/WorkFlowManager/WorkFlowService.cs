@@ -178,6 +178,32 @@ namespace WorkFlowManager
             }
         }
 
+        public int GetTaskIDByGUID(Guid guid)
+        {
+            int id = 0;
+
+            TaskDB resTask = dataSource.Tasks.GetByCondition(t => t.GUID == guid).FirstOrDefault();
+            if (resTask != null)
+            {
+                id = resTask.TaskId;
+
+            }
+            return id;
+        }
+
+        public int GetLinkIDByGUID(Guid guid)
+        {
+            int id = 0;
+
+            LinkDB resLink = dataSource.Links.GetByCondition(t => t.GUID == guid).FirstOrDefault();
+            if (resLink != null)
+            {
+                id = resLink.LinkId;
+
+            }
+            return id;
+        }
+
         public virtual void Dispose(bool disposing)
         {
             if (!this.disposed)
