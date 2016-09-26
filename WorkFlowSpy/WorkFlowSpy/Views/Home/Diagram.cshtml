@@ -20,23 +20,32 @@
 }
 
 @section additionalBody {
-<div style="height:30px; padding:5px;">
-    <div class="filters_wrapper" id="filters_wrapper">
-        <span>Display tasks with priority:</span>
-        <label>
-            <input type="checkbox" name="1" checked="">
-            High
-        </label>
-        <label>
-            <input type="checkbox" name="2">
-            Normal
-        </label>
-        <label>
-            <input type="checkbox" name="3">
-            Low
-        </label>
+    <div style="height:30px; padding:5px;">
+        <div class="filters_wrapper" id="filters_wrapper">
+            <span>Display tasks with priority:</span>
+            <label>
+                <input type="checkbox" name="1" checked="">
+                High
+            </label>
+            <label>
+                <input type="checkbox" name="2">
+                Normal
+            </label>
+            <label>
+                <input type="checkbox" name="3">
+                Low
+            </label>
+            <span style="margin-left:50px">Choose scale:</span>
+            <input type="radio" id="scale1" name="scale" value="1" checked="">
+            <label for="scale1">Day scale</label>
+            <input type="radio" id="scale2" name="scale" value="2">
+            <label for="scale2">Week scale</label>
+            <input type="radio" id="scale3" name="scale" value="3">
+            <label for="scale3">Month scale</label>
+            <input type="radio" id="scale4" name="scale" value="4">
+            <label for="scale4">Year scale</label>
+        </div>
     </div>
-</div>
     <div id="ganttContainer" style='width:100%; height:80%;'></div>
     <script src="~/Scripts/initGantt.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">

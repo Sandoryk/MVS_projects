@@ -1237,6 +1237,7 @@ div.dhx_modal_cover {
     background-color: #fff;
     white-space: nowrap;
     padding: 5px 10px;
+    text-align: left!important; /*Modified*/
     padding-top: 2px!important
 }
 .gantt_section_time .gantt_time_selects {
