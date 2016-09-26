@@ -6,7 +6,7 @@ using WorkFlowSpy.Tools;
 
 namespace WorkFlowSpy.Models
 {
-    public class WorkFlowDiagramRequestModel
+    public class DiagramRequestModel
     {
         public DiagramMode Mode { get; set; }
         public DiagramAction Action { get; set; }

@@ -38,16 +38,32 @@ namespace WorkFlowSpy.Controllers
                 dataSource.Save();
             }*/
 
-            WorkFlowDiagramAdapter WFDadapter = new WorkFlowDiagramAdapter();
-            JsonResult json = WFDadapter.MakeJson();
+            DiagramAdapter DAdapter = new DiagramAdapter();
+            JsonResult json = new JsonResult();
+
+            using (WorkFlowService wfs = new WorkFlowService("WorkFlowDbConnection"))
+            {
+                IEnumerable<TaskWFM> gottenTasks = wfs.GetAllTasks();
+                List<TaskViewModel> viewTasks = new List<TaskViewModel>();
+                List<LinkViewModel> viewLinks = new List<LinkViewModel>();
+                TaskViewModel taskView = null;
+                LinkViewModel linkView = null;
+
+                if (gottenTasks != null)
+                {
+                    foreach (var task in gottenTasks)
+                    {
+                        taskView = DataMapperView.DoMapping<TaskWFM, TaskViewModel>(task);
+                        if (taskView != null)
+                        {
+                            viewTasks.Add(taskView);
+                        }
+                    }
+                }
+
+                json = DAdapter.CreateJson(viewTasks, viewLinks);
+            }
             return View(json);
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
 
         /// <summary>
@@ -58,156 +74,22 @@ namespace WorkFlowSpy.Controllers
         [HttpPost]
         public ContentResult SaveDiagramChanges(FormCollection form)
         {
-            WorkFlowDiagramAdapter WFDadapter = new WorkFlowDiagramAdapter();
-            var dataActions = WFDadapter.ParseJson(form, Request.QueryString["gantt_mode"]);
-            try
+            DiagramAdapter DAdapter = new DiagramAdapter();
+            DAdapter.ParseJson(form, Request.QueryString["gantt_mode"]);
+            
+            using (WorkFlowService wfs = new WorkFlowService("WorkFlowDbConnection"))
             {
-                using (WorkFlowService WFserv = new WorkFlowService("WorkFlowDbConnection"))
-                {
-                    foreach (var action in dataActions)
-                    {
-                        switch (action.Mode)
-                        {
-                            case DiagramMode.Tasks:
-                                UpdateTasks(action, WFserv);
-                                break;
-                            case DiagramMode.Links:
-                                UpdateLinks(action, WFserv);
-                                break;
-                        }
-                    }
-                    WFserv.SaveAllChanges();
-                    foreach (var action in dataActions)
-                    {
-                        if (action.Action == DiagramAction.Inserted)
-                        {
-                            switch (action.Mode)
-                            {
-                                case DiagramMode.Tasks:
-                                    if (action.UpdatedTask.TaskId == 0)
-                                    {
-                                        action.UpdatedTask.TaskId = WFserv.GetTaskIDByGUID(action.UpdatedTask.GUID);
-                                    }
-                                    break;
-                                case DiagramMode.Links:
-                                    if (action.UpdatedLink.LinkId == 0)
-                                    {
-                                        action.UpdatedLink.LinkId = WFserv.GetLinkIDByGUID(action.UpdatedLink.GUID);
-                                    }
-                                    break;
-                            }
-                        }
-                    }
-                }
+                DAdapter.MakeUpdate(wfs);
             }
-            catch
-            {
-                // return error to client if something went wrong
-                dataActions.ForEach(g => { g.Action = DiagramAction.Error; });
-            }
-            return ResposeToDiagram(dataActions);
+
+            return Content(DAdapter.ResposeToDiagram().ToString(), "text/xml");
         }
 
-        /// <summary>
-        /// Update diagram tasks
-        /// </summary>
-        /// <param name="diagramData">DiagramData object</param>
-        private void UpdateTasks(WorkFlowDiagramRequestModel diagramData, WorkFlowService WFserv)
+        public ActionResult Contact()
         {
-            TaskWFM task = null;
+            ViewBag.Message = "Your contact page.";
 
-            switch (diagramData.Action)
-            {
-                case DiagramAction.Inserted:
-                    // add new diagram task entity
-                    if (diagramData.UpdatedTask.GUID == Guid.Empty)
-                    {
-                        diagramData.UpdatedTask.GUID = Guid.NewGuid();
-                    }
-                    task = DataMapperView.DoMapping<TaskViewModel, TaskWFM>(diagramData.UpdatedTask);
-                    WFserv.SaveTask(task,false);
-                    break;
-                case DiagramAction.Deleted:
-                    // remove diagram tasks
-                    task = new TaskWFM { TaskId = (int)diagramData.SourceId };
-                    WFserv.RemoveTask(task, false);
-                    break;
-                case DiagramAction.Updated:
-                    // update diagram task
-                    task = DataMapperView.DoMapping<TaskViewModel, TaskWFM>(diagramData.UpdatedTask);
-                    WFserv.SaveTask(task, false);
-                    break;
-                default:
-                    diagramData.Action = DiagramAction.Error;
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Update diagram links
-        /// </summary>
-        /// <param name="diagramData">DiagramData object</param>
-        private void UpdateLinks(WorkFlowDiagramRequestModel diagramData, WorkFlowService WFserv)
-        {
-            LinkWFM link = null;
-
-            switch (diagramData.Action)
-            {
-                case DiagramAction.Inserted:
-                    // add new diagram link
-                    if (diagramData.UpdatedLink.GUID == Guid.Empty)
-                    {
-                        diagramData.UpdatedLink.GUID = Guid.NewGuid();
-                    }
-                    link = DataMapperView.DoMapping<LinkViewModel, LinkWFM>(diagramData.UpdatedLink);
-                    WFserv.SaveLink(link, false);
-                    break;
-                case DiagramAction.Deleted:
-                    // remove diagram link
-                    link = new LinkWFM { LinkId = (int)diagramData.SourceId };
-                    WFserv.RemoveLink(link, false);
-                    break;
-                case DiagramAction.Updated:
-                    // update diagram link
-                    link = DataMapperView.DoMapping<LinkViewModel, LinkWFM>(diagramData.UpdatedLink);
-                    WFserv.SaveLink(link, false);
-                    break;
-                default:
-                    diagramData.Action = DiagramAction.Error;
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Create XML response for Diagram
-        /// </summary>
-        /// <param name="diagramData">Diagram data</param>
-        /// <returns>XML response</returns>
-        private ContentResult ResposeToDiagram(List<WorkFlowDiagramRequestModel> diagramDataCollection)
-        {
-            var actions = new List<XElement>();
-            foreach (var diagramData in diagramDataCollection)
-            {
-                var action = new XElement("action");
-                action.SetAttributeValue("type", diagramData.Action.ToString().ToLower());
-                action.SetAttributeValue("sid", diagramData.SourceId);
-
-                if (diagramData.Action == DiagramAction.Deleted)
-                {
-                    action.SetAttributeValue("tid", diagramData.SourceId);
-                }
-                else
-                {
-                    action.SetAttributeValue("tid", (diagramData.Mode == DiagramMode.Tasks) ? diagramData.UpdatedTask.TaskId : diagramData.UpdatedLink.LinkId);
-                }
-
-                //action.SetAttributeValue("tid", (diagramData.Mode == DiagramMode.Tasks) ? diagramData.UpdatedTask.TaskId : diagramData.UpdatedLink.LinkId);
-                actions.Add(action);
-            }
-
-            var data = new XDocument(new XElement("data", actions));
-            data.Declaration = new XDeclaration("1.0", "utf-8", "true");
-            return Content(data.ToString(), "text/xml");
+            return View();
         }
     }
 }

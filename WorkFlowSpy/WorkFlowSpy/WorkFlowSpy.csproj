@@ -161,7 +161,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Models\WorkFlowDiagramRequestModel.cs" />
+    <Compile Include="Models\DiagramRequestModel.cs" />
     <Compile Include="Tools\DataMapperView.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -172,7 +172,7 @@
     <Compile Include="Models\TaskViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Tools\WorkFlowDiagramAdapter.cs" />
+    <Compile Include="Gantt_Processor\DiagramAdapter.cs" />
     <Compile Include="WorkFlowDBInitializer.cs" />
   </ItemGroup>
   <ItemGroup>
