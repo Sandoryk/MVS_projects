@@ -187,7 +187,7 @@ namespace WorkFlowSpy.Tools
         /// <returns>XML response</returns>
         public XDocument ResposeToDiagram()
         {
-            var outputActions = new List<XElement>();
+            var actionNodes = new List<XElement>();
             foreach (var diagramData in actions)
             {
                 var action = new XElement("action");
@@ -204,10 +204,10 @@ namespace WorkFlowSpy.Tools
                 }
 
                 //action.SetAttributeValue("tid", (diagramData.Mode == DiagramMode.Tasks) ? diagramData.UpdatedTask.TaskId : diagramData.UpdatedLink.LinkId);
-                outputActions.Add(action);
+                actionNodes.Add(action);
             }
 
-            var data = new XDocument(new XElement("data", outputActions));
+            var data = new XDocument(new XElement("data", actionNodes));
             data.Declaration = new XDeclaration("1.0", "utf-8", "true");
             return data;
         }
