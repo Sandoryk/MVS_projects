@@ -62,17 +62,17 @@
     };
     
     gantt.config.columns = [
-		/*{
-		    name: "overdue", label: "", width: 38, template: function (obj) {
-		        if (obj.deadline) {
-		            var deadline = gantt.date.parseDate(obj.deadline, "xml_date");
-		            if (deadline && obj.end_date > deadline) {
-		                return '<div class="overdue-indicator">!</div>';
-		            }
-		        }
-		        return '<div></div>';
-		    }
-		},*/
+		//{
+		//    name: "overdue", label: "", width: 38, template: function (obj) {
+		//        if (obj.deadline) {
+		//            var deadline = gantt.date.parseDate(obj.deadline, "xml_date");
+		//            if (deadline && obj.end_date > deadline) {
+		//                return '<div class="overdue-indicator">!</div>';
+		//            }
+		//        }
+		//        return '<div></div>';
+		//    }
+		//},
 		{ name: "text", label: "Task name", width: "*", tree: true, resize: true },
 		{ name: "start_date", label: "Start date", align: "center", width: 80 },
 		{ name: "end_date", label: "End date", width: 80, align: "center" },
