@@ -15,7 +15,7 @@ namespace WorkFlowSpy.Models
         public int SortOrder { get; set; }
         public string Type { get; set; }
         public int? ParentId { get; set; }
-        public int AssignedToId { get; set; }
+        public string Holder { get; set; }
         public Guid GUID { get; set; }
     }
 }

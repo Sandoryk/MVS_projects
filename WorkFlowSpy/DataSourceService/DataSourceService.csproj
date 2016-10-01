@@ -51,8 +51,10 @@
     <Compile Include="DataSourceHandler.cs" />
     <Compile Include="DBModels\LinkDB.cs" />
     <Compile Include="DBModels\TaskDB.cs" />
-    <Compile Include="LinkGateway.cs" />
-    <Compile Include="TaskGateway.cs" />
+    <Compile Include="DBModels\EmployeeDB.cs" />
+    <Compile Include="GateWays\LinkGateway.cs" />
+    <Compile Include="GateWays\TaskGateway.cs" />
+    <Compile Include="GateWays\EmployeeGateWay.cs" />
     <Compile Include="WFlowContext.cs" />
     <Compile Include="Interfaces\ITableDataGatewayT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

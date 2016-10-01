@@ -92,7 +92,7 @@
     gantt.config.lightbox.sections = [
         { name: "description", height: 38, map_to: "text", type: "textarea", focus: true },
         { name: "type", height: 38, type: "typeselect", map_to: "type"},
-        { name: "holder", height: 38, map_to: "assignedTo", type: "textarea" },
+        { name: "holder", height: 38, map_to: "holder", type: "textarea" },
         /*{ name: "time", height: 40, map_to: "auto", type: "duration" },*/
         { name:"period", height:40, map_to:"auto", type:"time"}
     ];

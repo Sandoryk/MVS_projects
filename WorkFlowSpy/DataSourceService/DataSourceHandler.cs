@@ -11,6 +11,7 @@ namespace DataSourceService
         private WFlowContext db;
         private TaskGateway taskGateway;
         private LinkGateway linkGateway;
+        private EmployeeGateWay employeeGateway;
         private bool disposed = false;
 
         public DataSourceHandler(string connectionStr)
@@ -35,6 +36,16 @@ namespace DataSourceService
                 if (linkGateway == null)
                     linkGateway = new LinkGateway(db);
                 return linkGateway;
+            }
+        }
+
+        public EmployeeGateWay Employes
+        {
+            get
+            {
+                if (employeeGateway == null)
+                    employeeGateway = new EmployeeGateWay(db);
+                return employeeGateway;
             }
         }
         

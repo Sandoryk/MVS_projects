@@ -16,6 +16,6 @@ namespace DataSourceService
         }
         public DbSet<TaskDB> Tasks { get; set; }
         public DbSet<LinkDB> Links { get; set; }
-        //public DbSet<SupplierDL> Suppliers { get; set; }
+        public DbSet<EmployeeDB> Employees { get; set; }
     }
 }

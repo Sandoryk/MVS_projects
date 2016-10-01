@@ -69,7 +69,7 @@ namespace WorkFlowSpy.Tools
                         ParentId = (parse("parent") != "0") ? Int32.Parse(parse("parent")) : (int?)null,
                         SortOrder = (parse("order") != null) ? Int32.Parse(parse("order")) : 0,
                         Type = parse("type"),
-                        //AssignedToId = 
+                        Holder = parse("holder")
                     };
                 }
                 // parse link

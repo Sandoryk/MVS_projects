@@ -18,6 +18,18 @@ namespace WorkFlowSpy.Controllers
             return View();
         }
 
+
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
+        /// <summary>
+        /// Displays available tasks/links
+        /// </summary>
+        /// <returns>Json response</returns>
         public ActionResult Diagram()
         {
             DiagramAdapter DAdapter = new DiagramAdapter();
@@ -67,11 +79,39 @@ namespace WorkFlowSpy.Controllers
             return Content(DAdapter.ResposeToDiagram().ToString(), "text/xml");
         }
 
-        public ActionResult Contact()
+        /// <summary>
+        /// Displays tasks report 
+        /// </summary>
+        /// <returns>HTML response</returns>
+        public ActionResult TasksReport()
         {
-            ViewBag.Message = "Your contact page.";
+            List<TaskViewModel> tasks = new List<TaskViewModel>();
 
-            return View();
+            using (WorkFlowService wfs = new WorkFlowService("WorkFlowDbConnection"))
+            {
+                List<TaskWFM> gottenTasks = wfs.GetAllTasks();
+                if (gottenTasks.Count>0)
+                {
+                    TaskViewModel task = null;
+                    foreach (var gottenTask in gottenTasks)
+                    {
+                        task = DataMapperView.DoMapping<TaskWFM, TaskViewModel>(gottenTask);
+                        tasks.Add(task);
+                    }
+                }
+                ViewBag.ProjectList = wfs.GetTasksProjects();
+            }
+            if (Request.IsAjaxRequest())
+            {
+                string holder = HttpContext.Request.Form["Holder"];
+                string project = HttpContext.Request.Form["Project"];
+                List<TaskViewModel> filteredtasks = tasks.
+                    Where(t => (t.Holder == (String.IsNullOrEmpty(holder) ? t.Holder : holder) 
+                        && t.Text == (String.IsNullOrEmpty(project) ? t.Text : project)))
+                        .ToList();
+                return PartialView("TasksReportPartial", filteredtasks);
+            }
+            return View(tasks);
         }
     }
 }

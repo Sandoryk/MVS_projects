@@ -37,12 +37,29 @@ namespace WorkFlowManager
             return outTaskList;
         }
 
-        public List<TaskWFM> GetUserTasks(int userId)
+        public string[] GetTasksProjects()
+        {
+            string[] projects = new string[0];
+
+            IEnumerable<TaskDB> tasks = dataSource.Tasks.GetByCondition(t => !String.IsNullOrEmpty(t.Type) && t.Type.ToLower().Contains("project"));
+            if (tasks!=null && tasks.Count() > 0)
+	        {
+                projects = tasks.Select(t => t.Text)
+                .Distinct()
+                .OrderBy(Text => Text)
+                .ToArray();
+	        }
+
+
+            return projects;
+        }
+
+        public List<TaskWFM> GetUserTasks(string userCode)
         {
             List<TaskWFM> outTaksList = new List<TaskWFM>();
             TaskWFM curTask = null;
 
-            IEnumerable<TaskDB> dataTasks = dataSource.Tasks.GetByCondition(x => x.AssignedToId == userId);
+            IEnumerable<TaskDB> dataTasks = dataSource.Tasks.GetByCondition(x => x.Holder == userCode);
             foreach (var dataTask in dataTasks)
             {
                 curTask = DataMapperWFM.DoMapping<TaskDB, TaskWFM>(dataTask);
