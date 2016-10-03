@@ -14,13 +14,13 @@ namespace DataSourceService
         public int Id { get; set; }
         [MaxLength(20)]
         [Index("NameIndex", IsUnique = true)]
-        public string Code { get; set; }
+        public Guid GUID { get; set; }
+        public string HolderCode { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime HiredDate { get; set; }
         public string Position { get; set; }
-        public int Age { get; set; }
-        public string Sex { get; set; }
-        public Guid GUID { get; set; }
+        public bool Terminated { get; set; }
+        public string IdentityId { get; set; }
     }
 }
