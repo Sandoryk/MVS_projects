@@ -4,9 +4,6 @@
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TaskId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Text)
             </th>
             <th>
@@ -19,13 +16,7 @@
                 @Html.DisplayNameFor(model => model.Progress)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SortOrder)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ParentId)
+                @Html.DisplayName("Target project")
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Holder)
@@ -34,9 +25,6 @@
 
     @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.TaskId)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Text)
             </td>
@@ -50,13 +38,7 @@
                 @Html.DisplayFor(modelItem => item.Progress)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SortOrder)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ParentId)
+                @Html.DisplayFor(modelItem => item.ProjectName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Holder)

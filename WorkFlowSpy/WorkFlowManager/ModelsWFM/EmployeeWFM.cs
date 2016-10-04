@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataSourceService
+namespace WorkFlowManager.ModelsWFM
 {
-    public class EmployeeDB
-    {
-        public EmployeeDB()
+    public class EmployeeWFM
+    { 
+        public EmployeeWFM()
         {
             Terminated = false;
         }
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [MaxLength(20)]
-        [Index("NameIndex", IsUnique = true)]
         public Guid GUID { get; set; }
         public string HolderCode { get; set; }
         public string FirstName { get; set; }
@@ -27,4 +22,5 @@ namespace DataSourceService
         public bool Terminated { get; set; }
         public string IdentityId { get; set; }
     }
+    
 }

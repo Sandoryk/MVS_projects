@@ -20,7 +20,7 @@ namespace WorkFlowSpy.Tools
             // role creation
             var role1 = new IdentityRole { Name = "admin" };
             var role2 = new IdentityRole { Name = "manager" };
-            var role3 = new IdentityRole { Name = "worker" };
+            var role3 = new IdentityRole { Name = "taskholder" };
 
             // insert roles into database
             roleManager.Create(role1);
@@ -28,7 +28,7 @@ namespace WorkFlowSpy.Tools
             roleManager.Create(role3);
 
             // users creation
-            var admin = new ApplicationUser { UserName = "Admin", FirstName = "Alex" };
+            var admin = new ApplicationUser { UserName = "Admin", FirstName = "Alex", LastName = "Alex" };
             string password = "admin1";
             var result = userManager.Create(admin, password);
 

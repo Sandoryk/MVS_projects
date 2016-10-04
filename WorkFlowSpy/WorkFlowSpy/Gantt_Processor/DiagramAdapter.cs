@@ -234,8 +234,7 @@ namespace WorkFlowSpy.Tools
                     break;
                 case DiagramAction.Deleted:
                     // remove diagram tasks
-                    task = new TaskWFM { TaskId = (int)action.SourceId };
-                    wfs.RemoveTask(task, false);
+                    wfs.RemoveTask((int)action.SourceId, false);
                     break;
                 case DiagramAction.Updated:
                     // update diagram task
@@ -270,8 +269,7 @@ namespace WorkFlowSpy.Tools
                     break;
                 case DiagramAction.Deleted:
                     // remove diagram link
-                    link = new LinkWFM { LinkId = (int)action.SourceId };
-                    wfs.RemoveLink(link, false);
+                    wfs.RemoveLink((int)action.SourceId, false);
                     break;
                 case DiagramAction.Updated:
                     // update diagram link

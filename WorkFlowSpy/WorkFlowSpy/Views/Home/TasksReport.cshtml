@@ -15,7 +15,7 @@
 {
     <p>
         <label class="control-label">Holder: </label>
-        @Html.DropDownList("Holder", new SelectList(new string[] { "1", "2", "3", "4" }), "All",
+        @Html.DropDownList("Holder", new SelectList((string[])ViewBag.HolderList), "All",
                        htmlAttributes: new { @class = "btn btn-default dropdown-toggle", style = "width: 100px;" })
         <label class="control-label" style="margin-left:20px">Project: </label>
         @Html.DropDownList("Project", new SelectList((string[])ViewBag.ProjectList), "All",

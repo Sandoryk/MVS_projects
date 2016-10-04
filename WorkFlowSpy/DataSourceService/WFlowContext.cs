@@ -17,5 +17,15 @@ namespace DataSourceService
         public DbSet<TaskDB> Tasks { get; set; }
         public DbSet<LinkDB> Links { get; set; }
         public DbSet<EmployeeDB> Employees { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<EmployeeDB>()
+                .Property(f => f.HiredDate)
+                .HasColumnType("datetime2")
+                .HasPrecision(0);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

@@ -1,0 +1,96 @@
+﻿@model WorkFlowSpy.Models.EmployeeViewModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>EmployeeViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        @Html.HiddenFor(model => model.Id)
+        <dt>
+            @Html.DisplayNameFor(model => model.HolderCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HolderCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HiredDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HiredDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Position)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Position)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Terminated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Terminated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdentityId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdentityId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdentityFirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdentityFirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdentityLastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdentityLastName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" />
+        </div>
+    }
+</div>

@@ -54,12 +54,29 @@ namespace WorkFlowManager
             return projects;
         }
 
-        public List<TaskWFM> GetUserTasks(string userCode)
+        public string[] GetTasksHolders()
+        {
+            string[] holders = new string[0];
+
+            IEnumerable<TaskDB> tasks = dataSource.Tasks.GetByCondition(t => !String.IsNullOrEmpty(t.Holder));
+            if (tasks != null && tasks.Count() > 0)
+            {
+                holders = tasks.Select(t => t.Holder)
+                .Distinct()
+                .OrderBy(Text => Text)
+                .ToArray();
+            }
+
+
+            return holders;
+        }
+
+        public List<TaskWFM> GetEmployeeTasks(string HolderCode)
         {
             List<TaskWFM> outTaksList = new List<TaskWFM>();
             TaskWFM curTask = null;
 
-            IEnumerable<TaskDB> dataTasks = dataSource.Tasks.GetByCondition(x => x.Holder == userCode);
+            IEnumerable<TaskDB> dataTasks = dataSource.Tasks.GetByCondition(x => x.Holder == HolderCode);
             foreach (var dataTask in dataTasks)
             {
                 curTask = DataMapperWFM.DoMapping<TaskDB, TaskWFM>(dataTask);
@@ -108,18 +125,15 @@ namespace WorkFlowManager
             }
         }
 
-        public void RemoveTask(TaskWFM task, bool removeF = true)
+        public void RemoveTask(int id, bool removeF = true)
         {
-            if (task != null)
+            TaskDB foundTask = dataSource.Tasks.GetByID(id);
+            if (foundTask != null)
             {
-                TaskDB foundTask = dataSource.Tasks.GetByID(task.TaskId);
-                if (foundTask != null)
+                dataSource.Tasks.Delete(foundTask.TaskId);
+                if (removeF)
                 {
-                    dataSource.Tasks.Delete(foundTask.TaskId);
-                    if (removeF)
-                    {
-                        SaveAllChanges();
-                    }
+                    SaveAllChanges();
                 }
             }
         }
@@ -144,16 +158,19 @@ namespace WorkFlowManager
 
         public void SaveLink(LinkWFM link, bool saveF = true)
         {
+            LinkDB inputLink = null;
+
             if (link != null)
             {
                 LinkDB foundLink = dataSource.Links.GetByID(link.LinkId);
                 if (foundLink != null)
                 {
-                    dataSource.Links.Update(foundLink);
+                    inputLink = DataMapperWFM.DoMapping<LinkWFM, LinkDB>(link);
+                    dataSource.Links.Update(inputLink);
                 }
                 else
                 {
-                    LinkDB inputLink = DataMapperWFM.DoMapping<LinkWFM, LinkDB>(link);
+                    inputLink = DataMapperWFM.DoMapping<LinkWFM, LinkDB>(link);
                     dataSource.Links.Create(inputLink);
                 }
                 if (saveF)
@@ -179,18 +196,16 @@ namespace WorkFlowManager
             dataSource.Save();
         }
 
-        public void RemoveLink(LinkWFM link, bool removeF = true)
+        public void RemoveLink(int id, bool removeF = true)
         {
-            if (link != null)
+
+            LinkDB foundLink = dataSource.Links.GetByID(id);
+            if (foundLink != null)
             {
-                LinkDB foundLink = dataSource.Links.GetByID(link.LinkId);
-                if (foundLink != null)
+                dataSource.Links.Delete(foundLink.LinkId);
+                if (removeF)
                 {
-                    dataSource.Links.Delete(foundLink.LinkId);
-                    if (removeF)
-                    {
-                        SaveAllChanges();
-                    }
+                    SaveAllChanges();
                 }
             }
         }
@@ -199,10 +214,10 @@ namespace WorkFlowManager
         {
             int id = 0;
 
-            TaskDB resTask = dataSource.Tasks.GetByCondition(t => t.GUID == guid).FirstOrDefault();
-            if (resTask != null)
+            TaskDB gottenTask = dataSource.Tasks.GetByCondition(t => t.GUID == guid).FirstOrDefault();
+            if (gottenTask != null)
             {
-                id = resTask.TaskId;
+                id = gottenTask.TaskId;
 
             }
             return id;
@@ -212,13 +227,81 @@ namespace WorkFlowManager
         {
             int id = 0;
 
-            LinkDB resLink = dataSource.Links.GetByCondition(t => t.GUID == guid).FirstOrDefault();
-            if (resLink != null)
+            LinkDB gottenLink = dataSource.Links.GetByCondition(t => t.GUID == guid).FirstOrDefault();
+            if (gottenLink != null)
             {
-                id = resLink.LinkId;
+                id = gottenLink.LinkId;
 
             }
             return id;
+        }
+
+        public List<EmployeeWFM> GetAllEmployees()
+        {
+            List<EmployeeWFM> outEmployeeList = new List<EmployeeWFM>();
+            EmployeeWFM curEmployee = null;
+
+            IEnumerable<EmployeeDB> dataEmployees = dataSource.Employees.GetAll();
+            foreach (var dataTask in dataEmployees)
+            {
+                curEmployee = DataMapperWFM.DoMapping<EmployeeDB, EmployeeWFM>(dataTask);
+                if (curEmployee != null)
+                {
+                    outEmployeeList.Add(curEmployee);
+                }
+            }
+
+            return outEmployeeList;
+        }
+
+        public void SaveEmployee(EmployeeWFM employee, bool saveF = true)
+        {
+            EmployeeDB inputEmployee = null;
+
+            if (employee != null)
+            {
+                EmployeeDB foundEmployee = dataSource.Employees.GetByID(employee.Id);
+                if (foundEmployee != null)
+                {
+                    inputEmployee = DataMapperWFM.DoMapping<EmployeeWFM, EmployeeDB>(employee);
+                    dataSource.Employees.Update(inputEmployee);
+                }
+                else
+                {
+                    inputEmployee = DataMapperWFM.DoMapping<EmployeeWFM, EmployeeDB>(employee);
+                    dataSource.Employees.Create(inputEmployee);
+                }
+                if (saveF)
+                {
+                    SaveAllChanges();
+                }
+            }
+        }
+
+        public EmployeeWFM GetEmployeeByID(int id)
+        {
+            EmployeeWFM empoyee = null;
+
+            EmployeeDB gottenEmployee = dataSource.Employees.GetByID(id);
+            if (gottenEmployee!=null)
+            {
+                empoyee = DataMapperWFM.DoMapping<EmployeeDB,EmployeeWFM>(gottenEmployee);
+            }
+
+            return empoyee;
+        }
+
+        public void RemoveEmployee(int id, bool removeF = true)
+        {
+            EmployeeDB foundEmployee = dataSource.Employees.GetByID(id);
+            if (foundEmployee != null)
+            {
+                dataSource.Employees.Delete(foundEmployee.Id);
+                if (removeF)
+                {
+                    SaveAllChanges();
+                }
+            }
         }
 
         public virtual void Dispose(bool disposing)

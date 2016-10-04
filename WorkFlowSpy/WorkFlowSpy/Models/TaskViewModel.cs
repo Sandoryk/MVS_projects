@@ -17,5 +17,6 @@ namespace WorkFlowSpy.Models
         public int? ParentId { get; set; }
         public string Holder { get; set; }
         public Guid GUID { get; set; }
+        public string ProjectName { get; set; }
     }
 }

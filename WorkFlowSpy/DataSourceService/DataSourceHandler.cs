@@ -39,7 +39,7 @@ namespace DataSourceService
             }
         }
 
-        public EmployeeGateWay Employes
+        public EmployeeGateWay Employees
         {
             get
             {

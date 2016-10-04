@@ -82,7 +82,7 @@ namespace WorkFlowSpy.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await UserManager.AddToRoleAsync(user.Id, "worker"); //append role to user
+                    await UserManager.AddToRoleAsync(user.Id, "taskholder"); //append role to user
                     await SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }

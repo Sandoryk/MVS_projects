@@ -94,22 +94,18 @@ namespace WorkFlowSpy.Controllers
                 List<TaskWFM> gottenTasks = wfs.GetAllTasks();
                 if (gottenTasks.Count>0)
                 {
-                    TaskViewModel task = null;
-                    foreach (var gottenTask in gottenTasks)
-                    {
-                        task = DataMapperView.DoMapping<TaskWFM, TaskViewModel>(gottenTask);
-                        tasks.Add(task);
-                    }
+                    tasks = new ViewModelConverter().CreateTaskRange(gottenTasks);
                 }
                 ViewBag.ProjectList = wfs.GetTasksProjects();
+                ViewBag.HolderList = wfs.GetTasksHolders();
             }
             if (Request.IsAjaxRequest())
             {
                 string holder = HttpContext.Request.Form["Holder"];
                 string project = HttpContext.Request.Form["Project"];
                 List<TaskViewModel> filteredtasks = tasks.
-                    Where(t => (t.Holder == (String.IsNullOrEmpty(holder) ? t.Holder : holder) 
-                        && t.Text == (String.IsNullOrEmpty(project) ? t.Text : project)))
+                    Where(t => (t.Holder == (String.IsNullOrEmpty(holder) ? t.Holder : holder)
+                        && t.ProjectName == (String.IsNullOrEmpty(project) ? t.ProjectName : project)))
                         .ToList();
                 return PartialView("TasksReportPartial", filteredtasks);
             }
