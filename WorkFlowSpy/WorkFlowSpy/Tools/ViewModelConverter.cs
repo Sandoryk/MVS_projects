@@ -11,6 +11,44 @@ namespace WorkFlowSpy.Tools
 {
     public class ViewModelConverter
     {
+        public List<TaskViewModel> CreateTaskRange(IEnumerable<TaskWFM> gottenTasks)
+        {
+            List<TaskViewModel> viewTasks = new List<TaskViewModel>();
+            TaskViewModel taskView = null;
+
+            if (gottenTasks != null)
+            {
+                foreach (var task in gottenTasks)
+                {
+                    taskView = DataMapperView.DoMapping<TaskWFM, TaskViewModel>(task);
+                    if (taskView != null)
+                    {
+                        viewTasks.Add(taskView);
+                    }
+                }
+            }
+
+            return viewTasks;
+        }
+        public List<LinkViewModel> CreateLinkRange(IEnumerable<LinkWFM> gottenLinks)
+        {
+            List<LinkViewModel> viewLinks = new List<LinkViewModel>();
+            LinkViewModel linkView = null;
+
+            if (gottenLinks != null)
+            {
+                foreach (var link in gottenLinks)
+                {
+                    linkView = DataMapperView.DoMapping<LinkWFM, LinkViewModel>(link);
+                    if (linkView != null)
+                    {
+                        viewLinks.Add(linkView);
+                    }
+                }
+            }
+
+            return viewLinks;
+        }
         public List<EmployeeViewModel> CreateEmployeeRange(IEnumerable<EmployeeWFM> inputList)
         {
             List<EmployeeViewModel> viewEmployees = new List<EmployeeViewModel>();
@@ -66,7 +104,7 @@ namespace WorkFlowSpy.Tools
             return employeeView;
         }
 
-        public Dictionary<string, string> GetUserInfo()
+        public Dictionary<string, string> GetUsersInfo()
         {
             Dictionary<string, string> dict = new Dictionary<string, string>();
 
@@ -82,7 +120,7 @@ namespace WorkFlowSpy.Tools
             return dict;
         }
 
-        public List<TaskViewModel> CreateTaskRange(IEnumerable<TaskWFM> inputTasks)
+        public List<TaskViewModel> CreateTaskTypedRange(IEnumerable<TaskWFM> inputTasks)
         {
             List<TaskViewModel> viewTasks = new List<TaskViewModel>();
             TaskViewModel taskView = null;

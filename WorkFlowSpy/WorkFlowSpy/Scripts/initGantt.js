@@ -111,7 +111,7 @@
         return /*"<span style='text-align:left;'>" +*/ Math.round(task.progress * 100) + "% </span>";
     };
     gantt.templates.task_text = function (start, end, task) {
-        return /*"<span style='text-align:center;'>" +*/ '#' + task.text + "</span>";
+        return /*"<span style='text-align:center;'>" +*/ task.text + "</span>";
     };
 
     gantt.config.order_branch = true;

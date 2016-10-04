@@ -71,7 +71,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.IdentityId, new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.IdentityId, new SelectList(Model.IdentityInfo, "Key", "Value"), "None")
+                    @Html.DropDownListFor(model => model.IdentityId, new SelectList(Model.IdentityInfo, "Key", "Value"), "None", htmlAttributes: new { @class = "btn btn-default dropdown-toggle", style = "width: 300px;" })
                     @Html.ValidationMessageFor(model => model.IdentityId)
                 </div>
                 

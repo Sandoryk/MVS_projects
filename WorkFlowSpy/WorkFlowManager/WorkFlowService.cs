@@ -39,7 +39,7 @@ namespace WorkFlowManager
 
         public string[] GetTasksProjects()
         {
-            string[] projects = new string[0];
+            string[] projects = null;
 
             IEnumerable<TaskDB> tasks = dataSource.Tasks.GetByCondition(t => !String.IsNullOrEmpty(t.Type) && t.Type.ToLower().Contains("project"));
             if (tasks!=null && tasks.Count() > 0)
@@ -56,7 +56,7 @@ namespace WorkFlowManager
 
         public string[] GetTasksHolders()
         {
-            string[] holders = new string[0];
+            string[] holders = null;
 
             IEnumerable<TaskDB> tasks = dataSource.Tasks.GetByCondition(t => !String.IsNullOrEmpty(t.Holder));
             if (tasks != null && tasks.Count() > 0)
@@ -76,7 +76,7 @@ namespace WorkFlowManager
             List<TaskWFM> outTaksList = new List<TaskWFM>();
             TaskWFM curTask = null;
 
-            IEnumerable<TaskDB> dataTasks = dataSource.Tasks.GetByCondition(x => x.Holder == HolderCode);
+            IEnumerable<TaskDB> dataTasks = dataSource.Tasks.GetByCondition(x => !String.IsNullOrEmpty(x.Holder) && x.Holder == HolderCode);
             foreach (var dataTask in dataTasks)
             {
                 curTask = DataMapperWFM.DoMapping<TaskDB, TaskWFM>(dataTask);
@@ -290,6 +290,20 @@ namespace WorkFlowManager
 
             return empoyee;
         }
+
+        public EmployeeWFM GetEmployeeByIdentityID(string id)
+        {
+            EmployeeWFM empoyee = null;
+
+            EmployeeDB gottenEmployee = dataSource.Employees.GetByCondition(t=>t.IdentityId == id).FirstOrDefault();
+            if (gottenEmployee != null)
+            {
+                empoyee = DataMapperWFM.DoMapping<EmployeeDB, EmployeeWFM>(gottenEmployee);
+            }
+
+            return empoyee;
+        }
+
 
         public void RemoveEmployee(int id, bool removeF = true)
         {

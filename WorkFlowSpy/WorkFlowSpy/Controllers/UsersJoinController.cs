@@ -16,6 +16,7 @@ using WorkFlowSpy.Tools;
 
 namespace WorkFlowSpy.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class UsersJoinController : Controller
     {
         private WorkFlowService wfs = new WorkFlowService("WorkFlowDbConnection");
@@ -39,7 +40,7 @@ namespace WorkFlowSpy.Controllers
         public ActionResult Create()
         {
             EmployeeViewModel employeeView = new EmployeeViewModel();
-            employeeView.IdentityInfo = new ViewModelConverter().GetUserInfo();
+            employeeView.IdentityInfo = new ViewModelConverter().GetUsersInfo();
             return View(employeeView);
         }
 
@@ -76,7 +77,7 @@ namespace WorkFlowSpy.Controllers
             {
                 return HttpNotFound();
             }
-            employeeView.IdentityInfo = new ViewModelConverter().GetUserInfo();
+            employeeView.IdentityInfo = new ViewModelConverter().GetUsersInfo();
             return View(employeeView);
         }
 

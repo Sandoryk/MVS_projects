@@ -18,10 +18,13 @@ namespace WorkFlowSpy.Models
         public int Id { get; set; }
         public Guid GUID { get; set; }
         [Display(Name = "Holder")]
+        [Required]
         public string HolderCode { get; set; }
         [Display(Name = "First name")]
+        [Required]
         public string FirstName { get; set; }
         [Display(Name = "Last name")]
+        [Required]
         public string LastName { get; set; }
         [Display(Name = "Hire date")]
         public DateTime? HiredDate { get; set; }

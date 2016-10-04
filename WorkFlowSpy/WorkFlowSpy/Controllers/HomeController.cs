@@ -8,6 +8,8 @@ using WorkFlowManager;
 using WorkFlowManager.ModelsWFM;
 using WorkFlowSpy.Tools;
 using System.Xml.Linq;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace WorkFlowSpy.Controllers
 {
@@ -36,28 +38,43 @@ namespace WorkFlowSpy.Controllers
         {
             DiagramAdapter DAdapter = new DiagramAdapter();
             JsonResult json = new JsonResult();
+            IList<string> roles = new List<string>();
+            EmployeeViewModel employee = null;
+            IEnumerable<TaskWFM> gottenTasks = null;
 
             using (WorkFlowService wfs = new WorkFlowService("WorkFlowDbConnection"))
             {
-                IEnumerable<TaskWFM> gottenTasks = wfs.GetAllTasks();
-                List<TaskViewModel> viewTasks = new List<TaskViewModel>();
-                List<LinkViewModel> viewLinks = new List<LinkViewModel>();
-                TaskViewModel taskView = null;
-                LinkViewModel linkView = null;
-
-                if (gottenTasks != null)
+                using (UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
                 {
-                    foreach (var task in gottenTasks)
+                    ApplicationUser user = userManager.FindByName(User.Identity.Name);
+                    if (user != null)
                     {
-                        taskView = DataMapperView.DoMapping<TaskWFM, TaskViewModel>(task);
-                        if (taskView != null)
-                        {
-                            viewTasks.Add(taskView);
-                        }
-                    }
+                        roles = userManager.GetRoles(user.Id);
+                        EmployeeWFM employeeWMF = wfs.GetEmployeeByIdentityID(user.Id);
+                        employee = DataMapperView.DoMapping<EmployeeWFM, EmployeeViewModel>(employeeWMF);
+                    }                    
                 }
+                if (roles.Contains("admin") || roles.Contains("manager") || employee != null)
+                {
+                    if (roles.Contains("admin") || roles.Contains("manager"))
+                    {
+                        gottenTasks = wfs.GetAllTasks();
+                    }
+                    else
+                    {
+                        gottenTasks = wfs.GetEmployeeTasks(employee.HolderCode);
+                    }
+                    List<TaskViewModel> viewTasks = new ViewModelConverter().CreateTaskRange(gottenTasks);
 
-                json = DAdapter.CreateJson(viewTasks, viewLinks);
+                    IEnumerable<LinkWFM> gottenLinks = wfs.GetAllLinks();
+                    List<LinkViewModel> viewLinks = new ViewModelConverter().CreateLinkRange(gottenLinks);
+
+                    json = DAdapter.CreateJson(viewTasks, viewLinks);
+                }
+                else
+                {
+                    return View(json);
+                }
             }
             return View(json);
         }
@@ -87,14 +104,37 @@ namespace WorkFlowSpy.Controllers
         /// <returns>HTML response</returns>
         public ActionResult TasksReport()
         {
+            IList<string> roles = new List<string>();
+            EmployeeViewModel employee = null;
+            List<TaskWFM> gottenTasks = null;
             List<TaskViewModel> tasks = new List<TaskViewModel>();
 
             using (WorkFlowService wfs = new WorkFlowService("WorkFlowDbConnection"))
             {
-                List<TaskWFM> gottenTasks = wfs.GetAllTasks();
-                if (gottenTasks.Count>0)
+                using (UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
                 {
-                    tasks = new ViewModelConverter().CreateTaskRange(gottenTasks);
+                    ApplicationUser user = userManager.FindByName(User.Identity.Name);
+                    if (user != null)
+                    {
+                        roles = userManager.GetRoles(user.Id);
+                        EmployeeWFM employeeWMF = wfs.GetEmployeeByIdentityID(user.Id);
+                        employee = DataMapperView.DoMapping<EmployeeWFM, EmployeeViewModel>(employeeWMF);
+                    }
+                }
+                if (roles.Contains("admin") || roles.Contains("manager") || employee != null)
+                {
+                    if (roles.Contains("admin") || roles.Contains("manager"))
+                    {
+                        gottenTasks = wfs.GetAllTasks();
+                    }
+                    else
+                    {
+                        gottenTasks = wfs.GetEmployeeTasks(employee.HolderCode);
+                    }
+                }
+                if (gottenTasks!=null && gottenTasks.Count > 0)
+                {
+                    tasks = new ViewModelConverter().CreateTaskTypedRange(gottenTasks);
                 }
                 ViewBag.ProjectList = wfs.GetTasksProjects();
                 ViewBag.HolderList = wfs.GetTasksHolders();
