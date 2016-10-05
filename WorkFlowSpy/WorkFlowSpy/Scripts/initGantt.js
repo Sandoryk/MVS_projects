@@ -89,10 +89,16 @@
         title: date_to_str(new Date()) // the marker's tooltip
     });
 
+    var employees = [
+    { key: 'Employee1', label: 'Employee1' },
+    { key: 'Employee2', label: 'Employee2' },
+    { key: 'Employee3', label: 'Employee3' }
+    ];
+
     gantt.config.lightbox.sections = [
         { name: "description", height: 38, map_to: "text", type: "textarea", focus: true },
         { name: "type", height: 38, type: "typeselect", map_to: "type"},
-        { name: "holder", height: 38, map_to: "holder", type: "textarea" },
+        { name: "holder", height: 38, map_to: "holder", type: "select", options: employees },
         /*{ name: "time", height: 40, map_to: "auto", type: "duration" },*/
         { name:"period", height:40, map_to:"auto", type:"time"}
     ];
@@ -106,6 +112,22 @@
     //    today.title = date_to_str(today.start_date);
     //    gantt.updateMarker(markerId);
     //}, 1000 * 60);
+
+    gantt.attachEvent("onLightboxSave", function (id, item) {
+        if (!item.text) {
+            dhtmlx.message({ type: "error", text: "Enter task description!" });
+            return false;
+        }
+        if (!item.type) {
+            dhtmlx.message({ type: "error", text: "Choose type!" });
+            return false;
+        }
+        if (!item.holder) {
+            dhtmlx.message({ type: "error", text: "Choose a holder for this task!" });
+            return false;
+        }
+        return true;
+    });
 
     gantt.templates.progress_text = function (start, end, task) { //text in progress bar
         return /*"<span style='text-align:left;'>" +*/ Math.round(task.progress * 100) + "% </span>";

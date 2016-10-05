@@ -108,7 +108,8 @@ namespace WorkFlowSpy.Tools
                         progress = t.Progress,
                         open = true,
                         parent = t.ParentId,
-                        type = (t.Type != null) ? t.Type : String.Empty
+                        type = (t.Type != null) ? t.Type : String.Empty,
+                        holder = (t.Holder != null) ? t.Holder : String.Empty
                     }
                 ).ToArray(),
                 // create links array
