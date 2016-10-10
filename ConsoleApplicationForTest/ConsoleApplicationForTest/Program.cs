@@ -35,12 +35,44 @@ namespace ConsoleApplicationForTest
         }
     }
 
+    public class BaseClass
+    {
+        int x;
+        public int X
+        {
+            get { return x; }
+            set { x = value; }
+        }
+        public string Display()
+        {
+            return X.ToString();
+        }
+    }
+
+    public class DerivedClass : BaseClass
+    {
+        int x;
+        public DerivedClass()
+        {
+            x = 5;
+        }
+        public int X
+        {
+            get { return x; }
+            set { x = value; }
+        }
+        public string Display()
+        {
+            return X.ToString();
+        }
+    }
+
     class Program
     {
         static void Main(string[] args)
         {
-            Car c = new Car3();
-            c.Display();
+            DerivedClass d = new DerivedClass();
+            Console.WriteLine(d.Display());
             Console.ReadKey();
         }
     }
