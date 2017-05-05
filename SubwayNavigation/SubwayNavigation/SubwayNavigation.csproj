@@ -55,6 +55,8 @@
     </ApplicationDefinition>
     <Compile Include="BranchLine.cs" />
     <Compile Include="Command.cs" />
+    <Compile Include="IAnimationOperator.cs" />
+    <Compile Include="RouteBuilder.cs" />
     <Compile Include="SubwayStation.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -70,7 +72,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="RouteNavigation.cs" />
+    <Compile Include="SubwayMapNavigation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

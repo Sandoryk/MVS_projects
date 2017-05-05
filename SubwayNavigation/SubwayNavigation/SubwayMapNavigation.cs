@@ -11,20 +11,61 @@ using System.Windows.Shapes;
 
 namespace SubwayNavigation
 {
-    class RouteNavigation
+    class SubwayMapNavigation
     {
         Button[] activeStationButtons = new Button[2];
-        public RouteNavigation()
+        public SubwayMapNavigation()
         {
             ClickCommand = new Command(ClickMethod);
         }
         public ICommand ClickCommand { get; set; }
+        public IAnimationOperator RouteBuilder { get; set; }
         public List<SubwayStation> StationList { get; set; }
         private void DrawRoute()
         {
-            if (activeStationButtons[0] != null && activeStationButtons[1] != null)
+            Int32 firstStNum, secondStNum;
+            
+            if (RouteBuilder != null)
             {
-                Polyline route = new Polyline();
+                RouteBuilder.StopAnimation();
+                if (activeStationButtons[0] != null && activeStationButtons[1] != null)
+                {
+                    SubwayStation startStation = StationList.Find(t => t.Name == activeStationButtons[0].Name);
+                    SubwayStation endStation = StationList.Find(t => t.Name == activeStationButtons[1].Name);
+                    if (startStation != null && endStation != null)
+                    {
+                        firstStNum = startStation.Number;
+                        secondStNum = endStation.Number;
+                        if (startStation.BrachLine == endStation.BrachLine)
+                        {
+                            if (startStation.Number > endStation.Number)
+	                        {
+		                        Int32 temp = firstStNum;
+                                firstStNum = secondStNum;
+                                secondStNum = temp;
+	                        }
+                            List<SubwayStation> stationsOnRoute = StationList.FindAll(t => t.Number >= firstStNum && t.Number <= secondStNum);
+                            if (stationsOnRoute != null)
+                            {
+                                if (startStation.Number > endStation.Number)
+	                            {
+                                    stationsOnRoute.Reverse();
+	                            }
+                                Point[] points = new Point[stationsOnRoute.Count];
+                                Int32 nextIndex = 0;
+                                foreach (var station in stationsOnRoute)
+                                {
+                                    points[nextIndex++] = new Point(station.X, station.Y);
+                                }
+                                RouteBuilder.BeginAnimation(points);
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                }
             }
         }
         private void ClickMethod(object sender)

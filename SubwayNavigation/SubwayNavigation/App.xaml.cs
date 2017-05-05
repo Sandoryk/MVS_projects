@@ -9,7 +9,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Xml;
 
@@ -30,7 +29,7 @@ namespace SubwayNavigation
             Dictionary<string, PointCollection> polylineRoute;
 
             var mainWin = new MainWindow();
-            var routeNav = new RouteNavigation();
+            var routeNav = new SubwayMapNavigation();
             var redBranch = new BranchLine {Name="RedBranch",Color = "Red" };
             var blueBranch = new BranchLine { Name = "BlueBranch", Color = "Blue" };
             var greenBranch = new BranchLine { Name = "GreenBranch", Color = "Green" };
@@ -54,8 +53,8 @@ namespace SubwayNavigation
                 new SubwayStation{Name = "Politekhnichnyi_instytut", Number=7, BrachLine = redBranch, X = xOffset+=4, Y = yOffset+=3},
                 new SubwayStation{Name = "Vokzalna", Number=8, BrachLine = redBranch, X = xOffset+=7, Y = yOffset+=1},
                 new SubwayStation{Name = "Universytet", Number=9, BrachLine = redBranch, X = xOffset+=7, Y = yOffset},
-                new SubwayStation{Name = "Teatralna", Number=10, BrachLine = redBranch, X = xOffset+=7, Y = yOffset},
-                new SubwayStation{Name = "Khreshchatyk", Number=11, BrachLine = redBranch, X = xOffset+=7, Y = yOffset},
+                new SubwayStation{Name = "Teatralna", Number=10, BrachLine = redBranch, SwitchToStationNumber = 40, SwitchToStationBrachLine = greenBranch, X = xOffset+=7, Y = yOffset},
+                new SubwayStation{Name = "Khreshchatyk", Number=11, BrachLine = redBranch, SwitchToStationNumber = 26, SwitchToStationBrachLine = blueBranch, X = xOffset+=7, Y = yOffset},
                 new SubwayStation{Name = "Arsenalna", Number=12, BrachLine = redBranch, X = xOffset+=7, Y = yOffset+=4},
                 new SubwayStation{Name = "Dnipro", Number=13, BrachLine = redBranch, X = xOffset+=4, Y = yOffset+=3},
                 new SubwayStation{Name = "Hidropark", Number=14, BrachLine = redBranch, X = xOffset+=5, Y = yOffset+=2},
@@ -71,8 +70,8 @@ namespace SubwayNavigation
                 new SubwayStation{Name = "Tarasa_Shevchenka", Number=23, BrachLine = blueBranch, X = xOffset, Y = yOffset+=4},
                 new SubwayStation{Name = "Kontractova_Ploshcha", Number=24, BrachLine = blueBranch, X = xOffset, Y = yOffset+=4},
                 new SubwayStation{Name = "Pocschtova_Ploshcha", Number=25, BrachLine = blueBranch, X = xOffset, Y = yOffset+=4},
-                new SubwayStation{Name = "Maidan_Nezalezhnosti", Number=26, BrachLine = blueBranch, X = xOffset, Y = yOffset+=4},
-                new SubwayStation{Name = "Ploshcha_Lva_Tolstoho", Number=27, BrachLine = blueBranch, X = xOffset-=5, Y = yOffset+=10},
+                new SubwayStation{Name = "Maidan_Nezalezhnosti", Number=26, BrachLine = blueBranch, SwitchToStationNumber = 11, SwitchToStationBrachLine = redBranch, X = xOffset, Y = yOffset+=4},
+                new SubwayStation{Name = "Ploshcha_Lva_Tolstoho", Number=27, BrachLine = blueBranch, SwitchToStationNumber = 41, SwitchToStationBrachLine = greenBranch, X = xOffset-=5, Y = yOffset+=10},
                 new SubwayStation{Name = "Olimpiiska", Number=28, BrachLine = blueBranch, X = xOffset-=4, Y = yOffset+=7},
                 new SubwayStation{Name = "Palats_Ukraina", Number=29, BrachLine = blueBranch, X = xOffset, Y = yOffset+=6},
                 new SubwayStation{Name = "Lybidska", Number=30, BrachLine = blueBranch, X = xOffset, Y = yOffset+=6},
@@ -86,8 +85,8 @@ namespace SubwayNavigation
                 new SubwayStation{Name = "Syrets", Number=37, BrachLine = greenBranch, X = xOffset=31, Y = yOffset=20},
                 new SubwayStation{Name = "Dorohozhychi", Number=38, BrachLine = greenBranch, X = xOffset+=4, Y = yOffset+=4},
                 new SubwayStation{Name = "Lukianivska", Number=39, BrachLine = greenBranch, X = xOffset+=4, Y = yOffset+=4},
-                new SubwayStation{Name = "Zoloti_Vorota", Number=40, BrachLine = greenBranch, X = xOffset+=4, Y = yOffset+=7},
-                new SubwayStation{Name = "Palats_Sportu", Number=41, BrachLine = greenBranch, X = xOffset+=6, Y = yOffset+=10},
+                new SubwayStation{Name = "Zoloti_Vorota", Number=40, BrachLine = greenBranch, SwitchToStationNumber = 10, SwitchToStationBrachLine = redBranch, X = xOffset+=4, Y = yOffset+=7},
+                new SubwayStation{Name = "Palats_Sportu", Number=41, BrachLine = greenBranch, SwitchToStationNumber = 27, SwitchToStationBrachLine = blueBranch, X = xOffset+=6, Y = yOffset+=10},
                 new SubwayStation{Name = "Klovska", Number=42, BrachLine = greenBranch, X = xOffset+=4, Y = yOffset+=7},
                 new SubwayStation{Name = "Pecherksa", Number=43, BrachLine = greenBranch, X = xOffset, Y = yOffset+=6},
                 new SubwayStation{Name = "Druzhby_Narodiv", Number=44, BrachLine = greenBranch, X = xOffset, Y = yOffset+=6},
@@ -102,44 +101,7 @@ namespace SubwayNavigation
             };
             string sampleButtonXaml = XamlWriter.Save(mainWin.SampleButton);
 
-            Point pt1 = new Point(10, 10);
-            Point pt1to = new Point(100, 120);
-            Point pt2 = new Point(100, 10);
-            Point pt2to = new Point(150, 30);
-            Point pt3 = new Point(50, 50);
-            Point pt3to = new Point(30, 80);
-            PathGeometry pgeom = new PathGeometry();
-            PathFigure pfig1 = new PathFigure();
-
-            LineSegment ls1 = new LineSegment(pt1, true);
-            LineSegment ls2 = new LineSegment(pt2, true);
-            LineSegment ls3 = new LineSegment(pt3, true);
-
-            PointAnimation pa1 = new PointAnimation(pt1to, new Duration(new TimeSpan(0, 0, 4)));
-            PointAnimation pa2 = new PointAnimation(pt2to, new Duration(new TimeSpan(0, 0, 4)));
-            PointAnimation pa3 = new PointAnimation(pt3to, new Duration(new TimeSpan(0, 0, 4)));
-
-            pfig1.StartPoint = pt3;
-            pfig1.Segments.Add(ls1);
-            pfig1.Segments.Add(ls2);
-            pfig1.Segments.Add(ls3);
-
-            pgeom.Figures.Add(pfig1);
-            System.Windows.Shapes.Path myPath = new System.Windows.Shapes.Path();
-            myPath.Stroke = Brushes.Black;
-            myPath.StrokeThickness = 3;
-            myPath.Fill = Brushes.Blue;
-            myPath.Data = pgeom;
-
-            // Add this to the Grid I named 'MyGrid'
-            mainWin.MainGrid.Children.Add(myPath);
-
-            ls1.BeginAnimation(LineSegment.PointProperty, pa1);
-            ls2.BeginAnimation(LineSegment.PointProperty, pa2);
-            ls3.BeginAnimation(LineSegment.PointProperty, pa3);
-            pfig1.BeginAnimation(PathFigure.StartPointProperty, pa3);
-
-            /*foreach (var station in stationList)
+            foreach (var station in stationList)
             {
                 using (stringReader = new StringReader(sampleButtonXaml))
                 {
@@ -179,7 +141,8 @@ namespace SubwayNavigation
             }
             mainWin.MainGrid.Children.Remove(mainWin.SampleButton);
             routeNav.StationList = stationList;
-            mainWin.DataContext = routeNav;*/
+            routeNav.RouteBuilder = new RouteBuilder(mainWin.MainGrid);
+            mainWin.DataContext = routeNav;
             mainWin.Show();
         }
     }

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Subway Navigation" Height="728.9" Width="865.8">
     <Window.Resources>
-        <!--http://stackoverflow.com/questions/6745663/how-to-create-make-rounded-corner-buttons-in-wpf-->
+        <!--Source: http://stackoverflow.com/questions/6745663/how-to-create-make-rounded-corner-buttons-in-wpf-->
         <Style x:Key="RedRoundCorner" TargetType="{x:Type Button}">
             <Setter Property="Template">
                 <Setter.Value>
