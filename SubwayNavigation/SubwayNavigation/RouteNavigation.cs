@@ -7,56 +7,80 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace SubwayNavigation
 {
     class RouteNavigation
     {
-        SubwayStation[] activeStations = new SubwayStation[2];
+        Button[] activeStationButtons = new Button[2];
         public RouteNavigation()
         {
             ClickCommand = new Command(ClickMethod);
         }
         public ICommand ClickCommand { get; set; }
         public List<SubwayStation> StationList { get; set; }
-
-        private void HandleActiveStations(SubwayStation clickedStation)
+        private void DrawRoute()
         {
-            SubwayStation originalStation;
-
-            if (clickedStation != null && activeStations.Length == 2)
+            if (activeStationButtons[0] != null && activeStationButtons[1] != null)
             {
-                if (activeStations[0] != null && activeStations[0].Name == clickedStation.Name)
-                {
-                    activeStations[0] = null;
-                    originalStation = StationList.Find(t => t.Name == clickedStation.Name);
-                    if (originalStation != null)
-                    {
-                        clickedStation.X = originalStation.X;
-                        clickedStation.Y = originalStation.Y;
-                    }
-                }
-                else if (activeStations[0] == null)
-                {
-                    activeStations[0] = clickedStation;
-                }
-                else if (activeStations[1] == null)
-                {
-                    activeStations[1] = clickedStation;
-                }
+                Polyline route = new Polyline();
             }
-            return;
         }
-
         private void ClickMethod(object sender)
         {
+            Button clickedButton, activeButton;
+
             if (sender != null && sender is Button)
             {
-                Button clickedButton = (sender as Button);
-                clickedButton.Margin = new Thickness(clickedButton.Margin.Left - 4, clickedButton.Margin.Top - 4, 0, 0);
-                clickedButton.Height = clickedButton.Height + 8;
-                clickedButton.Width = clickedButton.Width + 8;
-                HandleActiveStations(StationList.Find(t => t.Name == clickedButton.Name));
+                clickedButton = (sender as Button);
+                if (activeStationButtons.Length == 2)
+                {
+                    if (activeStationButtons[0] != null && activeStationButtons[0].Name == clickedButton.Name)
+                    {
+                        activeStationButtons[0] = null;
+                        clickedButton.Margin = new Thickness(clickedButton.Margin.Left + 4, clickedButton.Margin.Top + 4, 0, 0);
+                        clickedButton.Height = clickedButton.Height - 8;
+                        clickedButton.Width = clickedButton.Width - 8;
+                    }
+                    else if (activeStationButtons[1] != null && activeStationButtons[1].Name == clickedButton.Name)
+                    {
+                        activeStationButtons[1] = null;
+                        clickedButton.Margin = new Thickness(clickedButton.Margin.Left + 4, clickedButton.Margin.Top + 4, 0, 0);
+                        clickedButton.Height = clickedButton.Height - 8;
+                        clickedButton.Width = clickedButton.Width - 8;
+                    }
+                    else if (activeStationButtons[0] == null)
+                    {
+                        activeStationButtons[0] = clickedButton;
+                        clickedButton.Margin = new Thickness(clickedButton.Margin.Left - 4, clickedButton.Margin.Top - 4, 0, 0);
+                        clickedButton.Height = clickedButton.Height + 8;
+                        clickedButton.Width = clickedButton.Width + 8;
+                    }
+                    else if (activeStationButtons[1] == null)
+                    {
+                        activeStationButtons[1] = clickedButton;
+                        clickedButton.Margin = new Thickness(clickedButton.Margin.Left - 4, clickedButton.Margin.Top - 4, 0, 0);
+                        clickedButton.Height = clickedButton.Height + 8;
+                        clickedButton.Width = clickedButton.Width + 8;
+                    }
+                    else
+                    {
+                        activeButton = activeStationButtons[1];
+                        if (activeButton != null)
+                        {
+                            activeButton.Margin = new Thickness(activeButton.Margin.Left + 4, activeButton.Margin.Top + 4, 0, 0);
+                            activeButton.Height = activeButton.Height - 8;
+                            activeButton.Width = activeButton.Width - 8;
+                            activeStationButtons[1] = null;
+                        }
+                        activeStationButtons[1] = clickedButton;
+                        clickedButton.Margin = new Thickness(clickedButton.Margin.Left - 4, clickedButton.Margin.Top - 4, 0, 0);
+                        clickedButton.Height = clickedButton.Height + 8;
+                        clickedButton.Width = clickedButton.Width + 8;
+                    }
+                    DrawRoute();
+                }
             }
             else
                 MessageBox.Show("Unknown station");
