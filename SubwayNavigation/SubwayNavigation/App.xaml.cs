@@ -85,7 +85,7 @@ namespace SubwayNavigation
                 new SubwayStation{Name = "Syrets", Number=37, BrachLine = greenBranch, X = xOffset=31, Y = yOffset=20},
                 new SubwayStation{Name = "Dorohozhychi", Number=38, BrachLine = greenBranch, X = xOffset+=4, Y = yOffset+=4},
                 new SubwayStation{Name = "Lukianivska", Number=39, BrachLine = greenBranch, X = xOffset+=4, Y = yOffset+=4},
-                new SubwayStation{Name = "Zoloti_Vorota", Number=40, BrachLine = greenBranch, SwitchToStationNumber = 10, SwitchToStationBrachLine = redBranch, X = xOffset+=4, Y = yOffset+=7},
+                new SubwayStation{Name = "Zoloti_Vorota", Number=40, BrachLine = greenBranch, SwitchToStationNumber = 10, SwitchToStationBrachLine = redBranch, X = xOffset+=3, Y = yOffset+=7},
                 new SubwayStation{Name = "Palats_Sportu", Number=41, BrachLine = greenBranch, SwitchToStationNumber = 27, SwitchToStationBrachLine = blueBranch, X = xOffset+=6, Y = yOffset+=10},
                 new SubwayStation{Name = "Klovska", Number=42, BrachLine = greenBranch, X = xOffset+=4, Y = yOffset+=7},
                 new SubwayStation{Name = "Pecherksa", Number=43, BrachLine = greenBranch, X = xOffset, Y = yOffset+=6},
