@@ -50,7 +50,7 @@ namespace SubwayNavigation
                 new SubwayStation{Name = "Academmistechko", Number=1, BrachLine = redBranch, X = xOffset+=6, Y = yOffset+=12},
                 new SubwayStation{Name = "Zhytomyrska", Number=2, BrachLine = redBranch, X = xOffset, Y = yOffset+=6},
                 new SubwayStation{Name = "Sviatoshyn", Number=3, BrachLine = redBranch, X = xOffset, Y = yOffset+=6},
-                new SubwayStation{Name = "Nyvky", Number=4, BrachLine = redBranch, X = xOffset+=4, Y = yOffset+=4},
+                new SubwayStation{Name = "Nyvky", Number=4, BrachLine = redBranch, NameAlignment = StationNameAlignment.Left, X = xOffset+=4, Y = yOffset+=4},
                 new SubwayStation{Name = "Beresteiska", Number=5, BrachLine = redBranch, NameAlignment = StationNameAlignment.Left, X = xOffset+=4, Y = yOffset+=3},
                 new SubwayStation{Name = "Shuliavska", Number=6, BrachLine = redBranch, NameAlignment = StationNameAlignment.Left, X = xOffset+=4, Y = yOffset+=3},
                 new SubwayStation{Name = "Politekhnichnyi_instytut", Number=7, BrachLine = redBranch, NameAlignment = StationNameAlignment.Left, X = xOffset+=4, Y = yOffset+=3},
@@ -81,9 +81,9 @@ namespace SubwayNavigation
                 new SubwayStation{Name = "Demiivska", Number=31, BrachLine = blueBranch, NameAlignment = StationNameAlignment.Left, X = xOffset-=4, Y = yOffset+=6},
                 new SubwayStation{Name = "Holosiivska", Number=32, BrachLine = blueBranch, NameAlignment = StationNameAlignment.Left, X = xOffset-=4, Y = yOffset+=5},
                 new SubwayStation{Name = "Vasylkivska", Number=33, BrachLine = blueBranch, NameAlignment = StationNameAlignment.Left, X = xOffset-=4, Y = yOffset+=5},
-                new SubwayStation{Name = "Vystavkovyi_Tsentr", Number=34, BrachLine = blueBranch, NameAlignment = StationNameAlignment.Left, X = xOffset-=4, Y = yOffset+=5},
+                new SubwayStation{Name = "Vystavkovyi_Tsentr", Number=34, BrachLine = blueBranch, X = xOffset-=4, Y = yOffset+=5},
                 new SubwayStation{Name = "Ipodrom", Number=35, BrachLine = blueBranch, NameAlignment = StationNameAlignment.Bottom, X = xOffset-=6, Y = yOffset+=3},
-                new SubwayStation{Name = "Teremky", Number=36, BrachLine = blueBranch, NameAlignment = StationNameAlignment.Bottom, X = xOffset-=6, Y = yOffset},
+                new SubwayStation{Name = "Teremky", Number=36, BrachLine = blueBranch, NameAlignment = StationNameAlignment.Top, X = xOffset-=6, Y = yOffset},
 
                 new SubwayStation{Name = "Syrets", Number=37, BrachLine = greenBranch, X = xOffset=29, Y = yOffset=20},
                 new SubwayStation{Name = "Dorohozhychi", Number=38, BrachLine = greenBranch, X = xOffset+=4, Y = yOffset+=4},
@@ -139,7 +139,7 @@ namespace SubwayNavigation
                     stationLabel.FontWeight = FontWeights.Bold;
                     stationLabel.HorizontalAlignment = HorizontalAlignment.Left;
                     stationLabel.VerticalAlignment = VerticalAlignment.Top;
-                    stationLabel.Padding = new Thickness(1);
+                    stationLabel.Padding = new Thickness(1,0,1,0);
                     //stationLabel.BorderBrush = new SolidColorBrush(Colors.Black);
                     //stationLabel.BorderThickness = new Thickness(2);
                     switch (station.NameAlignment)
