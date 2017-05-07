@@ -70,7 +70,9 @@
     </Window.Resources>
     <Grid Name="MainGrid" Width="858" Height="699">
         <!--Polyline Stroke="Blue" Points="210,150,290,130,390,170" StrokeThickness="4"></-->
-        <Button Name="SampleButton" Content="" HorizontalAlignment="Left" Height="20" Width="20" Margin="20,20,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" BorderThickness="1" Style="{DynamicResource RedRoundCorner}" />
+        <Button Name="SampleButton" Content="" HorizontalAlignment="Left" Height="20" Width="20" Margin="20,74,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" BorderThickness="1" Style="{DynamicResource RedRoundCorner}" />
+        <Label Content="Click any two stations to &#xD;&#xA;check a route between them" FontWeight="Bold" HorizontalAlignment="Left" Height="53" Margin="622,20,0,0" VerticalAlignment="Top" Width="223" FontSize="15" HorizontalContentAlignment="Center"/>
+        <Label Content="Kyiv rapid transmit map" Foreground="Blue" HorizontalAlignment="Left" Height="34" Margin="12,12,0,0" VerticalAlignment="Top" Width="206" FontSize="18"/>
         <!--Button Name="Chervonyi_Khutir" Command="{Binding ClickCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Content="" Margin="200,140,0,0" RenderTransformOrigin="0.5,0.5" BorderThickness="1" Style="{DynamicResource RedRoundCorner}" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Width="20" /-->
     </Grid>
 </Window>

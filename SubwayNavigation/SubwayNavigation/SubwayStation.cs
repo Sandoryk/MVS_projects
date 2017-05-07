@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace SubwayNavigation
 {
+    enum StationNameAlignment
+    {
+        Left = 1,
+        Top,
+        Right,
+        Bottom
+    }
+
     class SubwayStation
     {
         public SubwayStation()
@@ -13,8 +21,10 @@ namespace SubwayNavigation
             Width = 20;
             Height = 20;
             SwitchToStationNumber = -1;
+            NameAlignment = StationNameAlignment.Right;
         }
         public string Name { get; set; }
+        public StationNameAlignment NameAlignment { get; set; }
         public int Number { get; set; }
         public BranchLine BrachLine { get; set; }
         public int SwitchToStationNumber { get; set; }
