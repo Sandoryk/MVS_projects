@@ -14,6 +14,8 @@ namespace OwnersVSPets.Controllers
         // GET api/values
         public IEnumerable<Owner> Get()
         {
+            //Owner ow = new Owner();
+            //return Json<Owner>(ow);
             return dc.GetOwners;
         }
 
