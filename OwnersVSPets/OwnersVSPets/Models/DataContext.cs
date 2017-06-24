@@ -17,9 +17,37 @@ namespace OwnersVSPets.Models
             owners.Add(new Owner { ID = 3, Name = "Jack" });
             owners.Add(new Owner { ID = 4, Name = "Jim" });
         }
-        public List<Owner> GetOwners 
+        public List<Owner> GetOwners
         {
             get { return owners; }
+        }
+        public bool CreateNewOwner(string newOwnerName)
+        {
+            bool result = false;
+
+            if (!String.IsNullOrEmpty(newOwnerName))
+            {
+                owners.Add(new Owner { ID = 6, Name = newOwnerName });
+                result = true;
+            }
+
+            return result;
+        }
+        public bool DeleteOwner(string newOwnerName)
+        {
+            bool result = false;
+
+            if (!String.IsNullOrEmpty(newOwnerName))
+            {
+                Owner owner = owners.Find(t=>t.Name == newOwnerName);
+                if (owner!=null)
+                {
+                    owners.Remove(owner);
+                    result = true;
+                }
+            }
+
+            return result;
         }
     }
 }
