@@ -20,25 +20,50 @@ namespace OwnersVSPets.Controllers
         }
 
         // GET api/values/5
-        public Owner GetOwner(int id)
+        public Owner Get(int id)
         {
             return null;
         }
 
         // POST api/values
-        [HttpPost]
-        public void CreateNewOwner([FromBody]string name)
+        public void Post([FromBody]int id)
         {
+            
         }
 
-        // PUT api/values/5
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
+        //PUT api/values/5
+        public IEnumerable<Owner> Put(string ownerName)
+        {
+            if (ModelState.IsValid)
+            {
+                dc.CreateNewOwner(ownerName);
+            } 
+            return dc.GetOwners;
+        }
+
+        /*public IHttpActionResult CreateNewOwner(string ownerName)
+        {
+            if (ModelState.IsValid)
+            {
+                if (!dc.CreateNewOwner(ownerName))
+                {
+                    ModelState.AddModelError("ownerName", "New owner creation failed");
+                }
+            }
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok();
+        }*/
 
         // DELETE api/values/5
-        public void Delete(int id)
+        public IEnumerable<Owner> Delete(string ownerName)
         {
+            if (ModelState.IsValid)
+            {
+                dc.DeleteOwner(ownerName);
+            }
+            return dc.GetOwners;
         }
     }
 }
