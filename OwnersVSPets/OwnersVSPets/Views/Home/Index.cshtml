@@ -1,8 +1,8 @@
 ﻿<div class="page-header">
-    <h1> All users </h1>
+    <h1 class="text-center"> All users </h1>
 </div>
 <div class="panel">
-     <div class="form-inline">
+    <div class="form-inline">
         <div class="form-group">
             <div class="col-md-8">
                 <input class="form-control" ng-model="ownerName" placeholder="Name" />
@@ -14,10 +14,15 @@
             </div>
         </div>
     </div>
+    <br><br>
     <div>
+        <div class="form-control">
+            <p> Total count: {{ownersTotally}} </p>
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th style="display:none;"></th>
                     <th>Name</th>
                     <th>Pets count</th>
                     <th></th>
@@ -25,19 +30,20 @@
             </thead>
             <tbody>
                 <tr ng-repeat="owner in owners">
+                    <td style="display:none;">{{owner.ID}}</td>
                     <td>{{owner.Name}}</td>
                     <td>{{owner.PetsAmount}}</td>
-                    <td> <input class="btn btn-default" type="button" value="Delete" data-ng-click="deleteOwner(owner.Name)" /> </td>
+                    <td> <input class="btn btn-default pull-right" type="button" value="Delete" data-ng-click="deleteOwner(owner.ID)" /> </td>
                 </tr>
             </tbody>
         </table>
-        <p>
+        <p class="text-center">
             Pages
             <span ng-show="skipStartPages">...</span>
             <span style="padding-left:5px;" ng-repeat="page in pages"><a ng-click="getOwners(page)">{{page}}</a></span>
             <span style="padding-left:5px;" ng-show="skipEndPages">...</span>
         </p>
-    </div>
+      </div>
 </div>
 @section Scripts { 
     <script>
@@ -46,11 +52,23 @@
             $scope.skipStartPages = false;
             $scope.skipEndPages = false;
             $scope.pages = [];
+            $scope.curentPage = 1;
+            $scope.ownersOnPage = 0;
+            $scope.maxPagesAmount = 0;
+            $scope.ownersTotally = 0;
             $scope.getOwners = function (fromPage) {
-                $http({ method: 'GET', url: 'api/values' }).
+                if (fromPage === undefined || fromPage < 1) {
+                    fromPage = $scope.curentPage;
+                } else {
+                    $scope.curentPage = fromPage;
+                }
+                $http({ method: 'GET', url: 'api/owners', params: { 'page': fromPage } }).
                     then(function success(response) {
-                        console.log(response.data);
-                        var ownerList = response.data;
+                        //console.log(response.data);
+                        var ownerList = response.data.OwnerList;
+                        $scope.ownersOnPage = response.data.Meta.ItemsOnPage;
+                        $scope.ownersTotally = response.data.Meta.ItemsTotally;
+                        $scope.maxPagesAmount = response.data.Meta.MaxPageAmount;
                         $scope.skipStartPages = false;
                         $scope.skipEndPages = false;
                         if (ownerList.length) {
@@ -62,30 +80,36 @@
                                     fromPage = 1;
                                 }
                             }
-                            var ownersOnPage = 3;
-                            var ownersTotally = 20;
-                            var maxPagesAmount = 5;
-                            var actualPagesAmount = Math.ceil(ownersTotally / ownersOnPage);
-                            if (actualPagesAmount > maxPagesAmount) {
-                                if (actualPagesAmount > (fromPage + maxPagesAmount - 1)) {
+                            var actualPagesAmount = Math.ceil($scope.ownersTotally / $scope.ownersOnPage);
+                            if (actualPagesAmount > $scope.maxPagesAmount) {
+                                fromPage = fromPage - Math.floor($scope.maxPagesAmount / 2);
+                                if (fromPage < 1) {
+                                    fromPage = 1;
+                                }
+                                if (actualPagesAmount > (fromPage + $scope.maxPagesAmount - 1)) {
                                     $scope.skipEndPages = true;
                                 }
-                                if (fromPage > (actualPagesAmount - maxPagesAmount + 1)) {
-                                    fromPage = actualPagesAmount - maxPagesAmount + 1;
-                                }
-                                if (fromPage<1) {
-                                    fromPage = 1;
+                                if (fromPage > (actualPagesAmount - $scope.maxPagesAmount + 1)) {
+                                    fromPage = actualPagesAmount - $scope.maxPagesAmount + 1;
+                                    if (fromPage < 1) {
+                                        fromPage = 1;
+                                    }
                                 }
                                 if (fromPage > 1) {
                                     $scope.skipStartPages = true;
                                 }
+                            } else {
+                                fromPage = 1;
                             }
                             $scope.pages = [];
-                            for (var i = fromPage; i < (fromPage + maxPagesAmount); i++) {
+                            for (var i = fromPage; i < (fromPage + $scope.maxPagesAmount) ; i++) {
                                 if (i > actualPagesAmount) {
                                     break;
                                 }
                                 $scope.pages[$scope.pages.length] = i;
+                            }
+                            if ($scope.pages.length==0) {
+                                $scope.pages[0] = 1;
                             }
                         }
                         $scope.owners = ownerList;
@@ -96,21 +120,21 @@
             $scope.getOwners();
             $scope.addOwner = function (ownerName) {
                 if (ownerName) {
-                    $http({ method: 'PUT', url: 'api/values', params: { 'ownerName': ownerName } }).
+                    $http({ method: 'PUT', url: 'api/owners', params: { 'ownerName': ownerName } }).
                         then(function success(response) {
-                            console.log(response.data);
-                            $scope.owners = response.data;
+                            //console.log(response.data);
+                            $scope.getOwners();
                         }, function error(response) {
                             console.log(response.data);
                         })
                 }    
             }
-            $scope.deleteOwner = function (ownerName) {
-                if (ownerName) {
-                    $http({ method: 'DELETE', url: 'api/values', params: { 'ownerName': ownerName } }).
+            $scope.deleteOwner = function (ownerID) {
+                if (ownerID) {
+                    $http({ method: 'DELETE', url: 'api/owners', params: { 'ownerID': ownerID } }).
                         then(function success(response) {
-                            console.log(response.data);
-                            $scope.owners = response.data;
+                            //console.log(response.data);
+                            $scope.getOwners();
                         }, function error(response) {
                             console.log(response.data);
                         })
