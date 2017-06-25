@@ -10,7 +10,13 @@ namespace OwnersVSPets.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "Pets' owners";
+
+            return View();
+        }
+        public ActionResult Pets()
+        {
+            ViewBag.Title = "Pets";
 
             return View();
         }
