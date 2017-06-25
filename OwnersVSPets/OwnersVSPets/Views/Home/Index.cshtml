@@ -31,17 +31,64 @@
                 </tr>
             </tbody>
         </table>
+        <p>
+            Pages
+            <span ng-show="skipStartPages">...</span>
+            <span style="padding-left:5px;" ng-repeat="page in pages"><a ng-click="getOwners(page)">{{page}}</a></span>
+            <span style="padding-left:5px;" ng-show="skipEndPages">...</span>
+        </p>
     </div>
 </div>
 @section Scripts { 
     <script>
         var opApp = angular.module('ownersPetsApp', []);
         opApp.controller("ownersPetsController", function ($scope, $http) {
-            $scope.getOwners = function() {
+            $scope.skipStartPages = false;
+            $scope.skipEndPages = false;
+            $scope.pages = [];
+            $scope.getOwners = function (fromPage) {
                 $http({ method: 'GET', url: 'api/values' }).
                     then(function success(response) {
                         console.log(response.data);
-                        $scope.owners = response.data;
+                        var ownerList = response.data;
+                        $scope.skipStartPages = false;
+                        $scope.skipEndPages = false;
+                        if (ownerList.length) {
+                            if (fromPage===undefined) {
+                                fromPage = 1;
+                            } else {
+                                fromPage = +fromPage;
+                                if (fromPage < 1) {
+                                    fromPage = 1;
+                                }
+                            }
+                            var ownersOnPage = 3;
+                            var ownersTotally = 20;
+                            var maxPagesAmount = 5;
+                            var actualPagesAmount = Math.ceil(ownersTotally / ownersOnPage);
+                            if (actualPagesAmount > maxPagesAmount) {
+                                if (actualPagesAmount > (fromPage + maxPagesAmount - 1)) {
+                                    $scope.skipEndPages = true;
+                                }
+                                if (fromPage > (actualPagesAmount - maxPagesAmount + 1)) {
+                                    fromPage = actualPagesAmount - maxPagesAmount + 1;
+                                }
+                                if (fromPage<1) {
+                                    fromPage = 1;
+                                }
+                                if (fromPage > 1) {
+                                    $scope.skipStartPages = true;
+                                }
+                            }
+                            $scope.pages = [];
+                            for (var i = fromPage; i < (fromPage + maxPagesAmount); i++) {
+                                if (i > actualPagesAmount) {
+                                    break;
+                                }
+                                $scope.pages[$scope.pages.length] = i;
+                            }
+                        }
+                        $scope.owners = ownerList;
                     }, function error(response) {
                         console.log(response.data);
                     })
