@@ -23,7 +23,7 @@
             <thead class="thead-inverse">
                 <tr>
                     <th style="display:none;"></th>
-                    <th style="border:1px solid black">Name</th>
+                    <th ng-click="sortOwners()" style="border:1px solid black">Name<span class="pull-right">{{sortOrderSymbol}}</span></th>
                     <th style="border:1px solid black">Pets count</th>
                 </tr>
             </thead>
@@ -54,6 +54,8 @@
             $scope.ownersOnPage = 0;
             $scope.maxPagesAmount = 0;
             $scope.ownersTotally = 0;
+            $scope.sortOrder = 1;
+            $scope.sortOrderSymbol = "\u21E6";
             $scope.getOwners = function (fromPage) {
                 if (fromPage === undefined || fromPage < 1) {
                     fromPage = $scope.curentPage;
@@ -111,6 +113,7 @@
                             }
                         }
                         $scope.owners = ownerList;
+                        $scope.sortOrderSymbol = "\u21E6";
                     }, function error(response) {
                         console.log(response.data);
                     })
@@ -140,6 +143,20 @@
             }
             $scope.goToOwner = function (ownerID) {
                 window.location.href = window.location.origin + '/Home/Pets?ownerID=' + ownerID;
+            }
+            $scope.sortOwners = function () {
+                $scope.owners.sort(function(a, b) {
+                    var x=a["Name"].toLowerCase(),
+                        y=b["Name"].toLowerCase();
+                    return x < y ? -$scope.sortOrder : x > y ? $scope.sortOrder : 0;
+                });
+                if ($scope.sortOrder==1) {
+                    $scope.sortOrderSymbol = "\u21E7";
+                    $scope.sortOrder = -1;
+                } else {
+                    $scope.sortOrderSymbol = "\u21E9";
+                    $scope.sortOrder = 1;
+                }
             }
     });
     </script>
