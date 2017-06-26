@@ -1,5 +1,8 @@
 ﻿<div class="page-header">
     <h1 class="text-center">{{currentOwnerName}}'s pets </h1>
+    <div>
+        <a ng-click="backToOwners()">Back to all users</a>
+    </div>
 </div>
 <div class="panel">
     <div class="form-inline">
@@ -145,6 +148,9 @@
                             console.log(response.data);
                         })
                 }
+            }
+            $scope.backToOwners = function () {
+                window.location.href = window.location.origin;
             }
         });
     </script>
