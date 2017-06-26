@@ -26,15 +26,13 @@
             <thead>
                 <tr>
                     <th style="display:none;"></th>
-                    <th>Name</th>
-                    <th></th>
+                    <th style="border:1px solid black">Name</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="pet in pets">
                     <td style="display:none;">{{pet.ID}}</td>
-                    <td>{{pet.Name}}</td>
-                    <td> <input class="btn btn-default pull-right" type="button" value="Delete" data-ng-click="deletePet(pet.ID)" /> </td>
+                    <td>{{pet.Name}} <input class="btn btn-default pull-right" type="button" value="Delete" data-ng-click="deletePet(pet.ID)" /> </td>
                 </tr>
             </tbody>
         </table>

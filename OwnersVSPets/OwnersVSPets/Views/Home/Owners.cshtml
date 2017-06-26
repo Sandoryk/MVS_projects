@@ -20,20 +20,18 @@
             <p> Total count: {{ownersTotally}} </p>
         </div>
         <table class="table table-striped">
-            <thead>
+            <thead class="thead-inverse">
                 <tr>
                     <th style="display:none;"></th>
-                    <th>Name</th>
-                    <th>Pets count</th>
-                    <th></th>
+                    <th style="border:1px solid black">Name</th>
+                    <th style="border:1px solid black">Pets count</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="owner in owners">
                     <td style="display:none;">{{owner.ID}}</td>
                     <td><a ng-click="goToOwner(owner.ID)">{{owner.Name}}</a></td>
-                    <td>{{owner.PetsAmount}}</td>
-                    <td> <input class="btn btn-default pull-right" type="button" value="Delete" data-ng-click="deleteOwner(owner.ID)" /> </td>
+                    <td>{{owner.PetsAmount}} <input class="btn btn-default pull-right" type="button" value="Delete" data-ng-click="deleteOwner(owner.ID)" /></td>
                 </tr>
             </tbody>
         </table>
