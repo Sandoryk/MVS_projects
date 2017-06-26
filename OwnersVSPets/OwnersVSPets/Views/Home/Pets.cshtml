@@ -1,7 +1,155 @@
-﻿
-@{
-    ViewBag.Title = "Pets";
+﻿<div class="page-header">
+    <h1 class="text-center">{{currentOwnerName}}'s pets </h1>
+</div>
+<div class="panel">
+    <div class="form-inline">
+        <div class="form-group">
+            <div class="col-md-12">
+                <input class="form-control" ng-model="petName" placeholder="Enter Pet's Name" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-4">
+                <button class="btn btn-default" ng-click="addPet(currentOwnerID,petName)">Add</button>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div>
+        <div class="form-control">
+            <p> Total count: {{petsTotally}} </p>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="display:none;"></th>
+                    <th>Name</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="pet in pets">
+                    <td style="display:none;">{{pet.ID}}</td>
+                    <td>{{pet.Name}}</td>
+                    <td> <input class="btn btn-default pull-right" type="button" value="Delete" data-ng-click="deletePet(pet.ID)" /> </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="text-center">
+            Pages
+            <span ng-show="skipStartPages">...</span>
+            <span style="padding-left:5px;" ng-repeat="page in pages"><a ng-click="getPets(currentOwnerID,page)">{{page}}</a></span>
+            <span style="padding-left:5px;" ng-show="skipEndPages">...</span>
+        </p>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        var opApp = angular.module('ownersPetsApp', []);
+        opApp.controller("ownersPetsController", function ($scope, $http) {
+            $scope.currentOwnerID = @ViewBag.ID
+            $scope.currentOwnerName = "@ViewBag.OwnerName";
+            $scope.skipStartPages = false;
+            $scope.skipEndPages = false;
+            $scope.pages = [];
+            $scope.curentPage = 1;
+            $scope.petsOnPage = 0;
+            $scope.maxPagesAmount = 0;
+            $scope.petsTotally = 0;
+            $scope.getPets = function (ownerID,fromPage) {
+                if (ownerID===undefined) {
+                    ownerID = -1;
+                }
+                if (fromPage === undefined || fromPage < 1) {
+                    fromPage = $scope.curentPage;
+                } else {
+                    $scope.curentPage = fromPage;
+                } 
+                $http({ method: 'GET', url: window.location.origin + '/api/pets', params: { 'ownerID': ownerID, 'page': fromPage } }).
+                    then(function success(response) {
+                        //console.log(response.data);
+                        var petList = response.data.PetList;
+                        $scope.petsOnPage = response.data.Meta.ItemsOnPage;
+                        $scope.petsTotally = response.data.Meta.ItemsTotally;
+                        $scope.maxPagesAmount = response.data.Meta.MaxPageAmount;
+                        $scope.skipStartPages = false;
+                        $scope.skipEndPages = false;
+                        if (petList.length) {
+                            if (fromPage === undefined) {
+                                fromPage = 1;
+                            } else {
+                                fromPage = +fromPage;
+                                if (fromPage < 1) {
+                                    fromPage = 1;
+                                }
+                            }
+                            var actualPagesAmount = Math.ceil($scope.petsTotally / $scope.petsOnPage);
+                            if (actualPagesAmount > $scope.maxPagesAmount) {
+                                fromPage = fromPage - Math.floor($scope.maxPagesAmount / 2);
+                                if (fromPage < 1) {
+                                    fromPage = 1;
+                                }
+                                if (actualPagesAmount > (fromPage + $scope.maxPagesAmount - 1)) {
+                                    $scope.skipEndPages = true;
+                                }
+                                if (fromPage > (actualPagesAmount - $scope.maxPagesAmount + 1)) {
+                                    fromPage = actualPagesAmount - $scope.maxPagesAmount + 1;
+                                    if (fromPage < 1) {
+                                        fromPage = 1;
+                                    }
+                                }
+                                if (fromPage > 1) {
+                                    $scope.skipStartPages = true;
+                                }
+                            } else {
+                                fromPage = 1;
+                            }
+                            $scope.pages = [];
+                            for (var i = fromPage; i < (fromPage + $scope.maxPagesAmount) ; i++) {
+                                if (i > actualPagesAmount) {
+                                    break;
+                                }
+                                $scope.pages[$scope.pages.length] = i;
+                            }
+                            if ($scope.pages.length == 0) {
+                                $scope.pages[0] = 1;
+                            }
+                        }
+                        $scope.pets = petList;
+                    }, function error(response) {
+                        console.log(response.data);
+                    })
+            };
+            $scope.getPets($scope.currentOwnerID);
+            $scope.addPet = function (ownerID, petName) {
+                if (petName) {
+                    if (ownerID===undefined) {
+                        ownerID = -1;
+                    }
+                    $http({ method: 'PUT', url: window.location.origin + '/api/pets', params: { 'ownerID': ownerID, 'petName': petName } }).
+                        then(function success(response) {
+                            //console.log(response.data);
+                            $scope.getPets($scope.currentOwnerID);
+                        }, function error(response) {
+                            console.log(response.data);
+                        })
+                }
+            }
+            $scope.deletePet = function (petID) {
+                if (petID) {
+                    $http({ method: 'DELETE', url: window.location.origin + '/api/pets', params: { 'petID': petID } }).
+                        then(function success(response) {
+                            //console.log(response.data);
+                            $scope.getPets($scope.currentOwnerID);
+                        }, function error(response) {
+                            console.log(response.data);
+                        })
+                }
+            }
+        });
+    </script>
 }
 
-<h2>Pets</h2>
+
+
 

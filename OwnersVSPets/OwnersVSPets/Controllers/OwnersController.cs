@@ -21,26 +21,29 @@ namespace OwnersVSPets.Controllers
             List<Owner> displayOwners = new List<Owner>();
             OwnersWithMeta ownersWithMeta = null;
 
-            using (dh = new DataSourceHandler(connectionString))
+            if (pageNum>0)
             {
-                List<DBOwner> dbOwners = dh.GetOwnersPartly(pageNum, ownersOnPage);
-                if (dbOwners!=null)
+                using (dh = new DataSourceHandler(connectionString))
                 {
-                    foreach (var owner in dbOwners)
+                    List<DBOwner> dbOwners = dh.GetOwnersPartly(pageNum, ownersOnPage);
+                    if (dbOwners!=null)
                     {
-                        displayOwners.Add(new Owner
+                        foreach (var owner in dbOwners)
                         {
-                            ID = (int)owner.ID,
-                            Name = owner.Name,
-                            PetsAmount = dh.CountOwnerPets(owner)
-                        });
-                    } 
-                }
-                ownersWithMeta = new OwnersWithMeta
-                {
-                    Meta = new Meta { ItemsOnPage = ownersOnPage, MaxPageAmount = maxPagesAmount, ItemsTotally = dh.CountOwners() },
-                    OwnerList = displayOwners
-                };
+                            displayOwners.Add(new Owner
+                            {
+                                ID = (int)owner.ID,
+                                Name = owner.Name,
+                                PetsAmount = dh.CountOwnerPets((int)owner.ID)
+                            });
+                        } 
+                    }
+                    ownersWithMeta = new OwnersWithMeta
+                    {
+                        Meta = new Meta { ItemsOnPage = ownersOnPage, MaxPageAmount = maxPagesAmount, ItemsTotally = dh.CountOwners() },
+                        OwnerList = displayOwners
+                    };
+                }   
             }
 
             return ownersWithMeta;

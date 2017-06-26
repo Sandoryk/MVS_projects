@@ -20,6 +20,11 @@ namespace OwnersVSPets.DAL
             get { return db.Owners.ToList(); }
         }
 
+        public DBOwner GetOwnerByID(int ownerID)
+        {
+            DBOwner owner = db.Owners.First(t=>t.ID==ownerID);
+            return owner;
+        }
         public List<DBOwner> GetOwnersPartly(int pageNum, int ownersOnPage)
         {
             List<DBOwner> owners = new List<DBOwner>();
@@ -33,6 +38,23 @@ namespace OwnersVSPets.DAL
             }
 
             return owners;
+        }
+        public List<DBPet> GetPetsPartly(int ownerID, int pageNum, int petsOnPage)
+        {
+            List<DBPet> pets = new List<DBPet>();
+            if (ownerID>-1)
+            {
+                int skipItems = (pageNum - 1) * petsOnPage;
+                try
+                {
+                    pets = db.Pets.Where(t=>t.OwnerID==ownerID).OrderBy(t => t.ID).Skip(skipItems).Take(petsOnPage).ToList();
+                }
+                catch (ArgumentNullException)
+                {
+                }    
+            }
+
+            return pets;
         }
         public bool CreateNewOwner(string newOwnerName)
         {
@@ -48,13 +70,27 @@ namespace OwnersVSPets.DAL
 
             return result;
         }
-        public bool DeleteOwner(string OwnerID)
+        public bool CreateNewPet(int ownerID,string newPetName)
         {
             bool result = false;
 
-            if (!String.IsNullOrEmpty(OwnerID))
+            if (!String.IsNullOrEmpty(newPetName) && ownerID>-1)
             {
-                int ID = Int32.Parse(OwnerID);
+                DBPet pet = new DBPet { Name = newPetName, OwnerID = ownerID };
+                db.Pets.Add(pet);
+                db.SaveChanges();
+                result = true;
+            }
+
+            return result;
+        }
+        public bool DeleteOwner(string ownerID)
+        {
+            bool result = false;
+
+            if (!String.IsNullOrEmpty(ownerID))
+            {
+                int ID = Int32.Parse(ownerID);
                 DBOwner owner = db.Owners.First(t => t.ID == ID);
                 if (owner != null)
                 {
@@ -66,14 +102,37 @@ namespace OwnersVSPets.DAL
 
             return result;
         }
-        public int CountOwnerPets(DBOwner owner)
+        public bool DeletePet(string petID)
+        {
+            bool result = false;
+
+            if (!String.IsNullOrEmpty(petID))
+            {
+                int ID = Int32.Parse(petID);
+                DBPet pet = db.Pets.First(t => t.ID == ID);
+                if (pet != null)
+                {
+                    db.Pets.Remove(pet);
+                    db.SaveChanges();
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+        public int CountOwnerPets(int ownerID)
         {
             int pets = 0;
 
-            if (owner!=null)
+            if (ownerID>-1)
             {
-                pets = db.Pets.Where(t => t.OwnerID == owner.ID).Count();
+                DBOwner owner = db.Owners.First(t => t.ID == ownerID);
+                if (owner != null)
+                {
+                    pets = db.Pets.Where(t => t.OwnerID == owner.ID).Count();
+                } 
             }
+            
             return pets;
         }
 
@@ -84,6 +143,21 @@ namespace OwnersVSPets.DAL
             try
             {
                 records = db.Owners.Count();
+            }
+            catch (Exception)
+            {
+            }
+
+            return records;
+        }
+
+        public int CountPets()
+        {
+            int records = 0;
+
+            try
+            {
+                records = db.Pets.Count();
             }
             catch (Exception)
             {

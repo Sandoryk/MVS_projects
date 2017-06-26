@@ -3,22 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using OwnersVSPets.DAL;
 
 namespace OwnersVSPets.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        string connectionString = "OwnersPetsConnection";
+        DataSourceHandler dh;
+        public ActionResult Owners()
         {
-            ViewBag.Title = "Pets' owners";
-
+ 
             return View();
         }
-        public ActionResult Pets()
+        public ActionResult Pets(int? ownerID)
         {
-            ViewBag.Title = "Pets";
+            int ID = ownerID == null ? -1 : (int)ownerID;
 
-            return View();
+            ViewBag.ID = ID;
+            ViewBag.OwnerName = "";
+            if (ID>-1)
+            {
+                using (dh = new DataSourceHandler(connectionString))
+	            {
+                    DBOwner owner = dh.GetOwnerByID(ID);
+                    if (owner!=null)
+                    {
+                        ViewBag.OwnerName = owner.Name;
+                    }
+	            } 
+            }
+
+            return View(ID);
         }
     }
 }

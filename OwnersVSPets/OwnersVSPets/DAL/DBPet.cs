@@ -9,6 +9,6 @@ namespace OwnersVSPets.DAL
     {
         public Int64 ID { get; set; }
         public string Name { get; set; }
-        public int OwnerID { get; set; }
+        public Int64 OwnerID { get; set; }
     }
 }

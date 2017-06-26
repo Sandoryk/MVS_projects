@@ -5,7 +5,7 @@
     <div class="form-inline">
         <div class="form-group">
             <div class="col-md-12">
-                <input class="form-control" ng-model="ownerName" placeholder="Name" />
+                <input class="form-control" ng-model="ownerName" placeholder="Enter Pet Owner's Name" />
             </div>
         </div>
         <div class="form-group">
@@ -31,7 +31,7 @@
             <tbody>
                 <tr ng-repeat="owner in owners">
                     <td style="display:none;">{{owner.ID}}</td>
-                    <td>{{owner.Name}}</td>
+                    <td><a ng-click="goToOwner(owner.ID)">{{owner.Name}}</a></td>
                     <td>{{owner.PetsAmount}}</td>
                     <td> <input class="btn btn-default pull-right" type="button" value="Delete" data-ng-click="deleteOwner(owner.ID)" /> </td>
                 </tr>
@@ -62,7 +62,7 @@
                 } else {
                     $scope.curentPage = fromPage;
                 }
-                $http({ method: 'GET', url: 'api/owners', params: { 'page': fromPage } }).
+                $http({ method: 'GET', url: window.location.origin + '/api/owners', params: { 'page': fromPage } }).
                     then(function success(response) {
                         //console.log(response.data);
                         var ownerList = response.data.OwnerList;
@@ -120,7 +120,7 @@
             $scope.getOwners();
             $scope.addOwner = function (ownerName) {
                 if (ownerName) {
-                    $http({ method: 'PUT', url: 'api/owners', params: { 'ownerName': ownerName } }).
+                    $http({ method: 'PUT', url: window.location.origin + '/api/owners', params: { 'ownerName': ownerName } }).
                         then(function success(response) {
                             //console.log(response.data);
                             $scope.getOwners();
@@ -131,7 +131,7 @@
             }
             $scope.deleteOwner = function (ownerID) {
                 if (ownerID) {
-                    $http({ method: 'DELETE', url: 'api/owners', params: { 'ownerID': ownerID } }).
+                    $http({ method: 'DELETE', url: window.location.origin + '/api/owners', params: { 'ownerID': ownerID } }).
                         then(function success(response) {
                             //console.log(response.data);
                             $scope.getOwners();
@@ -139,6 +139,9 @@
                             console.log(response.data);
                         })
                 }
+            }
+            $scope.goToOwner = function (ownerID) {
+                window.location.href = window.location.origin + '/Home/Pets?ownerID=' + ownerID;
             }
     });
     </script>
